@@ -21,6 +21,11 @@ public:
     expressionstream *stream2;
     expressionstream *stream3;
     expressionstream *stream4;
+    expressionstream *stream5;
+    expressionstream *stream6;
+    expressionstream *stream7;
+    expressionstream *stream8;
+
 };
 
 
@@ -74,6 +79,30 @@ TEST_F(Lab01Fixture, Test1) {
     EXPECT_NE("0", stream4.get_next_int());
     EXPECT_NE("2", stream4.get_next_int());
 
+}
+TEST_F(Lab01Fixture, Test2){
+    expressionstream stream5("1+2*4");
+    EXPECT_EQ("9", stream5.get_next_int());
+    EXPECT_NE("0", stream5.get_next_int());
+    EXPECT_NE("2", stream5.get_next_int());
+}
+TEST_F(Lab01Fixture, Test3){
+    expressionstream stream5("10*7");
+    EXPECT_EQ("70", stream6->get_next_int());
+    EXPECT_NE("0", stream6->get_next_int());
+    EXPECT_NE("2", stream6->get_next_int());
+}
+TEST_F(Lab01Fixture, Test4){
+    expressionstream stream5("5-2");
+    EXPECT_EQ("3", stream7->get_next_int());
+    EXPECT_NE("0", stream7->get_next_int());
+    EXPECT_NE("2", stream7->get_next_int());
+}
+TEST_F(Lab01Fixture, Test5){
+    expressionstream stream5("10*0");
+    EXPECT_EQ("0", stream8->get_next_int());
+    EXPECT_NE("1", stream8->get_next_int());
+    EXPECT_NE("2", stream8->get_next_int());
 }
 //todo: create a new test
 //step 1: press alt+insert (or right click and select generate)
