@@ -20,6 +20,7 @@ public:
     expressionstream *stream1;
     expressionstream *stream2;
     expressionstream *stream3;
+    expressionstream *stream4;
 };
 
 
@@ -67,6 +68,13 @@ TEST_F(Lab01Fixture, isNext) {
 }
 
 
+TEST_F(Lab01Fixture, Test1) {
+    expressionstream stream4("7");
+    EXPECT_EQ("7", stream4.get_next_int());
+    EXPECT_NE("0", stream4.get_next_int());
+    EXPECT_NE("2", stream4.get_next_int());
+
+}
 //todo: create a new test
 //step 1: press alt+insert (or right click and select generate)
 //step 2: choose test to generate a new test where the cursor is
