@@ -13,6 +13,7 @@ protected:
         stream1=new expressionstream("1+2+3");
         stream2=new expressionstream("1   + 2 *4+(2*3)");
         stream3=new expressionstream("-1 +-2");
+        stream5=new expressionstream("1+2*4");
     }
 
 
@@ -20,11 +21,8 @@ public:
     expressionstream *stream1;
     expressionstream *stream2;
     expressionstream *stream3;
-    expressionstream *stream4;
     expressionstream *stream5;
-    expressionstream *stream6;
-    expressionstream *stream7;
-    expressionstream *stream8;
+
 
 };
 
@@ -32,6 +30,7 @@ public:
 TEST(crashTest , constructorTest) {
     expressionstream stream1 ("1+2+3");
     expressionstream stream2 ("1   + 2 *4+(2*3)");
+    expressionstream stream5 ("1+2*4");
 }
 
 
@@ -81,29 +80,14 @@ TEST_F(Lab01Fixture, Test1) {
 
 }
 TEST_F(Lab01Fixture, Test2){
-    expressionstream stream5("1+2*4");
-    EXPECT_EQ("9", stream5.get_next_int());
-    EXPECT_NE("0", stream5.get_next_int());
-    EXPECT_NE("2", stream5.get_next_int());
+
+    EXPECT_EQ("1", stream5->get_next_int());
+    EXPECT_EQ("2", stream5->get_next_int());
+    EXPECT_EQ("4", stream5->get_next_int());
+    EXPECT_EQ("+", stream5->get_next_op());
+    EXPECT_EQ("*", stream5->get_next_op());
 }
-TEST_F(Lab01Fixture, Test3){
-    expressionstream stream5("10*7");
-    EXPECT_EQ("70", stream6->get_next_int());
-    EXPECT_NE("0", stream6->get_next_int());
-    EXPECT_NE("2", stream6->get_next_int());
-}
-TEST_F(Lab01Fixture, Test4){
-    expressionstream stream5("5-2");
-    EXPECT_EQ("3", stream7->get_next_int());
-    EXPECT_NE("0", stream7->get_next_int());
-    EXPECT_NE("2", stream7->get_next_int());
-}
-TEST_F(Lab01Fixture, Test5){
-    expressionstream stream5("10*0");
-    EXPECT_EQ("0", stream8->get_next_int());
-    EXPECT_NE("1", stream8->get_next_int());
-    EXPECT_NE("2", stream8->get_next_int());
-}
+
 //todo: create a new test
 //step 1: press alt+insert (or right click and select generate)
 //step 2: choose test to generate a new test where the cursor is
