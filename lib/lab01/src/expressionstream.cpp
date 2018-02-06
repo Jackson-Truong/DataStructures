@@ -38,6 +38,7 @@ std::string expressionstream::get_next_int() {
     return next_int;
 }
 
+
 //todo: update get_next operators to handle negative first numbers
 std::string expressionstream::get_next_op() {
     find_next_op();
