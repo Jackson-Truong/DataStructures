@@ -71,14 +71,6 @@ TEST_F(Lab01Fixture, isNext) {
     EXPECT_TRUE(stream1->expression_complete());
 }
 
-
-TEST_F(Lab01Fixture, Test1) {
-    expressionstream stream4("7");
-    EXPECT_EQ("7", stream4.get_next_int());
-    EXPECT_NE("0", stream4.get_next_int());
-    EXPECT_NE("2", stream4.get_next_int());
-
-}
 TEST_F(Lab01Fixture, Test2){
 
     EXPECT_EQ("1", stream5->get_next_int());
