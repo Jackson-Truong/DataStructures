@@ -15,14 +15,17 @@ The following provides the expected behavior of the private data members and the
     unsigned allocated_length - Current number of strings allocated to be held in the array
 
 public:
-    stringVector() - Constructor, should construct an empty object
-    virtual ~stringVector()- Destructor, should deallocate all memory used by object (NO MEMORY LEAKS)
+   - stringVector() - Constructor, should construct an empty object
+   - virtual ~stringVector()- Destructor, should deallocate all memory used by object (NO MEMORY LEAKS)
 
     unsigned size()-return the number of strings stored in array
     unsigned capacity() -return number of strings currently allocated to be stored in array
     void reserve() - Allows user to choose the allocation size, if it is small than current array then data should be truncated to fit
-    bool empty() - returns true IFF the array is empty
+    ~bool empty() - returns true IFF the array is empty
     void append(std::string data) - append data to end of array, double array capacity if this is over capacity
     stringVector &operator = (stringVector &rhs) - Copies RHS to object calling the function (this should be a hard COPY, creating a separate object with same values)
-    std::string& operator[](unsigned position) -return a reference to the string at this position, throw an exception if out of bounds
+  ~  std::string& operator[](unsigned position) -return a reference to the string at this position, throw an exception if out of bounds
     sort() - use the bubble sort function discussed in lab to sort the vector like a dictionary (lower letters and less letters first)
+
+  buubble sorting algorthm for the sort function in the class
+    first we should find a way to call dynamic array of strings, after that we can use that dynamci array for hte unsigned size function
