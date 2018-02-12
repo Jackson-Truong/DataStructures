@@ -40,7 +40,7 @@ bool stringVector::empty() const{ //Test passed
     //return ;
 }
 
-void stringVector::append(std::string new_data) { //Test Passed
+void stringVector::append(std::string new_data) { //Test Passed //Might need a pointer because of the test fail in another test
 if(allocated_length > length) {
     data[length] = new_data;
     length++;
@@ -63,11 +63,12 @@ if((pos1>=length)|| (pos2>=length)){
 }
 }
 
-stringVector &stringVector::operator=(stringVector const &rhs) {
-   delete[] data;
+stringVector &stringVector::operator=(stringVector const &rhs) { //Test Passed
+
     if (&rhs == this) {
         return (*this);
     } else {
+        delete[] data;
         length = rhs.length;
         allocated_length= rhs.allocated_length;
         this->data=new std::string[allocated_length];
