@@ -65,7 +65,7 @@ TEST(stringVector,expectionTesting){
     hw5.append("Test String");
     EXPECT_EQ("Test String",hw5[0]);
     EXPECT_EQ("",hw5[1]);
-    EXPECT_THROW(hw5[2], int);
+    EXPECT_THROW(hw5[3], int);
 
 }
 
