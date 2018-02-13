@@ -8,10 +8,10 @@ class Lab02Fixture : public ::testing::Test {
 #include "stringVector.h"
 
 TEST(stringVector,constructorTest) {
-    lab2::stringVector hw0;
-    EXPECT_TRUE(hw0.empty());
-    EXPECT_EQ(0,hw0.size());
-    EXPECT_EQ(0,hw0.capacity());
+    lab2::stringVector stringVec;
+    EXPECT_EQ(true,stringVec.empty()); //expected empty to be true because empty function returns true if stringVec is empty
+    EXPECT_EQ(0,stringVec.size());// size returns length which is 0
+    EXPECT_EQ(0,stringVec.capacity()); //size returns allocated_length which is 0
 }
 
 

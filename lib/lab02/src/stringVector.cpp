@@ -42,7 +42,8 @@ namespace lab2 {
         //return ;
     }
 
-            void stringVector::append(std::string new_data) { //Test Passed //Might need a pointer because of the test fail in another test
+
+     void stringVector::append(std::string new_data) { //Test Passed //Might need a pointer because of the test fail in another test
         if (allocated_length == 0) {
             this->reserve(1);
             this->append(new_data);
@@ -50,12 +51,13 @@ namespace lab2 {
             this->reserve(allocated_length * 2);
             this->append(new_data);
         }
+         else {
             data[length] = new_data;
             length++;
-        return;
+            return;
+        }
     }
-
-    void stringVector::swap(unsigned pos1, unsigned pos2) {
+   void stringVector::swap(unsigned pos1, unsigned pos2) {
         if ((pos1 > length) || (pos2 > length)) {
             throw 0;
         } else {
@@ -64,7 +66,6 @@ namespace lab2 {
             data[pos2] = tmp;
         }
     }
-
     stringVector &stringVector::operator=(stringVector const &rhs) { //Test Passed
 
         if (&rhs == this) {
@@ -78,7 +79,6 @@ namespace lab2 {
                 this->data[i] = rhs.data[i];
 
             }
-
         }
     }
 
@@ -90,16 +90,15 @@ namespace lab2 {
         //return ;
     }
 
-    void stringVector::sort() {
-        std::string str;
-        for(int k = (length -1); k>0; k--){
-            for (int j=0; j<k; j++){
-                if (data [j].compare(data[j+1])>0){
-                    str=data[j];
-                    data[j] = data[j+1];
-                    data[j+1] = str;
+    void stringVector::sort() {//Test passed
+
+        for(int x = (length -1); x>0; x--){ // Googled bubble algorithm sorting i'll be honest I referenced a lot of this function to an online algorithm site
+            for (int y=0; y<x; y++){
+                if (data [y]>(data[y+1])){
+                  swap(unsigned(y),unsigned (y+1));
                 }
             }
         }
+
     }
 }
