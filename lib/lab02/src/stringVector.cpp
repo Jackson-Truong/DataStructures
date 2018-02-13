@@ -42,13 +42,18 @@ bool stringVector::empty() const{ //Test passed
 
 void stringVector::append(std::string new_data) { //Test Passed //Might need a pointer because of the test fail in another test
 if(allocated_length =0){
-    allocated_length=1;
+    this->reserve(1);
     this->append(new_data);
 }
-    else {
+    else if (length==allocated_length){
     this->reserve(allocated_length*2);
     this->append(new_data);
 }
+    else{
+    data[length]= new_data;
+    length++;
+}
+    return;
 }
 
 void stringVector::swap(unsigned pos1, unsigned pos2) {
