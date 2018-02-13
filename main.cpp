@@ -2,9 +2,9 @@
 #include <stringVector.h>
 
 int main() {
- lab2::stringVector sample;
-sample.append(std::string("Example String"));
-    std::cout<<sample[0]<<std::endl;
+ lab2::stringVector ex;
+ex.append(std::string("Testring TeString"));
+    std::cout<<ex[0]<<std::endl;
 
     return 0;
 }
