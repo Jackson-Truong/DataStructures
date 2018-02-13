@@ -28,8 +28,13 @@ TEST(stringVector,variableAllocation){
     hw2.append("Test 2");
     EXPECT_EQ(2,hw2.size());
     EXPECT_EQ(2,hw2.capacity());
-    EXPECT_EQ("Test 1",hw2[0]);
-    EXPECT_EQ("Test 2",hw2[1]);
+    hw2.append("Test 3");
+    EXPECT_EQ(3,hw2.size());
+    EXPECT_EQ(4,hw2.capacity());
+    EXPECT_EQ("Test 1", hw2[0]);
+    EXPECT_EQ("Test 2", hw2[1]);
+    delete hw2;
+
 }
 
 TEST(stringVector,pointerTest) {
