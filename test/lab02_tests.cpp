@@ -8,14 +8,14 @@ class Lab02Fixture : public ::testing::Test {
 #include "stringVector.h"
 
 TEST(stringVector,constructorTest) {
-    stringVector hw0;
+    lab2::stringVector hw0;
     EXPECT_TRUE(hw0.empty());
     EXPECT_EQ(0,hw0.size());
     EXPECT_EQ(0,hw0.capacity());
 }
 
 TEST(stringVector,overloadBracket){
-    stringVector hw1;
+    lab2::stringVector hw1;
     hw1.append("Hello");
     EXPECT_EQ("Hello",hw1[0]);
     hw1[0] = "Changed";
@@ -23,7 +23,7 @@ TEST(stringVector,overloadBracket){
 }
 
 TEST(stringVector,variableAllocation){
-    stringVector hw2;
+    lab2::stringVector hw2;
     hw2.append("Test 1");
     hw2.append("Test 2");
     EXPECT_EQ(2,hw2.size());
@@ -33,13 +33,13 @@ TEST(stringVector,variableAllocation){
 }
 
 TEST(stringVector,pointerTest) {
-    stringVector* hw3 = new stringVector;
+    lab2:: stringVector* hw3 = new lab2::stringVector;
     EXPECT_TRUE(hw3->empty());
     delete hw3;
 }
 
 TEST(stringVector,reserveConcatination){
-    stringVector* hw4 = new stringVector;
+    lab2::stringVector* hw4 = new lab2::stringVector;
     for (int i=0;i<10;i++){
         hw4->append(std::to_string(i));
     }
@@ -60,14 +60,14 @@ TEST(stringVector,reserveConcatination){
 }
 
 TEST(stringVector,expectionTesting){
-    stringVector hw5;
+    lab2::stringVector hw5;
     hw5.reserve(2);
     hw5.append("Test String");
 
 }
 
 TEST(stringVector,overloadAssignment){
-    stringVector hw6;
+    lab2::stringVector hw6;
     for (int i=0;i<6;i++){
         hw6.append(std::to_string(i));
     }
@@ -75,7 +75,7 @@ TEST(stringVector,overloadAssignment){
     EXPECT_EQ(8,hw6.capacity());
     EXPECT_EQ("5",hw6[5]);
 
-    stringVector* hw7 = new stringVector;
+    lab2::stringVector* hw7 = new lab2::stringVector;
     *hw7 = hw6;
     EXPECT_EQ(6,hw7->size());
     EXPECT_EQ(8,hw7->capacity());
@@ -83,7 +83,7 @@ TEST(stringVector,overloadAssignment){
 }
 
 TEST(stringVector,sorting) {
-    stringVector hw8;
+    lab2::stringVector hw8;
     hw8.append("Part 3");
     hw8.append("Part 1");
     hw8.append("Part 4");
