@@ -41,25 +41,24 @@ bool stringVector::empty() const{ //Test passed
 }
 
 void stringVector::append(std::string new_data) { //Test Passed //Might need a pointer because of the test fail in another test
-if(allocated_length > length) {
-    data[length] = new_data;
-    length++;
-    return;
+if(allocated_length =0){
+    this-> reserve(1);
+    this->append(new_data);
 }
-    else if (allocated_length==0){
-    allocated_length = 1;
+    else {
+    this->reserve(allocated_length*2);
+    this->append(new_data);
 }
-    else{
-    allocated_length = allocated_length*2;
-}
-    reserve(allocated_length);
-    delete[] data;
-
 }
 
 void stringVector::swap(unsigned pos1, unsigned pos2) {
 if((pos1>=length)|| (pos2>=length)){
-
+throw 0;
+}
+   else{
+    std::string temp= data[pos1];
+    data[pos1] = data[pos2];
+    data[pos2] = temp;
 }
 }
 
@@ -81,7 +80,7 @@ stringVector &stringVector::operator=(stringVector const &rhs) { //Test Passed
 }
 
 std::string &stringVector::operator[](unsigned position) { //Test Passed
-if(position > allocated_length){ // out of scope
+if(position >= allocated_length){ // out of scope
    throw 0;
 }//std::out_of_range
     return data[position ];
