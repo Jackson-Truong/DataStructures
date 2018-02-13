@@ -14,6 +14,7 @@ TEST(stringVector,constructorTest) {
     EXPECT_EQ(0,hw0.capacity());
 }
 
+
 TEST(stringVector,overloadBracket){
     lab2::stringVector hw1;
     hw1.append("Hello");
@@ -33,9 +34,8 @@ TEST(stringVector,variableAllocation){
     EXPECT_EQ(4,hw2.capacity());
     EXPECT_EQ("Test 1", hw2[0]);
     EXPECT_EQ("Test 2", hw2[1]);
-    delete hw2;
-
 }
+
 
 TEST(stringVector,pointerTest) {
     lab2:: stringVector* hw3 = new lab2::stringVector;

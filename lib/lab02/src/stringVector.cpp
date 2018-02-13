@@ -23,6 +23,9 @@ namespace lab2 {
     }
     void stringVector::reserve(unsigned new_size) { //Test Passed
        auto *fixArr = new std::string[new_size];
+        if(length>new_size){
+            length =new_size;
+        }
             for (int i = 0; i < new_size && i < length; i++) {
                 fixArr[i] = data[i];
             }
@@ -88,6 +91,15 @@ namespace lab2 {
     }
 
     void stringVector::sort() {
-
+        std::string str;
+        for(int k = (length -1); k>0; k--){
+            for (int j=0; j<k; j++){
+                if (data [j].compare(data[j+1])>0){
+                    str=data[j];
+                    data[j] = data[j+1];
+                    data[j+1] = str;
+                }
+            }
+        }
     }
 }
