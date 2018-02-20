@@ -64,7 +64,9 @@ Fifo_storage.reserve(right.Fifo_storage.capacity());
     void fifo::enqueue(std::string input) {
 ++back_index;// You would need to add an extra element into the back_index and after that you can use the lab2 append to append input into the array of elements
         Fifo_storage.append(input);
-
+if(Fifo_storage.capacity()<=back_index-front_index){
+    Fifo_storage.reserve(Fifo_storage.capacity()+1);
+}
     }
 
     void fifo::dequeue() {

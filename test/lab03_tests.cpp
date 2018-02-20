@@ -44,13 +44,15 @@ TEST_F(Lab03Fixture, Test2){
 TEST_F(Lab03Fixture, Test3){
     lab3::fifo Fifo;
     Fifo.enqueue("Hello");
+    Fifo.enqueue("World");
     EXPECT_EQ("Hello", Fifo.top());//Top should be Hello
-Fifo.enqueue("World");
+    Fifo.enqueue("Another word");
     EXPECT_EQ("Hello",Fifo.top());//Because the top is the front index which is the first element
-    EXPECT_EQ(2,Fifo.size());
+    EXPECT_EQ(3,Fifo.size());
     Fifo.dequeue();//Dequeue is like pop, but adds to front index, meaning we should expect world.
     EXPECT_EQ("World",Fifo.top());
-    EXPECT_EQ(1,Fifo.size());
+    EXPECT_EQ(2,Fifo.size());
+    Fifo.dequeue();
     Fifo.dequeue();
     EXPECT_EQ(true,Fifo.is_empty());
 }
