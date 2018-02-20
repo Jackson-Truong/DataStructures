@@ -54,14 +54,14 @@ lifo_storage.set_size(0);// same as fifo, but you just need to make index =0
     }
 
     std::string lifo::top() const {
-        return lifo_storage[index-1]; // I do not know what std::__cxx11:string() means
+        return lifo_storage[index]; // I do not know what std::__cxx11:string() means
         //return std::__cxx11::string();
         //The top of the stack should always be the index-1 because both index and the array starts at 0, but when you add an elem it adds to 0 but array goes to 1
     }
 
     void lifo::push(std::string input) {
        ++index;// Need to add a space into the index first before appending the input string
-        lifo_storage.append(input);
+        lifo_storage[index]= input;
     }
 
     void lifo::pop() {

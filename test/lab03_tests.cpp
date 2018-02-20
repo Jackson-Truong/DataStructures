@@ -24,17 +24,19 @@ TEST_F(Lab03Fixture, Test1){
 
 TEST_F(Lab03Fixture, Test2){
     lab3::lifo Lifo;
+    Lifo.push("0th element");
     Lifo.push("Hello");
     EXPECT_EQ("Hello",Lifo.top());// Top should be Hello
-    EXPECT_EQ(1,Lifo.size());
+    EXPECT_EQ(2,Lifo.size());
     Lifo.push("World");
     EXPECT_EQ("World",Lifo.top());//Top should be the back index, World in this case
-    EXPECT_EQ(2,Lifo.size());
+    EXPECT_EQ(3,Lifo.size());
     Lifo.push("Popping");
     EXPECT_EQ("Popping",Lifo.top());// Top should be the back index, Popping in this case
-    EXPECT_EQ(3,Lifo.size());
+    EXPECT_EQ(4,Lifo.size());
     Lifo.pop();//Pop takes away a number from the index bringing it back to world
     EXPECT_EQ("World",Lifo.top());
+    Lifo.pop();
     Lifo.pop();
     Lifo.pop();
     EXPECT_EQ(true,Lifo.is_empty());
