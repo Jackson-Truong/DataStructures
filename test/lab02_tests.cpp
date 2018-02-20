@@ -52,4 +52,3 @@ TEST(stringVector, Append){
     EXPECT_EQ(4, amount.capacity());
 }
 
-

@@ -13,9 +13,9 @@ As you are writing your functions, read the instructions and think of how you wo
 
 `lifo_storage` and `fifo_storage` will both be statically sized, meaning that you don't need to worry about dynamically growing the stringVector. Treat it just like an array.
 #### Fifo ####
-**fifo()**: Default constructor. Set index properly and reserve 100 spaces in fifo_storage
+            **fifo()**: Default constructor. Set index properly and reserve 100 spaces in fifo_storage
 
-**explicit fifo(std::string input_string)**: Constructor that does the same thing as the default constructor, but adds a single item to the Fifo
+            **explicit fifo(std::string input_string)**: Constructor that does the same thing as the default constructor, but adds a single item to the Fifo
 
 **fifo(const fifo &original)**: Copy constructor
 
@@ -32,6 +32,8 @@ As you are writing your functions, read the instructions and think of how you wo
 **void enqueue(std::string input)**: Add input string to the back of the fifo
 
 **void dequeue()**: Remove the front string from the fifo
+
+
 #### Lifo ####
 **lifo()**: Default constructor. Set index properly and reserve 100 spaces in fifo_storage
 

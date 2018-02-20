@@ -22,13 +22,13 @@ namespace lab2 {
         //return ;
     }
     void stringVector::reserve(unsigned new_size) { //Test Passed
-       auto *fixArr = new std::string[new_size]; //Made a temporary pointer equal to a dynamic array with the function's parameter
+        auto *fixArr = new std::string[new_size]; //Made a temporary pointer equal to a dynamic array with the function's parameter
         if(length>new_size){
             length =new_size;
         }
-            for (int i = 0; i < new_size && i < length; i++) {
-                fixArr[i] = data[i];//Copies data's info
-            }
+        for (int i = 0; i < new_size && i < length; i++) {
+            fixArr[i] = data[i];//Copies data's info
+        }
         allocated_length = new_size;// basically an else statement that is used to truncate for the reserve function
         delete[]data;
         data = fixArr; // Tried to do delete []fixArr but I got errors, this one works but I do not know why. ask for explanation in class.
@@ -82,7 +82,8 @@ namespace lab2 {
         }
     }
 
-    std::string &stringVector::operator[](unsigned position) { //Test Passed
+    std::string &stringVector::operator[](unsigned position)const  { //Test Passed
+
         if (position >= allocated_length) { // out of scope
             throw 0;
         }//std::out_of_range does not work for the throw statement
@@ -94,11 +95,19 @@ namespace lab2 {
 
         for(int x = (length -1); x>0; x--){ // Googled bubble algorithm sorting i'll be honest I referenced a lot of this function to an online algorithm site
             for (int y=0; y<x; y++){
-                if (data [y]>(data[y+1])){
+                if (data [y].compare(data[y+1])>0){
                   swap(unsigned(y),unsigned (y+1));//Uses the swap function
                 }
             }
         }
 
     }
+    void stringVector::set_size(unsigned new_size){
+        length = new_size;
+        if(allocated_length != new_size) {
+            reserve(new_size);
+        }
+
+    }
 }
+

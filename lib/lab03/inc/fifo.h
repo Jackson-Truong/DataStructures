@@ -4,7 +4,7 @@
 
 namespace lab3 {
     class fifo {
-        lab2::stringVector fifo_storage;
+        lab2::stringVector Fifo_storage;
         unsigned front_index;
         unsigned back_index;
 
