@@ -1,4 +1,4 @@
-#ifndef CMPE126S18_LABS_QUEUE_H
+#ifndef CMPE126S18_LABS_QUEUE_H4
 #define CMPE126S18_LABS_QUEUE_H
 #include "stringVector.h"
 
