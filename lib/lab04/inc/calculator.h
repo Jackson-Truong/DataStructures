@@ -7,7 +7,7 @@
 
 namespace lab4{
     class calculator{
-        lab3::fifo infix_expression;
+        lab3::fifo infix_expression; //put strings in this, all integers and operators are 1 character
         lab3::fifo postfix_expression;
 
         void parse_to_infix(std::string &input_expression); //PRIVATE function used for converting input string into infix notation
@@ -23,3 +23,5 @@ namespace lab4{
 }
 
 #endif //CMPE126S18_LABS_CALCULATOR_H
+//insertion - > calculator(&input_expression) - > parse to infix/convert to postfix inside that function
+//line 16->18->17->13 uses lab1->10->14->11->20->21
