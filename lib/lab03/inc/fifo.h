@@ -2,6 +2,7 @@
 #define CMPE126S18_LABS_QUEUE_H
 #include "stringVector.h"
 
+
 namespace lab3 {
     class fifo {
         lab2::stringVector Fifo_storage;

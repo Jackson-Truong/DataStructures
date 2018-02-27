@@ -1,5 +1,5 @@
 #include "fifo.h"
-#include <stringVector.h>
+
 namespace lab3{
     fifo::fifo() {
 Fifo_storage.reserve(100);// Reserves 100 spaces for the Fifo_storage
@@ -15,9 +15,10 @@ Fifo_storage.reserve(100);// Reserves 100 spaces for the Fifo_storage
     }
 
     fifo::fifo(const fifo &original) {//Copies the information from the private to &original. had to add const to the lab2 std::string &operator[](unsigned position) in order for this to work.
-front_index = original.front_index;
+        Fifo_storage.reserve(100);
+        front_index = original.front_index;
         back_index= original.back_index;
-        for(int i=0; i<=back_index;i++){// Have to do an array to copy each array element onto original
+        for(int i=0; i<back_index;i++){// Have to do an array to copy each array element onto original
             Fifo_storage[i]=original.Fifo_storage[i];
         }
 
@@ -61,19 +62,20 @@ Fifo_storage.reserve(right.Fifo_storage.capacity());
     }
 
     void fifo::enqueue(std::string input) {
-++back_index;// You would need to add an extra element into the back_index and after that you can use the lab2 append to append input into the array of elements
+        ++back_index;// You would need to add an extra element into the back_index and after that you can use the lab2 append to append input into the array of elements
         Fifo_storage.append(input);
-if(Fifo_storage.capacity()<=back_index-front_index){
-    Fifo_storage.reserve(Fifo_storage.capacity()+1);
-}
+        if(Fifo_storage.capacity()<=back_index-front_index){
+            Fifo_storage.reserve(Fifo_storage.capacity()+1);
+        }
     }
 
     void fifo::dequeue() {
 if(!is_empty()) {// In queue you would always take from the front, so you need to make sure that the fifo storage isnt empty
-    ++front_index;
+    front_index++;
 }
         else{
     throw"ERROR, out of bounds";
 }
     }
 }
+
