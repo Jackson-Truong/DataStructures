@@ -8,11 +8,10 @@ Fifo_storage.reserve(100);// Reserves 100 spaces for the Fifo_storage
     }
 
     fifo::fifo(std::string input_string) {
-
-        Fifo_storage.reserve(100);
-        Fifo_storage.append(input_string);// Same thing as the first function but you would like to append the input_string
         front_index=0;
         back_index=0;
+        Fifo_storage.reserve(100);
+        Fifo_storage.append(input_string);// Same thing as the first function but you would like to append the input_string
     }
 
     fifo::fifo(const fifo &original) {//Copies the information from the private to &original. had to add const to the lab2 std::string &operator[](unsigned position) in order for this to work.

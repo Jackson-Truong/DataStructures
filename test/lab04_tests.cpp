@@ -14,3 +14,9 @@ protected:
 
 public:
 };
+
+TEST(Lab04Fixture, parse){
+    std::string test1 = "1+2";
+    lab4::calculator::calculator(test1);
+    EXPECT_EQ("12+","12+");
+}

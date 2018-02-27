@@ -4,21 +4,69 @@
 #include "calculator.h"
 namespace lab4 {
     void calculator::parse_to_infix(std::string &input_expression) {
-        char tempo[input_expression.size()];
- input_expression.std::copy(tempo,input_expression.size());
-input_expression = tempo[input_expression.size()];
+lab1::expressionstream stream(input_expression);
+        int counter =0;
+        while(counter<input_expression.size()){
+            while (stream.get_current_token() != "\0") {
+                stream.get_next_token();
+                infix_expression.enqueue(stream.get_current_token()); //Might not work because these enqeueue unsigned ints
+             ++counter;
+            }
+        }
     }
-
     void calculator::convert_to_postfix(lab3::fifo infix_expression) {
-//Uses lifo
+//Uses lifo for operators
         //std::string::iterator position=input_expression.begin()
+        // tiers, maybe a while loop instead of a for loop that decremeents
+        lab3::lifo op_stack;
+        int size = infix_expression.size();
+        std::string temp[size];
+        for (int i = 0; i <= size; i++) {
+            temp[i] = infix_expression.top();
+            infix_expression.dequeue();
+        }
+        int counter =0;
+        lab1::expressionstream post(temp[size]);
+        while(counter <= size) {
+            if (post.next_token_is_int()) {
+                postfix_expression.enqueue(temp[counter]); // 1+2 postfix enqueues 1 then op push +  postfix enqueues 2 then somehow get 12 together and + after it
+            }
+            if (post.next_token_is_op()) {
+                if (op_stack.is_empty()) {
+                    op_stack.push(temp[counter]);
+                }
+                std::string tempOP = op_stack.top();
+                int operator_priority(std::string operator_in);
+                if (operator_priority(op_stack.top()) >= operator_priority(temp[counter])) {
+                    while (!op_stack.is_empty()) {
+                        postfix_expression.enqueue(op_stack.top());
+                        op_stack.pop();
+                    }
+                }
+                else if(operator_priority(op_stack.top())<= operator_priority(temp[counter])){
+                        op_stack.push(temp[counter]);
+                    }
+                 else if (post.next_token_is_paren_open()) { //First parathesis this is priority
+                    op_stack.push(temp[counter]);
+                } else if (post.next_token_is_paren_close()) {
+                    while (op_stack.top() != ")") {
+                        while (!op_stack.is_empty()) {
+                            postfix_expression.enqueue(op_stack.top());
+                            op_stack.pop();
+                        }
+                    }
+                }
+            }
+                post.get_next_token(); // itll never get a null because counter = size at the end
+                ++counter;
+        }
     }
 
     calculator::calculator() {
-calculator::calculator()= default;
+
     }
 
-    calculator::calculator(std::string &input_expression) {
+    calculator::calculator(std::string &input_expression) { //This should just call two functions
 parse_to_infix(input_expression);
 convert_to_postfix(infix_expression);
     }
@@ -54,7 +102,7 @@ convert_to_postfix(infix_expression);
 
     int get_number(std::string input_string){
             if(is_number){
-               lab3::fifo enqueue(input_string);//gotta do lifo/fifo here
+// Not done but I did not use this function
             }
             else if (is_operator){
                 std::string get_operator(std::string input_string);
@@ -67,11 +115,11 @@ convert_to_postfix(infix_expression);
 
     std::string get_operator(std::string input_string){
         if(is_operator){
-
-                lab3::lifo push(input_string);
+return input_string;
+// Not done but i did not use this function
             }
              else if(is_number){
-                std::string get_number(std::string input_string);
+
             }
             else{
                 throw "ERROR: NOT OPERATOR OR NUMBER ";
@@ -79,21 +127,16 @@ convert_to_postfix(infix_expression);
         }
 //in convert to postfix
 
-    int operator_priority(std::string operator_in){
-        int tier;
-        if(operator_in == "("||")"){
-            tier = 1;
-        }
-        if(operator_in == "^"){
-            tier =2;
+    int operator_priority(std::string operator_in){ // Slack said that we did not have to use "^" in this project
+        if(operator_in == "*"|| "/"){
+           return 2; // Separate the PEMDAS tier ignoring P and E
         }
         if(operator_in == "+"|| "-"){
-            tier = 3;
+         return 1;
         }
-        if(operator_in == "*"|| "/"){
-            tier =4;
-        }
-        return tier;
+
     }
     //in convert to postfix
+    // )5+3 +(4+3)
 }
+// ITS GOING TO BE expressionstream then do auxillary if it passes the certain expressionstream boolean statement
