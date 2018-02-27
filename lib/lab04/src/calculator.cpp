@@ -15,9 +15,7 @@ lab1::expressionstream stream(input_expression);
         }
     }
     void calculator::convert_to_postfix(lab3::fifo infix_expression) {
-//Uses lifo for operators
-        //std::string::iterator position=input_expression.begin()
-        // tiers, maybe a while loop instead of a for loop that decremeents
+
         lab3::lifo op_stack;
         int size = infix_expression.size();
         std::string temp[size];
@@ -27,7 +25,9 @@ lab1::expressionstream stream(input_expression);
         }
         int counter =0;
         lab1::expressionstream post(temp[size]);
+
         while(counter <= size) {
+
             if (post.next_token_is_int()) {
                 postfix_expression.enqueue(temp[counter]); // 1+2 postfix enqueues 1 then op push +  postfix enqueues 2 then somehow get 12 together and + after it
             }
@@ -72,14 +72,25 @@ convert_to_postfix(infix_expression);
     }
 
     std::istream &operator>>(std::istream &stream, calculator &RHS) {
+
         return stream; //store an expression from stdio
     }
 
     int lab4::calculator::calculate() {
+        int size = postfix_expression.size();
+        for(int i=0; i<size;i++){
+            while(!postfix_expression.is_empty()){
+
+            }
+        }
+
         return 0;
     }
 
     std::ostream &operator<<(std::ostream &stream, calculator &RHS) {
+this->infix_expression = RHS.infix_expression;
+        this->postfix_expression = RHS.postfix_expression;
+        stream << RHS; // When i try to do stream.RHS I get an error stating Binary operator << can't be applied to expressions of type std::ostream and lab3::fifo, so i kept it as what it is right now
         return stream;
     }
 
@@ -100,31 +111,10 @@ convert_to_postfix(infix_expression);
         }
 // conver to postfix
 
-    int get_number(std::string input_string){
-            if(is_number){
-// Not done but I did not use this function
-            }
-            else if (is_operator){
-                std::string get_operator(std::string input_string);
-            }
-        else {
-                throw"ERROR: NOT OPERATOR OR NUMBER";
-            }
-        }
+    int get_number(std::string input_string);
 // convert to postfix
 
-    std::string get_operator(std::string input_string){
-        if(is_operator){
-return input_string;
-// Not done but i did not use this function
-            }
-             else if(is_number){
-
-            }
-            else{
-                throw "ERROR: NOT OPERATOR OR NUMBER ";
-            }
-        }
+    std::string get_operator(std::string input_string);
 //in convert to postfix
 
     int operator_priority(std::string operator_in){ // Slack said that we did not have to use "^" in this project
