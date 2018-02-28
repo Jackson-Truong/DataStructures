@@ -13,50 +13,42 @@ namespace lab4 {
                 stream.get_next_token();//Might not work because these enqeueue unsigned ints
         }
     }
-    void calculator::convert_to_postfix(lab3::fifo infix_expression) {
-        lab3::lifo op_stack;
-        int size = infix_expression.size();
-        std::string temp[size];
-        for (int i = 1; i <= size; i++) {
-            temp[i] = infix_expression.top();
+    void calculator::convert_to_postfix(lab3::fifo infix_expression) {      //infix_expression is already a copy, so we ca change it
+        lab3::lifo stack;
+        bool is_number(std::string input_string);
+        bool is_operator(std::string input_string);
+        int operator_priority(std::string operator_in);
+        std::string current_token;
+        while (!infix_expression.is_empty()) {
+            current_token = infix_expression.top();
             infix_expression.dequeue();
-        }
-        int counter =0;
-        lab1::expressionstream post(temp[size]);
-        while(counter < size) {
-            if (post.next_token_is_int()) {
-                postfix_expression.enqueue(temp[counter]); // 1+2 postfix enqueues 1 then op push +  postfix enqueues 2 then somehow get 12 together and + after it
+            if (is_number(current_token)) {
+                postfix_expression.enqueue(current_token);
             }
-                if (op_stack.is_empty()) {
-                    op_stack.push(temp[counter]);
+            if (is_operator(current_token)) {
+                while (!stack.is_empty() && operator_priority(current_token) <= operator_priority(stack.top()) &&
+                       current_token != "(") {
+                    postfix_expression.enqueue(stack.top());
+                    stack.pop();
                 }
-                std::string tempOP = op_stack.top();
-                int operator_priority(std::string operator_in);
-                if (operator_priority(op_stack.top()) >= operator_priority(temp[counter])) {
-                    while (!op_stack.is_empty()) {
-                        postfix_expression.enqueue(op_stack.top());
-                        op_stack.pop();
-                    }
-                }
-                else if(operator_priority(op_stack.top())<= operator_priority(temp[counter])){
-                        op_stack.push(temp[counter]);
-                    }
-                 else if (post.next_token_is_paren_open()) { //First parathesis this is priority
-                    op_stack.push(temp[counter]);
-                } else if (post.next_token_is_paren_close()) {
-                    while (op_stack.top() != ")") {
-                        while (!op_stack.is_empty()) {
-                            postfix_expression.enqueue(op_stack.top());
-                            op_stack.pop();
-                        }
-                    }
+                stack.push(current_token);
+            }
+            if (current_token == "(") {
+                stack.push(current_token);
+            }
 
+            if (current_token == ")") {
+                while (stack.top() != "(") {
+                    postfix_expression.enqueue(stack.top());
+                    stack.pop();
                 }
-                    post.get_next_token(); // itll never get a null because counter = size at the end
-                    ++counter;
-                }
+            }
+        }
+
+        while (!stack.is_empty()) {
+            postfix_expression.enqueue(current_token);
+        }
     }
-
     calculator::calculator() { // Just made some bool statements
 infix_expression.is_empty();
         postfix_expression.is_empty();
