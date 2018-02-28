@@ -17,7 +17,7 @@ namespace lab5{
     }
 
     stack &stack::operator=(const stack &RHS) {
-       // return <#initializer#>;
+        //return <#initializer#>;
     }
 
     bool stack::isEmpty() const {

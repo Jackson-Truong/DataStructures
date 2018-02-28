@@ -23,7 +23,7 @@ namespace lab5{
         return stream;
     }
 
-    int lab4::calculator::calculate() {
+    int calculator::calculate() {
         return 0;
     }
 

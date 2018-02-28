@@ -17,7 +17,7 @@ namespace lab5{
     }
 
     queue &queue::operator=(const queue &RHS) {
-       // return <#initializer#>;
+        //return <#initializer#>;
     }
 
     bool queue::isEmpty() const {
@@ -29,7 +29,7 @@ namespace lab5{
     }
 
     std::string queue::top() const {
-       // return std::__cxx11::string();
+        return std::__cxx11::string();
     }
 
     void queue::enqueue(const std::string &data) {
