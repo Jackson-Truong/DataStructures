@@ -1,5 +1,5 @@
 set(HEADER_FILES
-        inc/calculator.h)
+        inc/fancy_calculator.h)
 
 set(SOURCE_FILES
         src/calculator.cpp)

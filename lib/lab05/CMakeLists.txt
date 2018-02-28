@@ -3,7 +3,7 @@ set(HEADER_FILES
         inc/linked_list.h
         inc/stack.h
         inc/queue.h
-        inc/calculator.h
+		inc/fancy_calculator.h
         )
 
 set(SOURCE_FILES
