@@ -15,8 +15,8 @@ protected:
 public:
 };
 
-TEST(Lab04Fixture, parse){
-    std::string test1 = "1+2";
-    lab4::calculator::calculator(test1);
-    EXPECT_EQ("12+","12+");
+TEST(calculator,divisionTest){
+    std::string D ="4/2";
+lab4::calculator obj3(D);
+EXPECT_EQ(2,obj3.calculate());
 }

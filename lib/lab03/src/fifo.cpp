@@ -50,10 +50,18 @@ Fifo_storage.reserve(right.Fifo_storage.capacity());
     }
 
     unsigned fifo::size() const {
-    if(!is_empty()){//If it is not empty then it will return back_index, else it will throw an exception
-        return back_index- front_index;
+    if(front_index<back_index){
+        int count;
+        count = back_index-(front_index) ;
+        return count;
     }
-        throw "ERROR, out of bounds";
+        if(front_index>=back_index){
+            int temp = back_index;
+            unsigned back_index=front_index;
+            unsigned front_index = temp;
+            return back_index-front_index;
+        }
+
         //return 0;
     }
 
@@ -70,12 +78,11 @@ Fifo_storage.reserve(right.Fifo_storage.capacity());
     }
 
     void fifo::dequeue() {
-if(!is_empty()) {// In queue you would always take from the front, so you need to make sure that the fifo storage isnt empty
-    front_index++;
-}
-        else{
-    throw"ERROR, out of bounds";
+front_index++;
+        if(front_index > back_index){
+            front_index =-1;
+                    back_index = -1;
+        }
 }
     }
-}
 

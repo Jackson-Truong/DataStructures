@@ -10,11 +10,11 @@ namespace lab4{
         lab3::fifo infix_expression; //put strings in this, all integers and operators are 1 character
         lab3::fifo postfix_expression;
 
-        void parse_to_infix(std::string &input_expression); //PRIVATE function used for converting input string into infix notation
+        void parse_to_infix(std::string  &input_expression); //PRIVATE function used for converting input string into infix notation
         void convert_to_postfix(lab3::fifo infix_expression); //PRIVATE function used for converting infix FIFO to postfix
     public:
         calculator();   //Default constructor
-        calculator(std::string &input_expression); // Constructor that converts input_expression to infix and postfix upon creation
+        calculator(std::string  &input_expression)  ; // Constructor that converts input_expression to infix and postfix upon creation
         friend std::istream& operator>>(std::istream& stream, calculator& RHS); //Store the infix and postfix expression in calculator
 
         int calculate(); //Return the calculation of the postfix expression

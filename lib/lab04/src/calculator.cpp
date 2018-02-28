@@ -2,36 +2,31 @@
 
 #include <string>
 #include "calculator.h"
+#include <iostream>
+
 namespace lab4 {
     void calculator::parse_to_infix(std::string &input_expression) {
-lab1::expressionstream stream(input_expression);
-        int counter =0;
-        while(counter<input_expression.size()){
-            while (stream.get_current_token() != "\0") {
-                stream.get_next_token();
-                infix_expression.enqueue(stream.get_current_token()); //Might not work because these enqeueue unsigned ints
-             ++counter;
-            }
+        lab1::expressionstream stream(input_expression);
+        int size = input_expression.size();
+        for(int i=0 ; i<size; i++){
+                infix_expression.enqueue(stream.get_current_token());
+                stream.get_next_token();//Might not work because these enqeueue unsigned ints
         }
     }
     void calculator::convert_to_postfix(lab3::fifo infix_expression) {
-
         lab3::lifo op_stack;
         int size = infix_expression.size();
         std::string temp[size];
-        for (int i = 0; i <= size; i++) {
+        for (int i = 1; i <= size; i++) {
             temp[i] = infix_expression.top();
             infix_expression.dequeue();
         }
         int counter =0;
         lab1::expressionstream post(temp[size]);
-
-        while(counter <= size) {
-
+        while(counter < size) {
             if (post.next_token_is_int()) {
                 postfix_expression.enqueue(temp[counter]); // 1+2 postfix enqueues 1 then op push +  postfix enqueues 2 then somehow get 12 together and + after it
             }
-            if (post.next_token_is_op()) {
                 if (op_stack.is_empty()) {
                     op_stack.push(temp[counter]);
                 }
@@ -55,42 +50,75 @@ lab1::expressionstream stream(input_expression);
                             op_stack.pop();
                         }
                     }
+
                 }
-            }
-                post.get_next_token(); // itll never get a null because counter = size at the end
-                ++counter;
-        }
+                    post.get_next_token(); // itll never get a null because counter = size at the end
+                    ++counter;
+                }
     }
 
-    calculator::calculator() {
-
+    calculator::calculator() { // Just made some bool statements
+infix_expression.is_empty();
+        postfix_expression.is_empty();
     }
 
-    calculator::calculator(std::string &input_expression) { //This should just call two functions
-parse_to_infix(input_expression);
+    calculator::calculator(std::string & input_expression) { //This should just call two functions
+parse_to_infix( input_expression);
 convert_to_postfix(infix_expression);
+        calculate();
     }
-
+//Can turn the istream into a string then call the functions that you already wrote
+//documentation for stream operator
     std::istream &operator>>(std::istream &stream, calculator &RHS) {
+
+      //RHS.parse_to_infix(RHS.&stream);
+        RHS.convert_to_postfix(RHS.infix_expression);
 
         return stream; //store an expression from stdio
     }
 
     int lab4::calculator::calculate() {
+        bool is_number(std::string input_string);
+        bool is_operator(std::string input_string);
         int size = postfix_expression.size();
-        for(int i=0; i<size;i++){
-            while(!postfix_expression.is_empty()){
+        std::string temp[size];
+        lab3::fifo final_calc;
+        postfix_expression.dequeue();
+        for (int i = 1; i <= size-1; i++) {
+            temp[i] = postfix_expression.top();
+            if (!is_operator(temp[i])) {
+                final_calc.enqueue(temp[i]);
+                postfix_expression.dequeue();
+            }
+            else {
+                std::string temp_t = final_calc.top();
+                int temp1 = std::stoi(temp_t); // Debug doesnt' pass through this.
+                final_calc.dequeue();// WORK ON THIS LINE
+                std::string temp_OP = postfix_expression.top();
+                final_calc.enqueue(temp_OP);
+                postfix_expression.dequeue();
+                std::string temp_t2 = postfix_expression.top(); //returns ""
+
+                int temp2 = std::stoi(temp_t2);
+                if (temp_OP == "/") {
+                    int answ = temp1/temp2;
+                    return  answ;
+                }
+            }
+
+
+            /*            if (is_number(temp[i])) {
+                int temp2 = std::stoi(final_calc.top());
 
             }
+             */
         }
-
-        return 0;
     }
 
     std::ostream &operator<<(std::ostream &stream, calculator &RHS) {
-this->infix_expression = RHS.infix_expression;
-        this->postfix_expression = RHS.postfix_expression;
-        stream << RHS; // When i try to do stream.RHS I get an error stating Binary operator << can't be applied to expressions of type std::ostream and lab3::fifo, so i kept it as what it is right now
+lab3::fifo infix_expression = RHS.infix_expression;
+        lab3::fifo postfix_expression = RHS.postfix_expression;
+        stream <<RHS; // When i try to do stream.RHS I get an error stating Binary operator << can't be applied to expressions of type std::ostream and lab3::fifo, so i kept it as what it is right now
         return stream;
     }
 
