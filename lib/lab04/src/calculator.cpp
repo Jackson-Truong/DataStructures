@@ -8,9 +8,15 @@ namespace lab4 {
     void calculator::parse_to_infix(std::string &input_expression) {
         lab1::expressionstream stream(input_expression);
         int size = input_expression.size();
-        for(int i=0 ; i<size; i++){
+        int counter =0;
+        while(counter<=size){
+            if(stream.next_token_is_op()){
+              infix_expression.enqueue(stream.get_next_token());
+              counter++;
+            }
                 infix_expression.enqueue(stream.get_current_token());
                 stream.get_next_token();//Might not work because these enqeueue unsigned ints
+            counter++;
         }
     }
     void calculator::convert_to_postfix(lab3::fifo infix_expression) {      //infix_expression is already a copy, so we ca change it
@@ -22,7 +28,14 @@ namespace lab4 {
         while (!infix_expression.is_empty()) {
             current_token = infix_expression.top();
             infix_expression.dequeue();
-            if (is_number(current_token)) {
+            if(infix_expression.is_empty()) {
+                while (!stack.is_empty()) {
+                    std::string temp = stack.top();
+                    stack.pop();
+                    postfix_expression.enqueue(temp);
+                }
+            }
+            if (is_number(current_token) == true) {
                 postfix_expression.enqueue(current_token);
             }
             if (is_operator(current_token)) {
@@ -44,10 +57,6 @@ namespace lab4 {
                 }
             }
         }
-
-        while (!stack.is_empty()) {
-            postfix_expression.enqueue(current_token);
-        }
     }
     calculator::calculator() { // Just made some bool statements
 infix_expression.is_empty();
@@ -57,15 +66,15 @@ infix_expression.is_empty();
     calculator::calculator(std::string & input_expression) { //This should just call two functions
 parse_to_infix( input_expression);
 convert_to_postfix(infix_expression);
-        calculate();
     }
 //Can turn the istream into a string then call the functions that you already wrote
 //documentation for stream operator
     std::istream &operator>>(std::istream &stream, calculator &RHS) {
+         std::string input;
+        while(stream.peek()!= EOF){
 
-      //RHS.parse_to_infix(RHS.&stream);
+         }
         RHS.convert_to_postfix(RHS.infix_expression);
-
         return stream; //store an expression from stdio
     }
 
@@ -75,36 +84,29 @@ convert_to_postfix(infix_expression);
         int size = postfix_expression.size();
         std::string temp[size];
         lab3::fifo final_calc;
-        postfix_expression.dequeue();
-        for (int i = 1; i <= size-1; i++) {
+        for (int i = 0; i <= size; i++) {
             temp[i] = postfix_expression.top();
-            if (!is_operator(temp[i])) {
+            if (is_operator(temp[i])) {
                 final_calc.enqueue(temp[i]);
                 postfix_expression.dequeue();
             }
-            else {
+            else if(!is_operator(temp[i])){
+                final_calc.enqueue(temp[i]);
                 std::string temp_t = final_calc.top();
                 int temp1 = std::stoi(temp_t); // Debug doesnt' pass through this.
                 final_calc.dequeue();// WORK ON THIS LINE
-                std::string temp_OP = postfix_expression.top();
-                final_calc.enqueue(temp_OP);
                 postfix_expression.dequeue();
                 std::string temp_t2 = postfix_expression.top(); //returns ""
-
                 int temp2 = std::stoi(temp_t2);
+                postfix_expression.dequeue();
+                std::string temp_OP = postfix_expression.top();
                 if (temp_OP == "/") {
-                    int answ = temp1/temp2;
+                   int answ = temp1/temp2;
                     return  answ;
                 }
             }
-
-
-            /*            if (is_number(temp[i])) {
-                int temp2 = std::stoi(final_calc.top());
-
-            }
-             */
         }
+        return 0;
     }
 
     std::ostream &operator<<(std::ostream &stream, calculator &RHS) {
