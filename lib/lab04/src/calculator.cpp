@@ -66,12 +66,9 @@ convert_to_postfix(infix_expression);
 //Can turn the istream into a string then call the functions that you already wrote
 //documentation for stream operator
     std::istream &operator>>(std::istream &stream, calculator &RHS) {
-std::string input_express;
         while(stream.peek()!= EOF){
-std::getline(stream, input_express);
          }
-         RHS.parse_to_infix(input_express);
-        RHS.convert_to_postfix(RHS.infix_expression);
+
         return stream; //store an expression from stdio
     }
 
@@ -122,7 +119,7 @@ std::getline(stream, input_express);
     std::ostream &operator<<(std::ostream &stream, calculator &RHS) {
 lab3::fifo infix_expression = RHS.infix_expression;
         lab3::fifo postfix_expression = RHS.postfix_expression;
-        return stream << "Infix" << RHS.infix_expression <<  "\nPostfix "<< RHS.postfix_expression;
+        return stream;
     }
 
 
@@ -140,4 +137,16 @@ lab3::fifo infix_expression = RHS.infix_expression;
             }
             return false;
         }
+    int operator_priority(std::string operator_in){
+        int priority;
+        if(operator_in=="+"||"-"){
+            priority=1;
+        }
+        else if (operator_in=="*"||"/") {
+            priority = 2;
+
+        }
+        return priority;
+    }
 }
+
