@@ -78,10 +78,8 @@ Fifo_storage.reserve(right.Fifo_storage.capacity());
     }
 
     void fifo::dequeue() {
-front_index++;
-        if(front_index > back_index){
-            front_index =-1;
-                    back_index = -1;
+        if(!is_empty()) {
+            front_index++;
         }
 }
     }

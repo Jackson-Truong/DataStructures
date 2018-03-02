@@ -8,14 +8,10 @@ namespace lab4 {
     void calculator::parse_to_infix(std::string &input_expression) {
         lab1::expressionstream stream(input_expression);
         int size = input_expression.size();
-        int counter =0;
-        while(counter<=size){
-            if(stream.next_token_is_op()){
-              infix_expression.enqueue(stream.get_next_token());
-              counter++;
-            }
-                infix_expression.enqueue(stream.get_current_token());
-                stream.get_next_token();//Might not work because these enqeueue unsigned ints
+        int counter = 0;
+        while (counter < size) {
+            stream.get_next_token();
+          infix_expression.enqueue(stream.get_current_token());
             counter++;
         }
     }
@@ -28,21 +24,13 @@ namespace lab4 {
         while (!infix_expression.is_empty()) {
             current_token = infix_expression.top();
             infix_expression.dequeue();
-            if(infix_expression.is_empty()) {
-                while (!stack.is_empty()) {
-                    std::string temp = stack.top();
-                    stack.pop();
-                    postfix_expression.enqueue(temp);
-                }
-            }
             if (is_number(current_token) == true) {
                 postfix_expression.enqueue(current_token);
             }
             if (is_operator(current_token)) {
-                while (!stack.is_empty() && operator_priority(current_token) <= operator_priority(stack.top()) &&
-                       current_token != "(") {
-                    postfix_expression.enqueue(stack.top());
-                    stack.pop();
+                while (!stack.is_empty() && operator_priority(current_token) <= operator_priority(stack.top()) && stack.top() != "(") {
+                         postfix_expression.enqueue(stack.top());
+                       stack.pop();
                 }
                 stack.push(current_token);
             }
@@ -55,9 +43,18 @@ namespace lab4 {
                     postfix_expression.enqueue(stack.top());
                     stack.pop();
                 }
+                    stack.pop();
+            }
+        }         while (!stack.is_empty()) {// this area
+                if(stack.top() == "(" ){
+                    stack.pop();
+                }
+                std::string temp = stack.top();
+            postfix_expression.enqueue(temp);
+            stack.pop();
             }
         }
-    }
+
     calculator::calculator() { // Just made some bool statements
 infix_expression.is_empty();
         postfix_expression.is_empty();
@@ -79,34 +76,47 @@ convert_to_postfix(infix_expression);
     }
 
     int lab4::calculator::calculate() {
+        int answ =0;
+        int calc =0;
         bool is_number(std::string input_string);
         bool is_operator(std::string input_string);
-        int size = postfix_expression.size();
-        std::string temp[size];
-        lab3::fifo final_calc;
-        for (int i = 0; i <= size; i++) {
-            temp[i] = postfix_expression.top();
-            if (is_operator(temp[i])) {
-                final_calc.enqueue(temp[i]);
+        lab3::lifo final_stack;
+        while(!postfix_expression.is_empty()) {
+            if (is_number(postfix_expression.top())) {
+                final_stack.push(postfix_expression.top());
                 postfix_expression.dequeue();
             }
-            else if(!is_operator(temp[i])){
-                final_calc.enqueue(temp[i]);
-                std::string temp_t = final_calc.top();
-                int temp1 = std::stoi(temp_t); // Debug doesnt' pass through this.
-                final_calc.dequeue();// WORK ON THIS LINE
+            else if (is_operator(postfix_expression.top())) {
+                std::string tempOP = postfix_expression.top();
                 postfix_expression.dequeue();
-                std::string temp_t2 = postfix_expression.top(); //returns ""
-                int temp2 = std::stoi(temp_t2);
-                postfix_expression.dequeue();
-                std::string temp_OP = postfix_expression.top();
-                if (temp_OP == "/") {
-                   int answ = temp1/temp2;
-                    return  answ;
+                int temp1 = std::stoi(final_stack.top());
+                final_stack.pop();
+                int temp2 = std::stoi(final_stack.top());
+                final_stack.pop();
+                if (tempOP == "/") {
+                    calc = temp2 / temp1;
+                    std::string hi = std::to_string(calc);
+                    final_stack.push(hi);
+                }
+                else if (tempOP == "*"){
+                    calc = temp2 * temp1;
+                    std::string hi = std::to_string(calc);
+                    final_stack.push(hi);
+                }
+                else if(tempOP == "+"){
+                    calc = temp2 + temp1;
+                    std::string hi = std::to_string(calc);
+                    final_stack.push(hi);
+                }
+                else if(tempOP == "-"){
+                    calc = temp2 - temp1;
+                    std::string hi = std::to_string(calc);
+                    final_stack.push(hi);
                 }
             }
         }
-        return 0;
+        answ = std::stoi(final_stack.top());
+        return answ;
     }
 
     std::ostream &operator<<(std::ostream &stream, calculator &RHS) {
@@ -126,7 +136,7 @@ lab3::fifo infix_expression = RHS.infix_expression;
 
     }
     bool is_operator(std::string input_string){
-            if(input_string == "+"||input_string == "-"||input_string == "*"||input_string == "/"||input_string == "("||input_string ==")"||input_string =="^"){
+            if(input_string == "+"||input_string == "-"||input_string == "*"||input_string == "/"){
                 return true;
             }
             return false;

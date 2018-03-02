@@ -20,3 +20,9 @@ TEST(calculator,divisionTest){
 lab4::calculator obj3(D);
 EXPECT_EQ(2,obj3.calculate());
 }
+
+TEST(calculator, quiz){
+    std::string E = "2-(3*4/6)+4";
+    lab4::calculator obja(E);
+    EXPECT_EQ(4,obja.calculate());
+}
