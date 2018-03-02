@@ -6,12 +6,12 @@
 
 namespace lab4 {
     void calculator::parse_to_infix(std::string &input_expression) {
-        lab1::expressionstream stream(input_expression);
-        int size = input_expression.size();
+        lab1::expressionstream stream(input_expression);// This is to call lab 1
+        int size = input_expression.size();//Once you call it I made a size just for the while loop ahead
         int counter = 0;
         while (counter < size) {
             stream.get_next_token();
-          infix_expression.enqueue(stream.get_current_token());
+          infix_expression.enqueue(stream.get_current_token());// enqueues and grabs next tokens
             counter++;
         }
     }
@@ -21,10 +21,10 @@ namespace lab4 {
         bool is_operator(std::string input_string);
         int operator_priority(std::string operator_in);
         std::string current_token;
-        while (!infix_expression.is_empty()) {
-            current_token = infix_expression.top();
-            infix_expression.dequeue();
-            if (is_number(current_token) == true) {
+        while (!infix_expression.is_empty()) { // This makes sure that the infix_expression is not empty, so it can convert all of the elems in postfix
+            current_token = infix_expression.top(); // This will show what is going on
+            infix_expression.dequeue();// dequeue to move over
+            if (is_number(current_token) == true) { // uses current token
                 postfix_expression.enqueue(current_token);
             }
             if (is_operator(current_token)) {
@@ -41,7 +41,7 @@ namespace lab4 {
             if (current_token == ")") {
                 while (stack.top() != "(") {
                     postfix_expression.enqueue(stack.top());
-                    stack.pop();
+                    stack.pop(); // Pops everything until it reaches the (, then it will pop the top, which will be (
                 }
                     stack.pop();
             }
@@ -66,10 +66,11 @@ convert_to_postfix(infix_expression);
 //Can turn the istream into a string then call the functions that you already wrote
 //documentation for stream operator
     std::istream &operator>>(std::istream &stream, calculator &RHS) {
-         std::string input;
+std::string input_express;
         while(stream.peek()!= EOF){
-
+std::getline(stream, input_express);
          }
+         RHS.parse_to_infix(input_express);
         RHS.convert_to_postfix(RHS.infix_expression);
         return stream; //store an expression from stdio
     }
@@ -82,13 +83,13 @@ convert_to_postfix(infix_expression);
         lab3::lifo final_stack;
         while(!postfix_expression.is_empty()) {
             if (is_number(postfix_expression.top())) {
-                final_stack.push(postfix_expression.top());
+                final_stack.push(postfix_expression.top()); // I use another lifo to stack the operators
                 postfix_expression.dequeue();
             }
             else if (is_operator(postfix_expression.top())) {
                 std::string tempOP = postfix_expression.top();
                 postfix_expression.dequeue();
-                int temp1 = std::stoi(final_stack.top());
+                int temp1 = std::stoi(final_stack.top());// SHould pop two operators to calculate
                 final_stack.pop();
                 int temp2 = std::stoi(final_stack.top());
                 final_stack.pop();
@@ -121,8 +122,7 @@ convert_to_postfix(infix_expression);
     std::ostream &operator<<(std::ostream &stream, calculator &RHS) {
 lab3::fifo infix_expression = RHS.infix_expression;
         lab3::fifo postfix_expression = RHS.postfix_expression;
-        stream <<RHS; // When i try to do stream.RHS I get an error stating Binary operator << can't be applied to expressions of type std::ostream and lab3::fifo, so i kept it as what it is right now
-        return stream;
+        return stream << "Infix" << RHS.infix_expression <<  "\nPostfix "<< RHS.postfix_expression;
     }
 
 
@@ -140,24 +140,4 @@ lab3::fifo infix_expression = RHS.infix_expression;
             }
             return false;
         }
-// conver to postfix
-
-    int get_number(std::string input_string);
-// convert to postfix
-
-    std::string get_operator(std::string input_string);
-//in convert to postfix
-
-    int operator_priority(std::string operator_in){ // Slack said that we did not have to use "^" in this project
-        if(operator_in == "*"|| "/"){
-           return 2; // Separate the PEMDAS tier ignoring P and E
-        }
-        if(operator_in == "+"|| "-"){
-         return 1;
-        }
-
-    }
-    //in convert to postfix
-    // )5+3 +(4+3)
 }
-// ITS GOING TO BE expressionstream then do auxillary if it passes the certain expressionstream boolean statement
