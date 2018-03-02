@@ -15,7 +15,7 @@ namespace lab4 {
             counter++;
         }
     }
-    void calculator::convert_to_postfix(lab3::fifo infix_expression) {      //infix_expression is already a copy, so we ca change it
+    void calculator::convert_to_postfix(lab3::fifo infix_expression) {
         lab3::lifo stack;
         bool is_number(std::string input_string);
         bool is_operator(std::string input_string);
@@ -55,9 +55,8 @@ namespace lab4 {
             }
         }
 
-    calculator::calculator() { // Just made some bool statements
-infix_expression.is_empty();
-        postfix_expression.is_empty();
+    calculator::calculator() { //constructor
+
     }
 
     calculator::calculator(std::string & input_expression) { //This should just call two functions

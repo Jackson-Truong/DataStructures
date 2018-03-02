@@ -15,14 +15,25 @@ protected:
 public:
 };
 
-TEST(calculator,divisionTest){
-    std::string D ="4/2";
-lab4::calculator obj3(D);
-EXPECT_EQ(2,obj3.calculate());
+TEST(calculator, addTest){
+    std::string A ="90+80";
+    lab4::calculator Add(A);
+    EXPECT_EQ(170, Add.calculate());
 }
 
+TEST(calculator,divisionTest){
+    std::string D ="4/2";
+lab4::calculator div(D);
+EXPECT_EQ(2,div.calculate());
+}
+
+TEST(calculator, multTest){
+    std::string G = "8*9";
+    lab4::calculator mult(G);
+    EXPECT_EQ(72, mult.calculate());
+}
 TEST(calculator, quiz){
     std::string E = "2-(3*4/6)+4";
-    lab4::calculator obja(E);
-    EXPECT_EQ(4,obja.calculate());
+    lab4::calculator tues(E);
+    EXPECT_EQ(4,tues.calculate());
 }
