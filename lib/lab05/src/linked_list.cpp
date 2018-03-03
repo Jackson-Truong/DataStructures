@@ -1,7 +1,8 @@
 #include <linked_list.h>
 namespace lab5 {
     linked_list::linked_list() {
-
+    head = nullptr;
+    tail = nullptr;
     }
 
     linked_list::linked_list(std::string &data) {

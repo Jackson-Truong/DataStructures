@@ -37,7 +37,7 @@ Fifo_storage.reserve(right.Fifo_storage.capacity());
         for(int i=0;i<=Fifo_storage.size();i++){
             Fifo_storage[i]=right.Fifo_storage[i];
         }
-
+return *this;
     }
 
     bool fifo::is_empty() const {//If the front is greater than the back then it should be empty, it does not make sense for the front index to ever be greater than the back

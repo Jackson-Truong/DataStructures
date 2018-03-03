@@ -25,9 +25,11 @@ namespace lab5 {
         bool isEmpty() const;
         unsigned listSize() const;
 
-        void insert(const std::string input, unsigned location = 0 );
+        void insert(const std::string input, unsigned location = 0 ); // This is going to insert a new node, can inssert at the end of the list or beginning
+        // to insert at the end of the linked list all we need to do is make the last node and set the address part of it to point at the new node.
+        //thsi new node will point at NULL
         void append(const std::string input);
-        void remove(unsigned location = 0);
+        void remove(unsigned location = 0); // remove end of the list or the beginning of the list.
 
         void sort();
     };
