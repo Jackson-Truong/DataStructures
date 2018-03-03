@@ -5,9 +5,11 @@
 #include <iostream>
 
 namespace lab4 {
+    bool is_number(std::string input_string);
+    bool is_operator(std::string input_string);
+    int operator_priority(std::string operator_in);
     void calculator::parse_to_infix(std::string &input_expression) {
-        bool is_number(std::string input_string);
-        bool is_operator(std::string input_string);
+
         int size = 0;
         int Operate = 0;
         int infix = 0;
@@ -63,9 +65,6 @@ namespace lab4 {
     }
     void calculator::convert_to_postfix(lab3::fifo infix_expression) {      //infix_expression is already a copy, so we can change it
         lab3::lifo stack;
-        bool is_number(std::string input_string);
-        bool is_operator(std::string input_string);
-        int operator_priority(std::string operator_in);
         std::string current_token;
         while (!infix_expression.is_empty()) {
             current_token = infix_expression.top();
@@ -127,9 +126,6 @@ temp = stream.get();
     int lab4::calculator::calculate() {
         int answ =0;
         int calc =0;
-
-        bool is_number(std::string input_string);
-        bool is_operator(std::string input_string);
         lab3::lifo final_stack;
         while(!postfix_expression.is_empty()) {
             if (is_number(postfix_expression.top())) {
@@ -170,11 +166,24 @@ temp = stream.get();
     }
 
     std::ostream &operator<<(std::ostream &stream, calculator &RHS) {
-lab3::fifo infix_expression = RHS.infix_expression;
-        lab3::fifo postfix_expression = RHS.postfix_expression;
+        unsigned infixSize = RHS.infix_expression.size();
+        unsigned postfixSize = RHS.postfix_expression.size();
+        stream << std::string("Infix: ");
+        for (int i = 0; i < infixSize; i++) {
+            stream << RHS.infix_expression.top();
+            stream << std::string(", ");
+            RHS.infix_expression.dequeue();
+        }
+        stream << std::string("\n");
+        stream << std::string("Postfix: ");
+        for (int i = 0; i < postfixSize; i++) {
+            stream << RHS.postfix_expression.top();
+            stream << std::string(", ");
+            RHS.postfix_expression.dequeue();
+        }
+        stream << std::string("\n");
         return stream;
     }
-
 
     // AUXILIARY FUNCTIONS
     bool is_number(std::string input_string) {

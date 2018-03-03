@@ -48,3 +48,5 @@ TEST(calculator, quiz){
     lab4::calculator tues(E);
     EXPECT_EQ(4,tues.calculate());
 }
+
+
