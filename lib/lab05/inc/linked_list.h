@@ -34,5 +34,13 @@ namespace lab5 {
         void sort();
     };
 }
-
+//`linked_list::insert(input, location = 0)`: create a node from the input string and put it into the linked list at the given location
+//
+//`linked_list::append(input)`: create a new node and put it at the end/tail of the linked list
+//
+//`linked_list::remove(location = 0)`: Remove the node at the given location
+//
+//`linked_list::sort()`: Perform selection sort on the linked list
+//
+//`linked_list::listSize()`: Note that you do **not** have a size variable in your linked list. You *MUST* count the nodes.
 #endif

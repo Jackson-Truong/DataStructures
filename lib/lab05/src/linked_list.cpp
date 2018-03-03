@@ -32,14 +32,33 @@ namespace lab5 {
 
     void linked_list::insert(const std::string input, unsigned int location) {
 
+        node *previous = NULL;
+        node *current;
+        node *temporary = new node(input);
+        current = head;
+        for(int i=0; i<location; ++i){
+            previous = temporary;
+            current = current->next;
+        }
+if(previous){
+    previous->next = temporary;
+    temporary->next = current;
+
+}
+        else{
+            head= temporary;
+            temporary->next = current;
+        }
     }
 
     void linked_list::append(const std::string input) {
-
+        node *previous;
+        node *temporary = new node(input);
+temporary->data = input;
+temporary->next = nullptr;
     }
 
     void linked_list::remove(unsigned location) {
-
     }
 
     std::ostream& operator<<(std::ostream &stream, linked_list &RHS) {
