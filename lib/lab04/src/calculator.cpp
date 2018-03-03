@@ -25,9 +25,10 @@ namespace lab4 {
 
             else if(i==size-1){
                 infix_expression.enqueue(TempArr[i]);
+                infix++;
             }
 
-            if(!is_number(TempArr[i])){ //enqueues operators
+            if(i!= size-1 && !is_number(TempArr[i])){ //enqueues operators
                 infix_expression.enqueue(TempArr[i]);
                 infix++;
             }
@@ -46,9 +47,9 @@ namespace lab4 {
                     Operate=Operate+3;
                 }
                 if(Operate != size) {
-                    while (Operate != size - 1 && !is_operator(TempArr[Operate])) {      //position of operator
+                    while (Operate != size - 1 && is_number(TempArr[Operate])) {      //position of operator
                         Operate++;
-                    }
+                    }// For some reason ) is giving me a number so i changed my bool is_number statement
                 }
                 std::string int_temp;
                 for(int z=i; z < Operate; z++){
@@ -75,8 +76,7 @@ namespace lab4 {
             }
 
             if (is_operator(current_token)){
-                while (!stack.is_empty() && operator_priority(current_token) <= operator_priority(stack.top()) &&
-                       stack.top() != "(") {
+                while (!stack.is_empty() && operator_priority(current_token) <= operator_priority(stack.top()) && stack.top() != "(") {
                     postfix_expression.enqueue(stack.top());// If the stack isn't empty it must check the priority
                     stack.pop();
                 }
@@ -115,28 +115,30 @@ convert_to_postfix(infix_expression);
 //Can turn the istream into a string then call the functions that you already wrote
 //documentation for stream operator
     std::istream &operator>>(std::istream &stream, calculator &RHS) {
+        std::string temp= "";
+        lab3::fifo infix_expression;
         while(stream.peek()!= EOF){
+temp = stream.get();
          }
-
+         RHS.parse_to_infix(temp);
+        RHS.convert_to_postfix(infix_expression);
         return stream; //store an expression from stdio
     }
-
     int lab4::calculator::calculate() {
         int answ =0;
         int calc =0;
-        lab3::fifo postfixCopy;
-        postfixCopy = postfix_expression ;
+
         bool is_number(std::string input_string);
         bool is_operator(std::string input_string);
         lab3::lifo final_stack;
-        while(!postfixCopy.is_empty()) {
-            if (is_number(postfixCopy.top())) {
-                final_stack.push(final_stack.top()); // I use another lifo to stack the operators
-                postfixCopy.dequeue();// This copy fifo only copied the top element
+        while(!postfix_expression.is_empty()) {
+            if (is_number(postfix_expression.top())) {
+                final_stack.push(postfix_expression.top()); // I use another lifo to stack the operators
+                postfix_expression.dequeue();
             }
-            else if (is_operator(postfixCopy.top())) {
-                std::string tempOP = postfixCopy.top();
-                postfixCopy.dequeue();
+            else if (is_operator(postfix_expression.top())) {
+                std::string tempOP = postfix_expression.top();
+                postfix_expression.dequeue();
                 int temp1 = std::stoi(final_stack.top());// SHould pop two operators to calculate
                 final_stack.pop();
                 int temp2 = std::stoi(final_stack.top());
@@ -166,8 +168,7 @@ convert_to_postfix(infix_expression);
         answ = std::stoi(final_stack.top());
         return answ;
     }
-//       lab3::fifo postfixCopy;
-//        postfixCopy = postfix_expression;
+
     std::ostream &operator<<(std::ostream &stream, calculator &RHS) {
 lab3::fifo infix_expression = RHS.infix_expression;
         lab3::fifo postfix_expression = RHS.postfix_expression;
@@ -177,8 +178,8 @@ lab3::fifo infix_expression = RHS.infix_expression;
 
     // AUXILIARY FUNCTIONS
     bool is_number(std::string input_string) {
-        if (input_string >= "0" || input_string <= "99") {
-            if (input_string == "+" || input_string == "-" || input_string == "*" || input_string == "/") {
+        if (input_string >= "0" || input_string <= "999") {
+            if (input_string == "+" || input_string == "-" || input_string == "*" || input_string == "/" || input_string == "(" || input_string == ")") {
                 return false;
             }
             return true;

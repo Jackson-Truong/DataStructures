@@ -21,6 +21,17 @@ TEST(calculator, addTest){
     EXPECT_EQ(170, Add.calculate());
 }
 
+TEST(calculator, hello){
+    std::string M = "5*(4-2)";
+    lab4::calculator calc(M);
+    EXPECT_EQ(10, calc.calculate());
+}
+
+TEST(calculator, hellw){
+    std::string M = "(4-2)*5";
+    lab4::calculator calc(M);
+    EXPECT_EQ(10, calc.calculate());
+}
 TEST(calculator,divisionTest){
     std::string D ="4/2";
 lab4::calculator div(D);
