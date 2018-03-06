@@ -127,14 +127,16 @@ temp = stream.get();
         int answ =0;
         int calc =0;
         lab3::lifo final_stack;
-        while(!postfix_expression.is_empty()) {
-            if (is_number(postfix_expression.top())) {
-                final_stack.push(postfix_expression.top()); // I use another lifo to stack the operators
-                postfix_expression.dequeue();
+        lab3::fifo postfixCopy;
+        postfixCopy = postfix_expression;
+        while(!postfixCopy.is_empty()) {
+            if (is_number(postfixCopy.top())) {
+                final_stack.push(postfixCopy.top()); // I use another lifo to stack the operators
+                postfixCopy.dequeue();
             }
-            else if (is_operator(postfix_expression.top())) {
-                std::string tempOP = postfix_expression.top();
-                postfix_expression.dequeue();
+            else if (is_operator(postfixCopy.top())) {
+                std::string tempOP = postfixCopy.top();
+                postfixCopy.dequeue();
                 int temp1 = std::stoi(final_stack.top());// SHould pop two operators to calculate
                 final_stack.pop();
                 int temp2 = std::stoi(final_stack.top());
@@ -187,7 +189,7 @@ temp = stream.get();
 
     // AUXILIARY FUNCTIONS
     bool is_number(std::string input_string) {
-        if (input_string >= "0" || input_string <= "999") {
+        if (input_string >= "0" && input_string <= "999") {
             if (input_string == "+" || input_string == "-" || input_string == "*" || input_string == "/" || input_string == "(" || input_string == ")") {
                 return false;
             }
@@ -209,6 +211,9 @@ temp = stream.get();
         else if (operator_in=="*"||"/") {
             priority = 2;
 
+        }
+        else if(operator_in== "^"){
+            priority = 3;
         }
         return priority;
     }

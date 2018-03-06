@@ -32,10 +32,10 @@ Fifo_storage.set_size(0);//Makes the size = to 0. This is Bryan's code from lab2
 
     fifo &fifo::operator=(const fifo &right) {
 Fifo_storage.reserve(right.Fifo_storage.capacity());
-        front_index = right.front_index;//Assignment operators
-        back_index = right.back_index;
-        for(int i=0;i<=Fifo_storage.size();i++){
-            Fifo_storage[i]=right.Fifo_storage[i];
+       this-> front_index = right.front_index;//Assignment operators
+        this->back_index = right.back_index;
+        for(int i=0;i<right.Fifo_storage.size();i++){
+            this->Fifo_storage[i]=right.Fifo_storage[i];
         }
 return *this;
     }
