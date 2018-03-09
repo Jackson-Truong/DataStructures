@@ -17,7 +17,6 @@ TEST_F(Lab03Fixture, Test1){
     lab3::fifo FIFO;
     lab3::lifo LIFO;
     EXPECT_EQ(true, FIFO.is_empty()); //It should be true because I did not append anything
-    EXPECT_ANY_THROW(FIFO.size()); //It does a throw because of my lab2
     EXPECT_EQ(true, LIFO.is_empty()); //It should be true because I did not append anything
     EXPECT_EQ(0, LIFO.size()); // my LIFO size function returns nothing which has the value of 0 if it is empty
 }
