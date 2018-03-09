@@ -119,7 +119,6 @@ if(previous){ // if it does exist set it to temporary
             }
             if(previous){
                 previous->next = current->next; // unlinks the node
-                current = previous;
             delete current;
         }
         }
@@ -134,7 +133,6 @@ if(previous){ // if it does exist set it to temporary
       std::string temporary;
       getline(stream, temporary);
       RHS.append(temporary);
-      delete temporary;
         return stream;
     }
 
