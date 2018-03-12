@@ -1,6 +1,6 @@
 #ifndef CMPE126S18_LABS_NODE_H
 #define CMPE126S18_LABS_NODE_H
-
+#include <string>
 namespace lab6{
     class node{
         int data;

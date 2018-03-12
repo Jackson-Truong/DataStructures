@@ -106,7 +106,8 @@ if(previous){ // if it does exist set it to temporary
         tmp = tmp->next;
     }
     tmp->next = new node(input);
-    tail = tail->next;
+    tail = tmp->next;
+    tail->next = NULL;
     }
 
     void linked_list::remove(unsigned location) {
@@ -121,11 +122,21 @@ if(previous){ // if it does exist set it to temporary
                 previous->next = current->next; // unlinks the node
             delete current;
         }
+        else{
+            head= current->next;
+            delete current;
+        }
         }
 
 
     std::ostream& operator<<(std::ostream &stream, linked_list &RHS) {
-
+unsigned size = linked_list::listSize();
+stream<< "Linked List: ";
+for(int i=0; i<size;i++) {
+    stream << RHS.get_value_at(i);
+    stream << ", ";
+}
+        stream << std::string("\n");
         return stream;
     }
 
@@ -136,24 +147,41 @@ if(previous){ // if it does exist set it to temporary
         return stream;
     }
 
-    void linked_list::sort() {
+    void linked_list::sort() {//wikipedia sort function pseudocode
 int size;
-        node* current = head;
-node* last = tail;
-while(current->next !=nullptr){
-    ++size;
-        current = current->next;
+size = listSize();
+std::string tmp;
+for(unsigned j=0; j< size-1; j++){
+std::string minimum;
+  minimum=  get_value_at(j); //J becomes the minimum value, j is the beginning of the linked list. using the get_value_at function made below
+for(int k=j+1; k<size; k++){//value ahead of J so that it can compare one vs the one after it
+    if(get_value_at(k)<minimum){//Compares the minimum value(j) with the value ahead of it, if passes minimum = k, the value ahead of the current minimum
+        minimum = get_value_at(k);
+    }
+    if(minimum!=get_value_at(j)){// if it did get swapped then this is how you fully swap the whole thing.
+std::string tempj = get_value_at(j);
+std::string tempk = get_value_at(k);
+remove(k);
+insert(tempk, k);
+remove(j);
+insert(tempj,j);
+
+    }
 }
-for(int i=0; i<=size; i++){
-if(current->data > current->next->data){
-    node* tmp = current;
-    current->data = current->next->data;
-    current->next->data = tmp->data;
 }
-}
+
     }
 
-    std::string linked_list::get_value_at(unsigned location) {
-
+    std::string linked_list::get_value_at(unsigned location) const {
+std::string value =0;
+node* current = head;
+for(int i=0; i<location; i++){
+    current= current->next;
+}
+if(head == NULL){
+    throw "ERROR, there is no links on the list";
+}
+value = current->data;
+return value;
     }
 }

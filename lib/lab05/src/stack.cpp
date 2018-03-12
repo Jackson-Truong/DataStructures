@@ -29,7 +29,10 @@ namespace lab5{
     }
 
     std::string stack::top() const {
-        //return std::__cxx11::string();
+        if(storage_structure.isEmpty()){
+            return 0;
+        }
+        return storage_structure.get_value_at(storage_structure.listSize()-1);
     }
 
     void stack::push(const std::string &data) {
