@@ -38,7 +38,9 @@ for(int i=0; i<position; i++){
 if(head ==NULL){
     throw"ERROR, there is no links in this list";
 }
-return get_data(position); // Not sure if this is correct
+int value = 0;
+value = current->data;
+return value;
     }
 
     std::vector<int> doubly_linked_list::get_set(unsigned position_from, unsigned position_to) {
@@ -166,7 +168,6 @@ for(int i=0; i<position; i++){
     current = current->next;
     current->prev= pre;
 }
-\
         //Not sure how to truncate the original linked list and return the split off linked list
     }
 
