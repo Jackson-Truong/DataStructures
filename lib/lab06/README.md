@@ -14,7 +14,7 @@ Implement the linked list and test the functionality of it using tests. Remember
 
 As you are writing your functions, read the instructions and think of how you would test that functions while you are writing it. Write your Test first and then implement your functions. Try running your test and then fixing your issues.  
 
-`doubly_linked_list::sort()` will sort the items in a linked list using insertion sort. Refer to the wikipedia article on insertion sort for more information on how this sorting algorithm works. Remember, you will be implementing this in a linked list and not an array. Get creative, because the Wikipedia article talks specifically about performing this sort on an array. You will need to understand how to translate this algorithm to use a linked list instead.
+        `doubly_linked_list::sort()` will sort the items in a linked list using insertion sort. Refer to the wikipedia article on insertion sort for more information on how this sorting algorithm works. Remember, you will be implementing this in a linked list and not an array. Get creative, because the Wikipedia article talks specifically about performing this sort on an array. You will need to understand how to translate this algorithm to use a linked list instead.
 
 You may need to create auxiliary functions to complete tasks, or to avoid copy and pasting repetitive code. Do not make these class functions. These should only appear in the .cpp file
 

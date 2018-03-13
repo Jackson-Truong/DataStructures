@@ -1,136 +1,131 @@
 #include <linked_list.h>
 namespace lab5 {
     linked_list::linked_list() {
-    head = nullptr;
-    tail = nullptr;
+        head = nullptr;
+        tail = nullptr;
     }
 
     linked_list::linked_list(std::string &data) {
-head->data = data;
-tail = head;
+        head->data = data;
+        tail = head;
     }
 
     linked_list::linked_list(const linked_list &original) {
-node* iterator = original.head;//copies head
-node* temp = head;
-for(int i=0; i< original.listSize(); i++){
-    temp->data = iterator->data;
-   temp->next = iterator->next;
-}
-tail = original.tail;
+        node *iterator = original.head;//copies head
+        node *temp = head;
+        for (int i = 0; i < original.listSize(); i++) {
+            temp->data = iterator->data;
+            temp->next = iterator->next;
+        }
+        tail = original.tail;
     }
 
     linked_list::~linked_list() {
-while(head){
-    node *temp = head->next;
-    delete head;
-    head= temp;
-    tail = nullptr;
-}
+        while (head) {
+            node *temp = head->next;
+            delete head;
+            head = temp;
+            tail = nullptr;
+        }
     }
 
     linked_list &lab5::linked_list::operator=(const linked_list &RHS) {
-node* current = RHS.head;
-if(this == &RHS){ //Makes sure that it does not delete an element on accident
-    return *this;
-}
-while(current->next != nullptr){
-node* copy = new node(current->data);//Copy will link new nodes with RHS' data
-current= current->next;
-if(head == NULL){
-  node* temp= new node(current->data); //Not too sure on this but this is just for the first element, incase it does not even go through the while loop once
+        node *current = RHS.head;
+        if (this == &RHS) { //Makes sure that it does not delete an element on accident
+            return *this;
+        }
+        while (current->next != nullptr) {
+            node *copy = new node(current->data);//Copy will link new nodes with RHS' data
+            current = current->next;
+            if (head == NULL) {
+                node *temp = new node(
+                        current->data); //Not too sure on this but this is just for the first element, incase it does not even go through the while loop once
 
-}
-}
-return *this;
+            }
+        }
+        return *this;
     }
 
 
     bool linked_list::isEmpty() const {
-node *head = head;
-node *tail;
-if(head== nullptr){
-    if(tail== nullptr){//Has to go through the if head is nullptr first just incase
-        return true;
-    }
-    return false;
-}
+        if (!head){
+            return true;
+        }
         return false;
     }
 
     unsigned linked_list::listSize() const {
-     unsigned size;
-     node* temp =head;
-       if(head == nullptr && tail == nullptr){ //
-return isEmpty();
-       }
-       else{
-          while(temp!=nullptr){
-              size++;
-              temp = temp->next;
-          }
-       }
+        int size=0;
+        node *temp = head;
+        if (isEmpty()) { //
+            return 0;
+        } else {
+            while (temp != nullptr) {
+                size++;
+                temp = temp->next;
+            }
+        }
         return size;
     }
 
     void linked_list::insert(const std::string input, unsigned int location) {
-
-        node *previous = NULL;
-        node *current;
-            node *temporary = new node(input);
-        current = head;
-        if(head== NULL){
-            head = temporary;
-            tail = temporary;
-        }
-        for(int i=0; i<location; ++i){
-            previous = temporary;
-            current = current->next;
-        }
-if(previous){ // if it does exist set it to temporary
-    previous->next = temporary;
-    temporary->next = current;
-
-}
-
-        else{
-            head= temporary;
-            temporary->next = current;
-        }
-        delete temporary;
+node* previous = NULL;
+        node* tmp1 = head;
+  node* tmp = new node(input);
+  for(int i=0 ; i<location; i++){
+      previous = tmp1;
+      tmp1=tmp1->next;
+  }
+  if(previous){
+      previous->next = tmp;
+      tmp->next = tmp1;
+  }
+  if(location ==0){
+      head = tmp;
+      head->next = tmp1;
+  }
     }
 
     void linked_list::append(const std::string input) {
-          node* tmp = head;
-    while(tmp->next != nullptr){
-        tmp = tmp->next;
-    }
-    tmp->next = new node(input);
-    tail = tmp->next;
-    tail->next = NULL;
-    }
-
-    void linked_list::remove(unsigned location) {
-        node *previous = NULL;
-        node *current;
-        current = head;
-        for(int i=0; i<location; ++i) {
-                previous = current;
+        node *current = head;
+        if (head == NULL) {
+            node *first = new node(input);
+            head = first;
+            tail = first;
+        }
+        else {
+            while (current->next != NULL) {
                 current = current->next;
             }
-            if(previous){
-                previous->next = current->next; // unlinks the node
-            delete current;
+                node *tmp = new node(input);
+                current->next = tmp;
+                tmp->next = NULL;
+                tail = tmp;
+            }
+}
+
+    void linked_list::remove(unsigned location) {
+        node *prev = NULL;
+        node* current = head;
+        for(int i=0; i<location; i++){
+            prev = current;
+            current = current->next;
         }
-        else{
-            head= current->next;
-            delete current;
+        if(prev){
+            prev->next = current->next;
+            current = NULL;
+        }
+        if(location>listSize()){
+            throw 0;
+        }
+        else if(!prev){
+            head = current->next;
         }
         }
 
 
     std::ostream& operator<<(std::ostream &stream, linked_list &RHS) {
-unsigned size = linked_list::listSize();
+int size = RHS.listSize();
 stream<< "Linked List: ";
 for(int i=0; i<size;i++) {
     stream << RHS.get_value_at(i);
@@ -147,41 +142,39 @@ for(int i=0; i<size;i++) {
         return stream;
     }
 
-    void linked_list::sort() {//wikipedia sort function pseudocode
-int size;
-size = listSize();
-std::string tmp;
-for(unsigned j=0; j< size-1; j++){
-std::string minimum;
-  minimum=  get_value_at(j); //J becomes the minimum value, j is the beginning of the linked list. using the get_value_at function made below
-for(int k=j+1; k<size; k++){//value ahead of J so that it can compare one vs the one after it
-    if(get_value_at(k)<minimum){//Compares the minimum value(j) with the value ahead of it, if passes minimum = k, the value ahead of the current minimum
-        minimum = get_value_at(k);
-    }
-    if(minimum!=get_value_at(j)){// if it did get swapped then this is how you fully swap the whole thing.
-std::string tempj = get_value_at(j);
-std::string tempk = get_value_at(k);
-remove(k);
-insert(tempk, k);
-remove(j);
-insert(tempj,j);
+    void linked_list::sort() { //Wikipedia based change
 
-    }
-}
-}
+     int size;
+     size= listSize();
+     for(unsigned a =0; a<size-1; a++){
+         unsigned minimum=a;
+         for(unsigned b=a+1; b<size; b++){
+             if(get_value_at(minimum)>get_value_at(b)){ //compares thru the whole linked list
+                 minimum=b;
+             }
+         }
+         if(minimum!=a){//This will now sort
+             std::string tempb(get_value_at(minimum));
+             std::string tempa(get_value_at(a));
+             remove(a);
+             insert(tempb,a);
+             remove(minimum);
+             insert(tempa,minimum);
+         }
+     }
 
     }
 
-    std::string linked_list::get_value_at(unsigned location) const {
-std::string value =0;
-node* current = head;
-for(int i=0; i<location; i++){
-    current= current->next;
-}
-if(head == NULL){
-    throw "ERROR, there is no links on the list";
-}
-value = current->data;
-return value;
+        std::string linked_list::get_value_at(unsigned location) const {
+            std::string value;
+            node *current = head;
+            for (int i = 0; i < location; i++) {
+                current = current->next;
+            }
+            if (head == NULL) {
+                throw "ERROR, there is no links on the list";
+            }
+            value = current->data;
+            return value;
+        }
     }
-}
