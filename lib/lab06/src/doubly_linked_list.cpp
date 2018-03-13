@@ -47,7 +47,19 @@ return get_data(position); // Not sure if this is correct
     }
 
     unsigned doubly_linked_list::size() {
-
+int size =0;
+node* current = head;
+if(is_empty()){
+    return 0;
+}
+else{
+    while(current!= NULL){
+        size++;
+        current = current->next;
+        current->prev=current;
+    }
+}
+return size;
     }
 
     bool doubly_linked_list::is_empty() {
@@ -58,14 +70,81 @@ return false;
     }
 
     void doubly_linked_list::append(int input) {
+node* current = head;
+if(head==NULL){
+    node* first = new node(input);
+    head = first;
+    tail = first;
+}
+else{
+    while(current->next!=NULL){
+        current = current->next;
+        current->prev=current;
+    }
+    node* tmp = new node(input);
+    current->next = tmp;
+    current->prev=current; // Not sure if i should do this.
+    tmp->next=NULL;
+    tmp->prev=current;
 
+}
     }
 
     void doubly_linked_list::insert(int input, unsigned int location) {
-
+node* previ = NULL;
+node *current=head;
+node* tmp = new node(input);
+if(head == NULL){
+    head = tmp;
+    tail = tmp;
+}
+else if(head !=NULL){
+    for (int i = 0; i < location; i++) {
+        previ= current;
+        current = current->next;
+        current->prev = previ;
+    }
+}
+if(current!=NULL){//insert between previous and current
+            previ->next =  tmp;
+            tmp->prev = previ;
+            tmp->next = current;
+            current->prev= tmp;
+        }
+else{// insert at the tail, basically appending
+    previ->next = current;
+    current->prev=previ;
+    current->next = tmp;
+    tmp->next = NULL;
+    tmp->prev = current;
+}
     }
 
     void doubly_linked_list::remove(unsigned location) {
+node* current = head;
+node* prev =NULL;
+        if(is_empty()){
+    throw "ERROR,can not remove an empty linked list ";
+}
+if(location >size()){
+    throw"ERROR, can not have a location higher than the size of the linked list";
+}
+for(int i=0; i<location; i++){
+
+            prev = current;
+
+            current = current->next;
+            current->prev=prev;
+        }
+        if(prev){
+            prev->next = current->next;
+            current->next->prev= prev;
+            current = NULL;
+        }
+        else if(!prev){
+            head = current->next;
+            current->prev= NULL;
+        }
 
     }
 
