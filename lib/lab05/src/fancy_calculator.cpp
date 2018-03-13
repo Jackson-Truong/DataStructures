@@ -15,10 +15,9 @@ namespace lab5{
             TempArr[size] = *it;
             size++;
         }
+        for(int i=0; i<size; i++){
 
-        for(int i=0; i<size; i++){ // for loop
-
-            if(TempArr[i] == " "){      //this will get rid of white spaces
+            if(TempArr[i] == " "){
                 i++;
             }
 
@@ -27,17 +26,17 @@ namespace lab5{
                 infix++;
             }
 
-            if(i!= size-1 && !is_number(TempArr[i])){ //enqueues operators
+            if(i!= size-1 && !is_number(TempArr[i])){
                 infix_expression.enqueue(TempArr[i]);
                 infix++;
             }
 
-            if(i!=size-1 && is_number(TempArr[i]) && !is_number(TempArr[i+1]) ){  //checks the next element in the array, if they are not both numbers then it will enqueue the ith element
+            if(i!=size-1 && is_number(TempArr[i]) && !is_number(TempArr[i+1]) ){
                 infix_expression.enqueue(TempArr[i]);
                 infix++;
             }
 
-            if(i!=size-1 && is_number(TempArr[i]) && is_number(TempArr[i+1])){    //Operate will find where the operators are inside of the input_expression
+            if(i!=size-1 && is_number(TempArr[i]) && is_number(TempArr[i+1])){
                 Operate=i;
                 if(Operate == size-2){
                     Operate=Operate+2;
@@ -46,13 +45,13 @@ namespace lab5{
                     Operate=Operate+3;
                 }
                 if(Operate != size) {
-                    while (Operate != size - 1 && is_number(TempArr[Operate])) {      //position of operator
+                    while (Operate != size - 1 && is_number(TempArr[Operate])) {
                         Operate++;
-                    }// For some reason ) is giving me a number so i changed my bool is_number statement
+                    }
                 }
                 std::string int_temp;
                 for(int z=i; z < Operate; z++){
-                    int_temp += TempArr[i++];      //concatenates all of the numbers there until it reaches operate
+                    int_temp += TempArr[i++];
                 }
                 i = Operate-1;
                 infix_expression.enqueue(int_temp);
@@ -61,7 +60,43 @@ namespace lab5{
         }
     }
     void calculator::convert_to_postfix(lab5::queue infix_expression) {
+        lab5::stack stack;
+        std::string current_token;
+        while (!infix_expression.isEmpty()) {
+            current_token = infix_expression.top();
+            infix_expression.dequeue();
 
+            if (is_number(current_token)){
+                postfix_expression.enqueue(current_token);
+            }
+
+            if (is_operator(current_token)){
+                while (!stack.isEmpty() && operator_priority(current_token) <= operator_priority(stack.top()) && stack.top() != "(") {
+                    postfix_expression.enqueue(stack.top());// If the stack isn't empty it must check the priority
+                    stack.pop();
+                }
+                stack.push(current_token);
+            }
+            if (current_token == "(") { //Must automatically push this inside
+                stack.push(current_token);
+            }
+
+            if (current_token == ")") { // This will enqueue everything until it reaches the "("
+                while (stack.top() != "(") {
+                    postfix_expression.enqueue(stack.top());
+                    stack.pop();
+                }
+                stack.pop();
+            }
+        }
+
+        while (!stack.isEmpty()) {     //makes sure the stack gets empty before the end of the whole conversion
+            if(stack.top()=="(") {
+                stack.pop();
+            }
+            postfix_expression.enqueue(stack.top());
+            stack.pop();
+        }
     }
 
     calculator::calculator() {
@@ -85,12 +120,79 @@ namespace lab5{
     }
 
     int calculator::calculate() {
-        return 0;
+        int answ =0;
+        int calc =0;
+        lab5::stack final_stack;
+        lab5::queue postfixCopy;
+        postfixCopy = postfix_expression;
+        while(!postfixCopy.isEmpty()) {
+            if (is_number(postfixCopy.top())) {
+                final_stack.push(postfixCopy.top()); // I use another lifo to stack the operators
+                postfixCopy.dequeue();
+            }
+            else if (is_operator(postfixCopy.top())) {
+                std::string tempOP = postfixCopy.top();
+                postfixCopy.dequeue();
+                int temp1 = std::stoi(final_stack.top());// SHould pop two operators to calculate
+                final_stack.pop();
+                int temp2 = std::stoi(final_stack.top());
+                final_stack.pop();
+                if(tempOP == "^"){
+                    calc = temp2 ^ temp1;
+                    std::string hi = std::to_string(calc);
+                    final_stack.push(hi);
+                }
+               else if(tempOP == "%"){
+                    calc = temp2 % temp1;
+                    std::string hi =  std::to_string(calc);
+                    final_stack.push(hi);
+                }
+               else if (tempOP == "/") {
+                    calc = temp2 / temp1;
+                    std::string hi = std::to_string(calc);
+                    final_stack.push(hi);
+                }
+                else if (tempOP == "*"){
+                    calc = temp2 * temp1;
+                    std::string hi = std::to_string(calc);
+                    final_stack.push(hi);
+                }
+                else if(tempOP == "+"){
+                    calc = temp2 + temp1;
+                    std::string hi = std::to_string(calc);
+                    final_stack.push(hi);
+                }
+                else if(tempOP == "-"){
+                    calc = temp2 - temp1;
+                    std::string hi = std::to_string(calc);
+                    final_stack.push(hi);
+                }
+            }
+        }
+        answ = std::stoi(final_stack.top());
+        return answ;
     }
 
     std::ostream &operator<<(std::ostream &stream, calculator &RHS) {
+        unsigned infixSize = RHS.infix_expression.queueSize();
+        unsigned postfixSize = RHS.postfix_expression.queueSize();
+        stream << std::string("Infix: ");
+        for (int i = 0; i < infixSize; i++) {
+            stream << RHS.infix_expression.top();
+            stream << std::string(", ");
+            RHS.infix_expression.dequeue();
+        }
+        stream << std::string("\n");
+        stream << std::string("Postfix: ");
+        for (int i = 0; i < postfixSize; i++) {
+            stream << RHS.postfix_expression.top();
+            stream << std::string(", ");
+            RHS.postfix_expression.dequeue();
+        }
+        stream << std::string("\n");
         return stream;
     }
+
 
 
     // AUXILIARY FUNCTIONS

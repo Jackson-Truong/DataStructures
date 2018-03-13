@@ -71,6 +71,7 @@ return false;
 
     void doubly_linked_list::append(int input) {
 node* current = head;
+node*previous = NULL;
 if(head==NULL){
     node* first = new node(input);
     head = first;
@@ -78,12 +79,13 @@ if(head==NULL){
 }
 else{
     while(current->next!=NULL){
+        previous = current;
         current = current->next;
-        current->prev=current;
+        current->prev=previous;
     }
     node* tmp = new node(input);
     current->next = tmp;
-    current->prev=current; // Not sure if i should do this.
+    current->prev=previous;
     tmp->next=NULL;
     tmp->prev=current;
 
@@ -149,7 +151,23 @@ for(int i=0; i<location; i++){
     }
 
     doubly_linked_list doubly_linked_list::split(unsigned position) {
-
+node* pre = NULL;
+node* current = head;
+node* tmptail=  NULL;
+node* tmphead = NULL;
+        if(is_empty()){
+            throw "ERROR,can not remove an empty linked list ";
+        }
+        if(position >size()){
+            throw"ERROR, can not have a location higher than the size of the linked list";
+        }
+for(int i=0; i<position; i++){
+    pre = current;
+    current = current->next;
+    current->prev= pre;
+}
+\
+        //Not sure how to truncate the original linked list and return the split off linked list
     }
 
     doubly_linked_list doubly_linked_list::split_set(unsigned position_1, unsigned position_2) {
