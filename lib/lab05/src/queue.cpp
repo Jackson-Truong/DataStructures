@@ -8,11 +8,12 @@ namespace lab5{
     }
 
     queue::queue(const queue &original) {
-        queue temporary = original;
-        for (int i = 0; i < original.queueSize(); i++) {
-            storage_structure.append(temporary.top());
-            temporary.dequeue();
-        }
+queue temp;
+temp = original;
+for(int i=0; i<original.queueSize();i++){
+    storage_structure.append(temp.top());
+    temp.dequeue();
+}
     }
 
     queue::~queue() {
@@ -22,10 +23,12 @@ namespace lab5{
     }
 
     queue &queue::operator=(const queue &RHS) {
-        for(int i=0;i<storage_structure.listSize(); i++){
+        for(int i=0;i<RHS.queueSize(); i++){
             this->storage_structure.append(RHS.storage_structure.get_value_at(i));
         }
+        return *this;
     }
+
 
     bool queue::isEmpty() const {
         if(storage_structure.isEmpty()){

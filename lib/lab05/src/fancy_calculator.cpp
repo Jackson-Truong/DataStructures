@@ -21,7 +21,7 @@ namespace lab5{
                 i++;
             }
 
-            else if(i==size-1){
+            if(i==size-1){
                 infix_expression.enqueue(TempArr[i]);
                 infix++;
             }
@@ -38,20 +38,14 @@ namespace lab5{
 
             if(i!=size-1 && is_number(TempArr[i]) && is_number(TempArr[i+1])){
                 Operate=i;
-                if(Operate == size-2){
-                    Operate=Operate+2;
-                }
-                if(Operate == size-3){
-                    Operate=Operate+3;
-                }
                 if(Operate != size) {
-                    while (Operate != size - 1 && is_number(TempArr[Operate])) {
+                    while (Operate != size  && is_number(TempArr[Operate])) {
                         Operate++;
                     }
                 }
                 std::string int_temp;
-                for(int z=i; z < Operate; z++){
-                    int_temp += TempArr[i++];
+                for(int z=i; z < Operate; z++) {
+                        int_temp += TempArr[i++];
                 }
                 i = Operate-1;
                 infix_expression.enqueue(int_temp);
@@ -65,38 +59,34 @@ namespace lab5{
         while (!infix_expression.isEmpty()) {
             current_token = infix_expression.top();
             infix_expression.dequeue();
-
-            if (is_number(current_token)){
+            if (is_number(current_token)) {
                 postfix_expression.enqueue(current_token);
             }
-
-            if (is_operator(current_token)){
-                while (!stack.isEmpty() && operator_priority(current_token) <= operator_priority(stack.top()) && stack.top() != "(") {
+            if (is_operator(current_token)) {
+                while (!stack.isEmpty() && operator_priority(current_token) <= operator_priority(stack.top()) && stack.top() != "(" ) {
                     postfix_expression.enqueue(stack.top());// If the stack isn't empty it must check the priority
-                    stack.pop();
-                }
+                        stack.pop();
+                    }
                 stack.push(current_token);
             }
-            if (current_token == "(") { //Must automatically push this inside
-                stack.push(current_token);
+            if (current_token == "(") {
+                    stack.push(current_token);
             }
-
-            if (current_token == ")") { // This will enqueue everything until it reaches the "("
+            if (current_token == ")") {
                 while (stack.top() != "(") {
                     postfix_expression.enqueue(stack.top());
                     stack.pop();
                 }
                 stack.pop();
             }
-        }
-
+            }
         while (!stack.isEmpty()) {     //makes sure the stack gets empty before the end of the whole conversion
-            if(stack.top()=="(") {
+                if (stack.top() == "(") {
+                    stack.pop();
+                }
+                postfix_expression.enqueue(stack.top());
                 stack.pop();
             }
-            postfix_expression.enqueue(stack.top());
-            stack.pop();
-        }
     }
 
     calculator::calculator() {
@@ -138,7 +128,15 @@ namespace lab5{
                 int temp2 = std::stoi(final_stack.top());
                 final_stack.pop();
                 if(tempOP == "^"){
-                    calc = temp2 ^ temp1;
+                    int temp3 = 1;
+                    if(temp1 == 0){
+                        std::string hi = std::to_string(temp3);
+                        final_stack.push(hi);
+                    }
+                    for(int i=1; i<=temp1;i++){
+                        temp3 *= temp2;
+                    }
+                    calc = temp3;
                     std::string hi = std::to_string(calc);
                     final_stack.push(hi);
                 }
@@ -206,7 +204,7 @@ namespace lab5{
         return false;
     }
     bool is_operator(std::string input_string){
-        if (input_string == "+" || input_string == "-" || input_string == "*" || input_string == "/" || input_string == "(" || input_string == ")"|| input_string == "^"|| input_string == "%") {
+        if (input_string == "+" || input_string == "-" || input_string == "*" || input_string == "/" || input_string == "^"|| input_string == "%") {
             return true;
         }
         return false;

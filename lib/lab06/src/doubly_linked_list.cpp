@@ -38,8 +38,7 @@ for(int i=0; i<position; i++){
 if(head ==NULL){
     throw"ERROR, there is no links in this list";
 }
-int value = 0;
-value = current->data;
+      int value =  current->get_data();
 return value;
     }
 
