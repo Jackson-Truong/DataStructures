@@ -358,7 +358,58 @@ second->next = firstnext;
 
     void doubly_linked_list::swap_set(unsigned location_1_start, unsigned location_1_end, unsigned location_2_start,
                                       unsigned location_2_end) {
-/*
+node*onestart = head;
+node*oneend = head;
+node*twostart = head;
+node*twoend = head;
+        unsigned count=0;
+if(location_1_start > location_1_end){ //swaps location start and end just in case
+   unsigned temp = location_1_end;
+   location_1_end = location_1_start;
+   location_1_start = temp;
+}
+if(location_2_start>location_2_end){ // same thing but with location 2
+    unsigned temp = location_2_end;
+    location_2_end = location_2_start;
+    location_2_start = temp;
+}
+if(location_1_start>location_2_start||location_1_end>location_2_start){ // assuming that you do not need to check if loc>loc2end because the if statement above will already swap it
+    unsigned tempstart = location_2_start;
+    unsigned tempend = location_2_end;
+    location_2_start = location_1_start;
+    location_2_end = location_1_end;
+    location_1_start = tempstart;
+    location_1_end = tempend;
+}
+while(count!=location_1_start){
+    onestart = onestart->next;
+    count++;
+}
+count = 0;
+while(count!= location_1_end){
+    oneend = oneend->next;
+    count++;
+}
+count =0;
+while(count!= location_2_start){
+    twostart = twostart->next;
+    count++;
+}
+count =0;
+while(count!=location_2_end){
+    twoend = twoend->next;
+    count++;
+}
+node* onestartprev = onestart->prev;
+node* oneendnext = oneend->next;
+node* twostartprev = twostart->prev;
+node* twoendnext = twoend->next;
+if(onestartprev==NULL&& twoendnext!=NULL){ //swapping head with any element that is not tail
+
+}
+// if swap from head to tail, swap head any element(head next to head included), swap any elemen next to each other, swap any elem in link, tail with any elem(include tail next to tail),
+
+        /*
  * 8 pointers
  * a-1->next = c
  * B+1 ->previous = c
@@ -373,7 +424,9 @@ second->next = firstnext;
     }
 
     void doubly_linked_list::sort() {
+
         // Implement Insertion Sort
+
     }
 
     doubly_linked_list doubly_linked_list::operator+(const doubly_linked_list &rhs) const {
