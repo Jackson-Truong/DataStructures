@@ -6,9 +6,7 @@ class Lab06Fixture : public ::testing::Test {
 protected:
     virtual void SetUp() {
     }
-
     virtual void TearDown() {
     }
-
 public:
 };

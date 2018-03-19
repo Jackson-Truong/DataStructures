@@ -211,10 +211,10 @@ namespace lab5{
     }
     int operator_priority(std::string operator_in){
         int priority;
-        if(operator_in=="+"||operator_in=="-"){
+        if(operator_in=="+"||operator_in == "-"){
             priority=1;
         }
-        else if (operator_in=="*"||operator_in=="/"||operator_in == "%") {
+        else if (operator_in=="*"||operator_in == "/"||operator_in == "%") {
             priority = 2;
 
         }
