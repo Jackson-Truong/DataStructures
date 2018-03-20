@@ -17,7 +17,6 @@ namespace lab5{
             for(int i=0; i<size; i++){ // for loop
 
                 if(TempArr[i] == " "){      //this will get rid of white spaces
-                    i++;
                 }
 
                 else if(!is_number(TempArr[i])){
