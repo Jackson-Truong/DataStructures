@@ -267,7 +267,6 @@ if(firstprev ==NULL && secondnext !=NULL){// Makes sure that this head swaps wit
 second->next = first;
 first->prev = second;
 first->next = secondnext;
-second->next = first;
 second->prev = NULL; // Have to make second previous = to NULL, just like normal head nodes
 head =second; // Have to reinitialize second as the head
     }
@@ -405,9 +404,85 @@ node* oneendnext = oneend->next;
 node* twostartprev = twostart->prev;
 node* twoendnext = twoend->next;
 if(onestartprev==NULL&& twoendnext!=NULL){ //swapping head with any element that is not tail
+if(oneendnext=twostartprev){//This means that the sets are next to each other
+    onestartprev = twostart;
+    oneend->next = twoendnext;
+    twoend->next = onestart;
+    twostart->prev = NULL;
+    head = twostart;
+    }
+    else{ // They are not next to eachother but you are still swapping head
+    oneend->next = twoendnext;
+    twoend->next = oneendnext;
+    onestart->prev = twostartprev;
+    twostart->prev=NULL;
+    twostartprev->next = onestart;
+    twoendnext->prev=oneend;
+    oneendnext->prev=twoend;
+    head = twostart;
 
 }
-// if swap from head to tail, swap head any element(head next to head included), swap any elemen next to each other, swap any elem in link, tail with any elem(include tail next to tail),
+}
+else if(onestartprev == NULL &&twoendnext == NULL ){ //This means that you are swapping head and tail
+if(oneendnext == twostart){ // They are next to each ohter
+    twoend->next = onestart;
+    onestart->prev = twoend;
+    oneend->next = NULL;
+    twostart->prev = NULL;
+    head = twostart;
+    tail = oneend;
+}
+
+else{
+    onestart->prev= twostartprev;
+    oneend->next = NULL;
+    twostartprev->next = onestart;
+    twostart->prev = NULL;
+    twoend->next = oneendnext;
+    oneendnext->prev = twoend;
+    head = twostart;
+    tail = oneend;
+}
+}
+else if(oneendnext == twostart && onestartprev !=NULL && twoendnext !=NULL){ // swaps sets that are not head or tail
+    onestartprev->next = twostart;
+    twostart->prev = onestartprev;
+    twoend->next = onestart;
+    onestart->prev = twoend;
+    oneend->next = twoendnext;
+    twoendnext->prev = oneend;
+}
+else if(twoendnext==NULL && onestartprev !=NULL){// This means you are swapping tail with an element that is not head
+    if(oneendnext == twostart){ //swapping sets next to tail
+        onestartprev->next = twostart;
+        twostart->prev = onestartprev;
+        twoend->next = onestart;
+        onestart->prev = twoend;
+        oneend->next = NULL; // THis makes this the tail
+        tail = oneend;
+    }
+else{
+        onestartprev->next = twostart;
+        twostart->prev=onestartprev;
+        twoend->next = oneendnext;
+        oneendnext->prev = twoend;
+        twostartprev->next = onestart;
+        onestartprev->prev = twostartprev;
+        oneend->next = NULL;
+        tail = oneend;
+    }
+}
+else{ // They are just random sets in the linked list
+    onestartprev->next = twostart;
+    oneendnext->prev = twoend;
+    twostartprev->next = onestart;
+    twoendnext->prev = oneend;
+    onestart->prev=twostartprev;
+    twostart->prev= onestartprev;
+    oneend->next = twoendnext;
+    twoend->next = oneendnext;
+}
+//   tail with any elem(include tail next to tail),
 
         /*
  * 8 pointers
@@ -424,7 +499,7 @@ if(onestartprev==NULL&& twoendnext!=NULL){ //swapping head with any element that
     }
 
     void doubly_linked_list::sort() {
-
+node* current = head;
         // Implement Insertion Sort
 
     }
