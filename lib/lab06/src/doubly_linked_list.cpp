@@ -498,24 +498,24 @@ else{ // They are just random sets in the linked list
 
     void doubly_linked_list::sort() {
         if(is_empty()){
-            throw "Cannot sort an empty list";
+            throw "ERROR";
         }
-        node* prev = head;
-        int loc_prev = 0;
-        node* curr = prev->next;
-        int loc_curr = 1;
-        while(curr != NULL){    // If curr==NULL then no more numbers to sort
-            node* temp = curr;  // Will also return if only one value in list
-            curr = curr->next;
-            int tmp_loc1 = loc_curr;
-            int tmp_loc2 = loc_prev;
+        node* current = head;
+        int currentLoc = 0;
+        node* checker = current->next;
+        int checkerLoc = 1;
+        while(checker != NULL){    // If curr==NULL then no more numbers to sort
+            node* temp = checker;  // Will also return if only one value in list
+            checker = checker->next;
+            int temp1 = currentLoc;
+            int temp2 = checkerLoc;
             while(temp->prev!= NULL && temp->get_data() < temp->prev->get_data()){
-                swap(tmp_loc1, tmp_loc2);
-                tmp_loc1--;
-                tmp_loc2--;
+                swap(temp1, temp2);
+                temp1--;
+                temp2--;
             }
-            loc_curr++;
-            loc_prev++;
+            temp1++;
+            temp2++;
         }
     }
 
