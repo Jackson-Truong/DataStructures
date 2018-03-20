@@ -36,3 +36,4 @@ TEST(Lab06Fixture, sort){
     EXPECT_EQ(9, hi.get_data(9));
     EXPECT_EQ(10, hi.get_data(10));
 }
+

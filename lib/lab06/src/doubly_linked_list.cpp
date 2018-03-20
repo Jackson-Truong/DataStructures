@@ -25,11 +25,11 @@ for(int i=0; i<vector_input.size();i++){
     doubly_linked_list::doubly_linked_list(const doubly_linked_list &original) {
         node *iterator ;
         iterator= original.head;//copies head
-        for (int i = 0; i < original.size(); i++) {
-            node* copy = new node(iterator->get_data());
-            copy->next = iterator->next;
-            copy->prev = iterator->prev;
-            iterator= iterator->next;
+        node* temp = head;
+        int count =0;
+        for (iterator; iterator; iterator=iterator->next) {
+            insert(iterator->get_data(), count);
+count++;
         }
         tail = original.tail;
     }
@@ -519,7 +519,18 @@ else{ // They are just random sets in the linked list
     }
 
     doubly_linked_list& doubly_linked_list::operator=(const doubly_linked_list &rhs) {
-
+node* current = rhs.head;
+if(this == &rhs){
+    return *this;
+}
+while(current->next !=nullptr){
+    node* copy = new node(current->get_data());
+    current = current->next;
+    if(head == NULL){
+        node* temp = new node(current->get_data());
+    }
+}
+return *this;
     }
 
     doubly_linked_list& doubly_linked_list::operator+=(const doubly_linked_list &rhs) {
