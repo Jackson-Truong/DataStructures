@@ -234,34 +234,32 @@ return second;
 
     void doubly_linked_list::swap(unsigned position_1, unsigned position_2) { //void swap(unsigned position_1, unsigned position_2)`: Swap the node located at position 1 with the node located at position 2.
 node * first = head;
-node * firstprev= NULL;
 node * second = head;
-node *secondprev = NULL;
-node *firstnext = first->next;
-node *secondnext = second->next;
 unsigned count1=0;
 unsigned count2=0;
-if(position_1>position_2){ //I am going to swap the two positions assuming that they accidently did this
-    unsigned temp = position_2;
-    position_2= position_1;
-    position_1=temp;
+        if(position_1>position_2){ //I am going to swap the two positions assuming that they accidently did this
+            unsigned temp = position_2;
+            position_2= position_1;
+            position_1=temp;
+        }
+        if(position_1==position_2){
+throw "ERROR";
+        }
+while(count1!=position_1){
+            count1++;
+    first= first->next;
 }
-if(position_1==position_2){
-    position_2 +=1;//adds 1 to position_2 to assume that they actually wanted to swap two elements next to each other
-
-}
-while(count1!=position_1){ // gets to the node at position 1
-    first = first->next;
-    count1++;
-}
-while(count2!=position_2){ // gets to the node at position 2
+while(count2!=position_2){
+            count2++;
     second = second->next;
-    count2++;
 }
-firstprev= first->prev; // this reinitializes firstprev
-firstnext = first->next; //reinitializes firstnext
-secondprev = second->prev; //reinitializes second prev
-secondnext = second->next;// reinitializes second next
+
+
+
+node*firstprev= first->prev; // this reinitializes firstprev
+node*firstnext = first->next; //reinitializes firstnext
+node*secondprev = second->prev; //reinitializes second prev
+node*secondnext = second->next;// reinitializes second next
 if(firstprev ==NULL && secondnext !=NULL){// Makes sure that this head swaps with an element that is not tail
     if(firstnext==second){//This means that they are next to each other
 second->next = first;
@@ -334,7 +332,7 @@ else if(firstnext==second&& firstprev !=NULL && secondnext !=NULL){//This swaps 
 else{ //They are just random elements in the linked list
 firstprev->next =second;
 firstnext->prev= second;
-secondprev->next = first;
+    secondprev->next = first;
 secondnext->prev = first;
 first->prev= secondprev;
 second->prev = firstprev;
@@ -499,9 +497,26 @@ else{ // They are just random sets in the linked list
     }
 
     void doubly_linked_list::sort() {
-node* current = head;
-        // Implement Insertion Sort
-
+        if(is_empty()){
+            throw "Cannot sort an empty list";
+        }
+        node* prev = head;
+        int loc_prev = 0;
+        node* curr = prev->next;
+        int loc_curr = 1;
+        while(curr != NULL){    // If curr==NULL then no more numbers to sort
+            node* temp = curr;  // Will also return if only one value in list
+            curr = curr->next;
+            int tmp_loc1 = loc_curr;
+            int tmp_loc2 = loc_prev;
+            while(temp->prev!= NULL && temp->get_data() < temp->prev->get_data()){
+                swap(tmp_loc1, tmp_loc2);
+                tmp_loc1--;
+                tmp_loc2--;
+            }
+            loc_curr++;
+            loc_prev++;
+        }
     }
 
     doubly_linked_list doubly_linked_list::operator+(const doubly_linked_list &rhs) const {

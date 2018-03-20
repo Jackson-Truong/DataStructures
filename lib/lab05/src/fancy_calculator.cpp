@@ -6,51 +6,39 @@ namespace lab5{
     bool is_number(std::string input_string);
     bool is_operator(std::string input_string);
     int operator_priority(std::string operator_in);
-    void calculator::parse_to_infix(std::string &input_expression) {
-        int size = 0;
-        int Operate = 0;
-        int infix = 0;
-        std::string TempArr[input_expression.size()];
-        for(std::string::iterator it = input_expression.begin(); it != input_expression.end(); ++it) {
-            TempArr[size] = *it;
-            size++;
-        }
-        for(int i=0; i<size; i++){
-
-            if(TempArr[i] == " "){
-                i++;
+        void calculator::parse_to_infix(std::string &input_expression) {
+            int size = 0;
+            std::string TempArr[input_expression.size()];
+            for(std::string::iterator it = input_expression.begin(); it != input_expression.end(); ++it) {
+                TempArr[size] = *it;
+                size++;
             }
 
-            if(i==size-1){
-                infix_expression.enqueue(TempArr[i]);
-                infix++;
-            }
+            for(int i=0; i<size; i++){ // for loop
 
-            if(i!= size-1 && !is_number(TempArr[i])){
-                infix_expression.enqueue(TempArr[i]);
-                infix++;
-            }
+                if(TempArr[i] == " "){      //this will get rid of white spaces
+                    i++;
+                }
 
-            if(i!=size-1 && is_number(TempArr[i]) && !is_number(TempArr[i+1]) ){
-                infix_expression.enqueue(TempArr[i]);
-                infix++;
-            }
-
-            if(i!=size-1 && is_number(TempArr[i]) && is_number(TempArr[i+1])){
-                Operate=i;
-                if(Operate != size) {
-                    while (Operate != size  && is_number(TempArr[Operate])) {
-                        Operate++;
+                else if(!is_number(TempArr[i])){
+                    infix_expression.enqueue(TempArr[i]);
+                }
+                else {
+                    int j= i;
+                    if(is_number(TempArr[i+1])){
+                        std::string concatenate;
+                        while(j<size && is_number(TempArr[j])){
+                            concatenate+=TempArr[j];
+                            j++;
+                        }
+                        infix_expression.enqueue(concatenate);
+                        i= j-1;
+                    }
+                    else{
+                        infix_expression.enqueue(TempArr[i]);
                     }
                 }
-                std::string int_temp;
-                for(int z=i; z < Operate; z++) {
-                        int_temp += TempArr[i++];
-                }
-                i = Operate-1;
-                infix_expression.enqueue(int_temp);
-                infix++;
-            }
+
         }
     }
     void calculator::convert_to_postfix(lab5::queue infix_expression) {

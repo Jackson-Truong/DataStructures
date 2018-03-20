@@ -94,7 +94,7 @@ namespace lab2 {
     void stringVector::sort() {//Test passed
 
         for(int x = (length -1); x>0; x--){ // Googled bubble algorithm sorting i'll be honest I referenced a lot of this function to an online algorithm site
-            for (int y=0; y<x; y++){
+            for (int y=0; y<x; y++){ // start at length -1 and decrement because thats the allocated size for the next for loop
                 if (data [y].compare(data[y+1])>0){
                   swap(unsigned(y),unsigned (y+1));//Uses the swap function
                 }

@@ -9,10 +9,7 @@ namespace lab4 {
     bool is_operator(std::string input_string);
     int operator_priority(std::string operator_in);
     void calculator::parse_to_infix(std::string &input_expression) {
-
         int size = 0;
-        int Operate = 0;
-        int infix = 0;
         std::string TempArr[input_expression.size()];
         for(std::string::iterator it = input_expression.begin(); it != input_expression.end(); ++it) {
             TempArr[size] = *it;
@@ -25,41 +22,23 @@ namespace lab4 {
                 i++;
             }
 
-            else if(i==size-1){
+            else if(!is_number(TempArr[i])){
                 infix_expression.enqueue(TempArr[i]);
-                infix++;
             }
-
-            if(i!= size-1 && !is_number(TempArr[i])){ //enqueues operators
-                infix_expression.enqueue(TempArr[i]);
-                infix++;
-            }
-
-            if(i!=size-1 && is_number(TempArr[i]) && !is_number(TempArr[i+1]) ){  //checks the next element in the array, if they are not both numbers then it will enqueue the ith element
-                infix_expression.enqueue(TempArr[i]);
-                infix++;
-            }
-
-            if(i!=size-1 && is_number(TempArr[i]) && is_number(TempArr[i+1])){    //Operate will find where the operators are inside of the input_expression
-                Operate=i;
-                if(Operate == size-2){
-                    Operate=Operate+2;
+            else {
+                int j= i;
+                if(is_number(TempArr[i+1])){
+                    std::string concatenate;
+                    while(j<size && is_number(TempArr[j])){
+                        concatenate+=TempArr[j];
+                        j++;
+                    }
+                    infix_expression.enqueue(concatenate);
+                    i= j-1;
                 }
-                if(Operate == size-3){
-                    Operate=Operate+3;
+                else{
+                    infix_expression.enqueue(TempArr[i]);
                 }
-                if(Operate != size) {
-                    while (Operate != size - 1 && is_number(TempArr[Operate])) {      //position of operator
-                        Operate++;
-                    }// For some reason ) is giving me a number so i changed my bool is_number statement
-                }
-                std::string int_temp;
-                for(int z=i; z < Operate; z++){
-                    int_temp += TempArr[i++];      //concatenates all of the numbers there until it reaches operate
-                }
-                i = Operate-1;
-                infix_expression.enqueue(int_temp);
-                infix++;
             }
         }
     }
@@ -189,7 +168,7 @@ temp = stream.get();
 
     // AUXILIARY FUNCTIONS
     bool is_number(std::string input_string) {
-        if (input_string >= "0" && input_string <= "999") {
+        if (input_string >= "0" && input_string <= "999999") {
             if (input_string == "+" || input_string == "-" || input_string == "*" || input_string == "/" || input_string == "(" || input_string == ")") {
                 return false;
             }
