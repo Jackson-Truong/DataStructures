@@ -250,10 +250,6 @@ for(int i=0 ; i<position_1; i++) {
 for(int i=0; i<position_2; i++) {
         second = second->next;
 }
-
-
-
-
 node*firstprev= first->prev; // this reinitializes firstprev
 node*firstnext = first->next; //reinitializes firstnext
 node*secondprev = second->prev; //reinitializes second prev
@@ -263,6 +259,7 @@ if(firstprev ==NULL && secondnext !=NULL){// Makes sure that this head swaps wit
 second->next = first;
 first->prev = second;
 first->next = secondnext;
+secondnext->prev = first;
 second->prev = NULL; // Have to make second previous = to NULL, just like normal head nodes
 head =second; // Have to reinitialize second as the head
     }

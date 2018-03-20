@@ -23,4 +23,15 @@ TEST(Lab06Fixture, sort){
     hi.append(2);
     hi.append(1);
     hi.sort();
+    EXPECT_EQ(0, hi.get_data(0));
+    EXPECT_EQ(1, hi.get_data(1));
+    EXPECT_EQ(2, hi.get_data(2));
+    EXPECT_EQ(3, hi.get_data(3));
+    EXPECT_EQ(4, hi.get_data(4));
+    EXPECT_EQ(5, hi.get_data(5));
+    EXPECT_EQ(6, hi.get_data(6));
+    EXPECT_EQ(7, hi.get_data(7));
+    EXPECT_EQ(8, hi.get_data(8));
+    EXPECT_EQ(9, hi.get_data(9));
+    EXPECT_EQ(10, hi.get_data(10));
 }
