@@ -235,8 +235,7 @@ return second;
     void doubly_linked_list::swap(unsigned position_1, unsigned position_2) { //void swap(unsigned position_1, unsigned position_2)`: Swap the node located at position 1 with the node located at position 2.
 node * first = head;
 node * second = head;
-unsigned count1=0;
-unsigned count2=0;
+
         if(position_1>=position_2){ //I am going to swap the two positions assuming that they accidently did this
             unsigned temp = position_2;
             position_2= position_1;
@@ -245,14 +244,13 @@ unsigned count2=0;
         if(position_1==position_2){
 throw "ERROR";
         }
-while(count1<position_1){
-            count1++;
-    first= first->next;
+for(int i=0 ; i<position_1; i++) {
+        first = first->next;
 }
-while(count2<position_2){
-            count2++;
-    second = second->next;
+for(int i=0; i<position_2; i++) {
+        second = second->next;
 }
+
 
 
 
@@ -504,7 +502,7 @@ else{ // They are just random sets in the linked list
         int currentLoc = 0;
         node* checker = current->next;
         int checkerLoc = 1;
-        while(checker != NULL){    // If checker==NULL then no more numbers to sort
+        while(checker != NULL&& checkerLoc <size()){    // If checker==NULL then no more numbers to sort
             node* temp = checker;
             checker = checker->next;
             int temp1 = currentLoc;

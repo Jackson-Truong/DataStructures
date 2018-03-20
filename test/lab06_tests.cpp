@@ -24,3 +24,16 @@ TEST(Lab06Fixture, sort){
     hi.append(1);
     hi.sort();
 }
+TEST(Lab06Fixture, sort2){
+    lab6::doubly_linked_list hi;
+    hi.append(5);
+    hi.append(8);
+    hi.append(2);
+    hi.append(4);
+    hi.append(1);
+    hi.append(3);
+    hi.append(7);
+    hi.append(6);
+    hi.append(0);
+    hi.sort();
+}
