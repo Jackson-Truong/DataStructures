@@ -237,7 +237,7 @@ node * first = head;
 node * second = head;
 unsigned count1=0;
 unsigned count2=0;
-        if(position_1>position_2){ //I am going to swap the two positions assuming that they accidently did this
+        if(position_1>=position_2){ //I am going to swap the two positions assuming that they accidently did this
             unsigned temp = position_2;
             position_2= position_1;
             position_1=temp;
@@ -245,11 +245,11 @@ unsigned count2=0;
         if(position_1==position_2){
 throw "ERROR";
         }
-while(count1!=position_1){
+while(count1<position_1){
             count1++;
     first= first->next;
 }
-while(count2!=position_2){
+while(count2<position_2){
             count2++;
     second = second->next;
 }
@@ -402,21 +402,20 @@ node* oneendnext = oneend->next;
 node* twostartprev = twostart->prev;
 node* twoendnext = twoend->next;
 if(onestartprev==NULL&& twoendnext!=NULL){ //swapping head with any element that is not tail
-if(oneendnext=twostartprev){//This means that the sets are next to each other
-    onestartprev = twostart;
-    oneend->next = twoendnext;
-    twoend->next = onestart;
-    twostart->prev = NULL;
-    head = twostart;
-    }
-    else{ // They are not next to eachother but you are still swapping head
-    oneend->next = twoendnext;
+if(oneendnext==twostartprev){//This means that the sets are next to each other
+    twoendnext->prev = oneend;
+    twoend->next =onestart;
+    twostartprev = NULL;
+    onestart->prev = twoend;
+}
+else{// They are not next to eachother but you are still swapping head
+    oneend->next =twoendnext;
     twoend->next = oneendnext;
     onestart->prev = twostartprev;
-    twostart->prev=NULL;
+    twostart->prev = NULL;
     twostartprev->next = onestart;
-    twoendnext->prev=oneend;
-    oneendnext->prev=twoend;
+    twoendnext->prev = oneend;
+    oneendnext->prev =twoend;
     head = twostart;
 
 }
@@ -432,14 +431,15 @@ if(oneendnext == twostart){ // They are next to each ohter
 }
 
 else{
-    onestart->prev= twostartprev;
-    oneend->next = NULL;
-    twostartprev->next = onestart;
-    twostart->prev = NULL;
+    oneend->next =twoendnext;
     twoend->next = oneendnext;
-    oneendnext->prev = twoend;
-    head = twostart;
-    tail = oneend;
+    onestart->prev = twostartprev;
+    twostart->prev = NULL;
+    twostartprev->next = onestart;
+    twoendnext->prev = oneend;
+    oneendnext->prev =twoend;
+head = twostart;
+
 }
 }
 else if(oneendnext == twostart && onestartprev !=NULL && twoendnext !=NULL){ // swaps sets that are not head or tail
@@ -504,18 +504,18 @@ else{ // They are just random sets in the linked list
         int currentLoc = 0;
         node* checker = current->next;
         int checkerLoc = 1;
-        while(checker != NULL){    // If curr==NULL then no more numbers to sort
-            node* temp = checker;  // Will also return if only one value in list
+        while(checker != NULL){    // If checker==NULL then no more numbers to sort
+            node* temp = checker;
             checker = checker->next;
             int temp1 = currentLoc;
             int temp2 = checkerLoc;
-            while(temp->prev!= NULL && temp->get_data() < temp->prev->get_data()){
-                swap(temp1, temp2);
+            while(temp1!= -1 && temp2!=-1 &&temp->prev!= NULL && temp->get_data() < temp->prev->get_data()){
+                swap(temp2, temp1);
                 temp1--;
                 temp2--;
             }
-            temp1++;
-            temp2++;
+            currentLoc++;
+            checkerLoc++;
         }
     }
 
