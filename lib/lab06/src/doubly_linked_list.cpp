@@ -23,15 +23,27 @@ for(int i=0; i<vector_input.size();i++){
     }
 
     doubly_linked_list::doubly_linked_list(const doubly_linked_list &original) {
-        node *iterator ;
-        iterator= original.head;//copies head
-        node* temp = head;
-        int count =0;
-        for (iterator; iterator; iterator=iterator->next) {
-            insert(iterator->get_data(), count);
-count++;
-        }
-        tail = original.tail;
+      node* copy = original.head;
+      if(copy==NULL){
+this->head = NULL;
+this->tail = NULL;
+      }
+else{
+          node* copier = new node(copy->get_data());
+          this->head = copier;
+          copy=copy->next;
+    while (copy != NULL) {
+        node *next = new node(copy->get_data());
+        next->prev = copier;
+        copier->next = next;
+        copier = next;
+        next = next->next;
+        copy = copy->next;
+
+    }
+    copier->next = NULL;
+    this->tail = copier;
+}
     }
 
     doubly_linked_list::~doubly_linked_list() {
@@ -513,9 +525,20 @@ else{ // They are just random sets in the linked list
             checkerLoc++;
         }
     }
-
+//`doubly_linked_list operator+(const doubly_linked_list &rhs) const`: Append the right doubly linked list to the right doubly linked list and return that new doubly linked list object.
     doubly_linked_list doubly_linked_list::operator+(const doubly_linked_list &rhs) const {
-
+        doubly_linked_list together;
+        node* current = head;
+        node* copy = rhs.head;
+        while(current!=NULL){
+            together.append(current->get_data());
+            current = current->next;
+        }
+        while(copy!=NULL){
+            together.append(copy->get_data());
+            copy = copy->next;
+        }
+        return together;
     }
 
     doubly_linked_list& doubly_linked_list::operator=(const doubly_linked_list &rhs) {
@@ -523,22 +546,40 @@ node* current = rhs.head;
 if(this == &rhs){
     return *this;
 }
-while(current->next !=nullptr){
-    node* copy = new node(current->get_data());
-    current = current->next;
-    if(head == NULL){
-        node* temp = new node(current->get_data());
-    }
+while(current!=NULL){
+this->append(current->get_data());
+        current = current->next;
+
 }
 return *this;
     }
-
+//`doubly_linked_list& operator+=(const doubly_linked_list &rhs)`: Append an entire doubly linked list to the end of an existing doubly linked list
     doubly_linked_list& doubly_linked_list::operator+=(const doubly_linked_list &rhs) {
+node* current = rhs.head;
+while(current!=NULL){
+    this->append(current->get_data());
+    current=current->next;
+}
+return *this;
 
     }
 
     bool doubly_linked_list::operator==(const doubly_linked_list &rhs) {
-
+node* current = head;
+node* rcurrent = rhs.head;
+if(this->size()>rhs.size() || this->size()<rhs.size()){
+    return false;
+}
+else{
+    while(current!=NULL && rcurrent!=NULL){
+        if(current->get_data() !=rcurrent->get_data()){
+            return false;
+        }
+        current = current->next;
+        rcurrent = rcurrent->next;
+    }
+    return true;
+}
     }
 
     std::ostream &operator<<(std::ostream &stream, doubly_linked_list &RHS) {
