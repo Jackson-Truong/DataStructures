@@ -583,11 +583,19 @@ else{
     }
 
     std::ostream &operator<<(std::ostream &stream, doubly_linked_list &RHS) {
-
+node* current = RHS.head;
+while(current!=NULL){
+    stream<<current->get_data()<<" ";
+    current= current->next;
+}
+return stream;
     }
 
     std::istream &operator>>(std::istream &stream, doubly_linked_list &RHS) {
-
+int val;
+stream>>val;
+RHS.append(val);
+return stream;
     }
 }
 
