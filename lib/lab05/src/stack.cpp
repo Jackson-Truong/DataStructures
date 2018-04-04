@@ -11,7 +11,7 @@ storage_structure.append(data);
     stack::stack(const stack &original) {
         stack temporary;
         temporary= original;
-        for (int i = 0; i < original.queueSize(); i++) {
+        for (int i = 0; i < original.stackSize(); i++) {
             storage_structure.append(temporary.top());
             temporary.pop();
         }
@@ -24,7 +24,7 @@ storage_structure.append(data);
     }
 
     stack &stack::operator=(const stack &RHS) {
-        for(int i=0;i<RHS.queueSize(); i++){
+        for(int i=0;i<RHS.stackSize(); i++){
             this->storage_structure.append(RHS.storage_structure.get_value_at(i));
         }
         return *this;
@@ -37,7 +37,7 @@ storage_structure.append(data);
         return false;
     }
 
-    unsigned stack::queueSize() const {
+    unsigned stack::stackSize() const {
         return storage_structure.listSize();
     }
 

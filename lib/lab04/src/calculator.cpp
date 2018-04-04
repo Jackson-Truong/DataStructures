@@ -11,18 +11,19 @@ namespace lab4 {
     void calculator::parse_to_infix(std::string &input_expression) {
         int size = 0;
         std::string TempArr[input_expression.size()];
+        std::string white;
         for(std::string::iterator it = input_expression.begin(); it != input_expression.end(); ++it) {
+            white = *it;
             TempArr[size] = *it;
             size++;
+            if(white == " "){      //this will get rid of white spaces
+    size--;
+            }
         }
 
         for(int i=0; i<size; i++){ // for loop
 
-            if(TempArr[i] == " "){      //this will get rid of white spaces
-
-            }
-
-            else if(!is_number(TempArr[i])){
+            if(!is_number(TempArr[i])){
                 infix_expression.enqueue(TempArr[i]);
             }
             else {
@@ -92,16 +93,23 @@ convert_to_postfix(infix_expression);
     }
 //Can turn the istream into a string then call the functions that you already wrote
 //documentation for stream operator
+
     std::istream &operator>>(std::istream &stream, calculator &RHS) {
+
         std::string temp= "";
         lab3::fifo infix_expression;
+        lab3::fifo copy;
+
         while(stream.peek()!= EOF){
-temp = stream.get();
-         }
-         RHS.parse_to_infix(temp);
+            temp = stream.get();
+        }
+
+        RHS.parse_to_infix(temp);
         RHS.convert_to_postfix(infix_expression);
+
         return stream; //store an expression from stdio
     }
+
     int lab4::calculator::calculate() {
         int answ =0;
         int calc =0;
@@ -149,20 +157,28 @@ temp = stream.get();
     std::ostream &operator<<(std::ostream &stream, calculator &RHS) {
         unsigned infixSize = RHS.infix_expression.size();
         unsigned postfixSize = RHS.postfix_expression.size();
+        lab3::fifo infix_copy;
+        lab3::fifo postfix_copy;
+        infix_copy = RHS.infix_expression;
+        postfix_copy = RHS.postfix_expression;
         stream << std::string("Infix: ");
         for (int i = 0; i < infixSize; i++) {
-            stream << RHS.infix_expression.top();
-            stream << std::string(", ");
-            RHS.infix_expression.dequeue();
+            stream <<infix_copy.top();
+            infix_copy.dequeue();
+            if(i<infixSize-1){
+                stream << std::string(",");
+            }
         }
         stream << std::string("\n");
         stream << std::string("Postfix: ");
         for (int i = 0; i < postfixSize; i++) {
-            stream << RHS.postfix_expression.top();
-            stream << std::string(", ");
-            RHS.postfix_expression.dequeue();
+            stream << postfix_copy.top();
+            postfix_copy.dequeue();
+            if(i<postfixSize-1){
+                stream << std::string(",");
+            }
+
         }
-        stream << std::string("\n");
         return stream;
     }
 
@@ -184,10 +200,10 @@ temp = stream.get();
         }
     int operator_priority(std::string operator_in){
         int priority;
-        if(operator_in=="+"||"-"){
+        if(operator_in=="+"||operator_in=="-"){
             priority=1;
         }
-        else if (operator_in=="*"||"/") {
+        else if (operator_in=="*"||operator_in=="/") {
             priority = 2;
 
         }

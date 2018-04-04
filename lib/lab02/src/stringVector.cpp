@@ -80,6 +80,7 @@ namespace lab2 {
 
             }
         }
+        return *this;
     }
 
     std::string &stringVector::operator[](unsigned position)const  { //Test Passed

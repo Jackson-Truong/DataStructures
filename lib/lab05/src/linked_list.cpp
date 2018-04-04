@@ -106,12 +106,12 @@ node* previous = NULL;
 
     void linked_list::remove(unsigned location) {
         node *prev = NULL;
-        node* current = head;
-        for(int i=0; i<location; i++){
+        node *current = head;
+        for (int i = 0; i < location; i++) {
             prev = current;
             current = current->next;
         }
-        if(prev){
+        if (prev) {
             prev->next = current->next;
             current = NULL;
         }
@@ -126,12 +126,12 @@ node* previous = NULL;
 
     std::ostream& operator<<(std::ostream &stream, linked_list &RHS) {
 int size = RHS.listSize();
-stream<< "Linked List: ";
+
 for(int i=0; i<size;i++) {
     stream << RHS.get_value_at(i);
-    stream << ", ";
+    stream << " -> ";
 }
-        stream << std::string("\n");
+        stream << std::string("NULL");
         return stream;
     }
 

@@ -9,17 +9,18 @@ namespace lab5{
         void calculator::parse_to_infix(std::string &input_expression) {
             int size = 0;
             std::string TempArr[input_expression.size()];
+            std::string white;
             for(std::string::iterator it = input_expression.begin(); it != input_expression.end(); ++it) {
+                white = *it;
                 TempArr[size] = *it;
                 size++;
+                if(white == " "){      //this will get rid of white spaces
+                    size--;
+                }
             }
 
             for(int i=0; i<size; i++){ // for loop
-
-                if(TempArr[i] == " "){      //this will get rid of white spaces
-                }
-
-                else if(!is_number(TempArr[i])){
+                 if(!is_number(TempArr[i])){
                     infix_expression.enqueue(TempArr[i]);
                 }
                 else {
@@ -164,17 +165,16 @@ namespace lab5{
         stream << std::string("Infix: ");
         for (int i = 0; i < infixSize; i++) {
             stream << RHS.infix_expression.top();
-            stream << std::string(", ");
             RHS.infix_expression.dequeue();
+            stream << std::string(",");
         }
         stream << std::string("\n");
         stream << std::string("Postfix: ");
         for (int i = 0; i < postfixSize; i++) {
             stream << RHS.postfix_expression.top();
-            stream << std::string(", ");
             RHS.postfix_expression.dequeue();
+            stream << std::string(",");
         }
-        stream << std::string("\n");
         return stream;
     }
 

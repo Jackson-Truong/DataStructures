@@ -9,7 +9,7 @@ Fifo_storage.reserve(100);// Reserves 100 spaces for the Fifo_storage
 
     fifo::fifo(std::string input_string) {
         front_index=0;
-        back_index=0;
+        back_index=1;
         Fifo_storage.reserve(100);
         Fifo_storage.append(input_string);// Same thing as the first function but you would like to append the input_string
     }
@@ -21,13 +21,12 @@ Fifo_storage.reserve(100);// Reserves 100 spaces for the Fifo_storage
         for(int i=0; i<back_index;i++){// Have to do an array to copy each array element onto original
             Fifo_storage[i]=original.Fifo_storage[i];
         }
-
     }
 
     fifo::~fifo() {
 Fifo_storage.set_size(0);//Makes the size = to 0. This is Bryan's code from lab2, he showed us this during lab
-        front_index =-1;//Making them both equal to -1 will make sure that they are both empty
-        back_index=-1;
+        front_index =0;//Making them both equal to -1 will make sure that they are both empty
+        back_index=0;
     }
 
     fifo &fifo::operator=(const fifo &right) {

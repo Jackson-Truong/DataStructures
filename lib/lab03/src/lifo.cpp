@@ -8,8 +8,8 @@ namespace lab3{
 
     lifo::lifo(std::string input_string) {
 lifo_storage.reserve(100);
+        index=0;
         lifo_storage.append(input_string);// same as the first constructor but you are appending an input_string
-        index=1;
     }
 
     lifo::lifo(const lifo &original) {
@@ -30,6 +30,7 @@ lifo_storage.set_size(0);// same as fifo, but you just need to make index =0
         for(int i=0; i<= index; i++){
             lifo_storage[i]=right.lifo_storage[i];
         }
+        return *this;
         //return <#initializer#>;
 
     }
