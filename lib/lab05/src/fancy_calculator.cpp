@@ -162,18 +162,26 @@ namespace lab5{
     std::ostream &operator<<(std::ostream &stream, calculator &RHS) {
         unsigned infixSize = RHS.infix_expression.queueSize();
         unsigned postfixSize = RHS.postfix_expression.queueSize();
+        lab5::queue infix_copy;
+        lab5::queue postfix_copy;
+        infix_copy = RHS.infix_expression;
+        postfix_copy = RHS.postfix_expression;
         stream << std::string("Infix: ");
         for (int i = 0; i < infixSize; i++) {
-            stream << RHS.infix_expression.top();
-            RHS.infix_expression.dequeue();
-            stream << std::string(",");
+            stream << infix_copy.top();
+           infix_copy.dequeue();
+            if(i<infixSize-1) {
+                stream << std::string(",");
+            }
         }
         stream << std::string("\n");
         stream << std::string("Postfix: ");
         for (int i = 0; i < postfixSize; i++) {
-            stream << RHS.postfix_expression.top();
-            RHS.postfix_expression.dequeue();
+            stream << postfix_copy.top();
+        postfix_copy.dequeue();
+            if(i<postfixSize-1){
             stream << std::string(",");
+                }
         }
         return stream;
     }

@@ -6,18 +6,27 @@ namespace lab5 {
     }
 
     linked_list::linked_list(std::string &data) {
-        head->data = data;
+        node* temp = new node(data);
+        head =temp;
         tail = head;
     }
 
     linked_list::linked_list(const linked_list &original) {
-        node *iterator = original.head;//copies head
-        node *temp = head;
-        for (int i = 0; i < original.listSize(); i++) {
-            temp->data = iterator->data;
-            temp->next = iterator->next;
+        node *iterator = original.head;//copies head Something is wrong in this
+        node *temp =head;
+        if(original.head == NULL){
+            head = NULL;
         }
-        tail = original.tail;
+        else{
+            head = new node(iterator->data);
+            node* current = head;
+            node* orgcurrent = iterator;
+            while(orgcurrent->next !=NULL){
+                current->next = new node(orgcurrent->next->data);
+                orgcurrent = orgcurrent->next;
+                current = current->next;
+            }
+        }
     }
 
     linked_list::~linked_list() {
