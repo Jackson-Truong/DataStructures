@@ -74,30 +74,9 @@ throw"ERROR, enter another key";
 
     // Print the path to the key, starting with root
     void tree::path_to(int key) {
-node* current = root;
-std::vector path;
-path.push_back(current->data);
-if(current->data == key){
-    std::cout<< path;
+
 }
-else{
-    while(current){
-        if(current->data > key){
-            path.push_back(current->data);
-            current = current->left;
-        }
-        else if(current->data <key){
-            path.push_back(current->data);
-            current = current->right;
-        }
-        else{
-            path.push_back(current->data);
-            std::cout<<path;
-        }
-    }
-}
- throw"ERROR, check your key.";
-    }
+
 
     // Number of items in the tree
     unsigned tree::size() {
@@ -137,7 +116,29 @@ return true;
 
     // Return a vector with all of the nodes that are greater than the input key in the tree
     std::vector<int> tree::values_above(int key) {
-
+        std::vector<int> path;
+        node *current = root;
+        if (current == nullptr) {
+            throw "ERROR, can not return a vector of no nodes";
+        }
+        if (!in_tree(key)) {
+            throw "ERROR, please try another key";
+        }
+        while (current) {
+            if (current->data > key) {
+                for (int i = 0; i < current->frequency; i++) {
+                    path.push_back(current->data);
+                }
+                current = current->left;
+            } else if (current->data < key) {
+                for (int i = 0; i < current->frequency; i++) {
+                    path.push_back(current->data);
+                }
+                current = current->right;
+            } else {
+                return path;
+            }
+        }
     }
 
     // Print the tree least to greatest, Include duplicates
