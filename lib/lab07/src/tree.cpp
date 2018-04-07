@@ -21,6 +21,7 @@ namespace lab7 {
         node *temp = nullptr;
         if (root == nullptr) {
             node *temp = new node(value);
+            tree_size++;
         } else {
             node *val = new node(value);
             while (current) {
@@ -32,13 +33,16 @@ namespace lab7 {
                     current = current->right;
                 } else { //equal to each other WILL NOT EXIT THE WHILE LOOP
                     current->frequency++;
+                    tree_size++;
                     return;
                 }
             }
             if (temp->data < val->data) {
                 temp->right = val;
+                tree_size++;
             } else {
                 temp->left = val;
+                tree_size++;
             }
         }
     }
@@ -59,7 +63,13 @@ namespace lab7 {
 
     // Number of items in the tree
     unsigned tree::size() {
+        unsigned treeSize=0;
+if(root==nullptr){
+    return treeSize;
+}
+else{
 
+}
     }
 
     // Calculate the depth of the tree, longest string of connections
