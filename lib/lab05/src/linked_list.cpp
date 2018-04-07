@@ -39,18 +39,16 @@ namespace lab5 {
     }
 
     linked_list &lab5::linked_list::operator=(const linked_list &RHS) {
-        node *current = RHS.head;
-        if (this == &RHS) { //Makes sure that it does not delete an element on accident
+        if(this == &RHS){
             return *this;
         }
-        while (current->next != nullptr) {
-            node *copy = new node(current->data);//Copy will link new nodes with RHS' data
+        head = new node(RHS.head->data);
+        node *righthand=RHS.head;
+        node *current = head;
+        while (righthand->next !=NULL) {
+            righthand = righthand->next;
+            current->next = new node (righthand->data);
             current = current->next;
-            if (head == NULL) {
-                node *temp = new node(
-                        current->data); //Not too sure on this but this is just for the first element, incase it does not even go through the while loop once
-
-            }
         }
         return *this;
     }
@@ -78,18 +76,27 @@ namespace lab5 {
     }
 
     void linked_list::insert(const std::string input, unsigned int location) {
-node* previous = NULL;
-        node* tmp1 = head;
-  node* tmp = new node(input);
+    node* previous = NULL;
+    node* tmp1 = head;
+    node* tmp = new node(input);
   for(int i=0 ; i<location; i++){
       previous = tmp1;
       tmp1=tmp1->next;
   }
-  if(previous){
+  if(tmp1== NULL && previous){
+      previous->next = tmp;
+      tmp->next = NULL;
+      tail = tmp;
+  }
+  else if(tmp1==NULL && previous == NULL){
+      head = tmp;
+      tail = tmp;
+  }
+    else if(previous&& tmp1!=NULL){
       previous->next = tmp;
       tmp->next = tmp1;
   }
-  if(location ==0){
+  else{
       head = tmp;
       head->next = tmp1;
   }

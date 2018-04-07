@@ -84,28 +84,25 @@ namespace lab4 {
     }
 
     calculator::calculator() { //constructor
-
     }
 
     calculator::calculator(std::string & input_expression) { //This should just call two functions
-parse_to_infix( input_expression);
-convert_to_postfix(infix_expression);
+        parse_to_infix(input_expression);
+        convert_to_postfix(infix_expression);
     }
 //Can turn the istream into a string then call the functions that you already wrote
 //documentation for stream operator
 
     std::istream &operator>>(std::istream &stream, calculator &RHS) {
-
         std::string temp= "";
-        lab3::fifo infix_expression;
-        lab3::fifo copy;
-
+        while(!RHS.infix_expression.is_empty())RHS.infix_expression.dequeue();
+        while(!RHS.postfix_expression.is_empty())RHS.postfix_expression.dequeue();
         while(stream.peek()!= EOF){
-            temp = stream.get();
+            temp += stream.get();
         }
 
         RHS.parse_to_infix(temp);
-        RHS.convert_to_postfix(infix_expression);
+        RHS.convert_to_postfix(RHS.infix_expression);
 
         return stream; //store an expression from stdio
     }

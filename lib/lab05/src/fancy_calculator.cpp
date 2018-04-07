@@ -88,12 +88,13 @@ namespace lab5{
 
     std::istream &operator>>(std::istream &stream, calculator &RHS) {
         std::string temp= "";
-        lab5::queue infix_expression;
+        while(!RHS.infix_expression.isEmpty())RHS.infix_expression.dequeue();
+        while(!RHS.postfix_expression.isEmpty())RHS.postfix_expression.dequeue();
         while(stream.peek()!= EOF){
-            temp = stream.get();
+            temp += stream.get();
         }
         RHS.parse_to_infix(temp);
-        RHS.convert_to_postfix(infix_expression);
+        RHS.convert_to_postfix(RHS.infix_expression);
         return stream; //store an expression from stdio
     }
 
