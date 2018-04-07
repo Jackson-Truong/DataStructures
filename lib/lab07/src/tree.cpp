@@ -74,10 +74,13 @@ throw"ERROR, enter another key";
 
     // Print the path to the key, starting with root
     void tree::path_to(int key) {
-
+std::vector<int>  top= values_above(key);
+top.push_back(key);
+for(int i =0; i<=top.size(); i++){
+    std::cout<< top.at(i);
 }
-
-
+    }
+    
     // Number of items in the tree
     unsigned tree::size() {
 return tree_size;
@@ -126,14 +129,11 @@ return true;
         }
         while (current) {
             if (current->data > key) {
-                for (int i = 0; i < current->frequency; i++) {
                     path.push_back(current->data);
-                }
                 current = current->left;
             } else if (current->data < key) {
-                for (int i = 0; i < current->frequency; i++) {
                     path.push_back(current->data);
-                }
+
                 current = current->right;
             } else {
                 return path;
