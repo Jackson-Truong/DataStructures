@@ -18,7 +18,7 @@ namespace lab7 {
     // Insert
     void tree::insert(int value) {
         node *current = root;
-        node* temp = nullptr;
+        node *temp = nullptr;
         if (root == nullptr) {
             node *temp = new node(value);
         } else {
@@ -27,20 +27,17 @@ namespace lab7 {
                 if (current->data > val->data) {
                     temp = current;
                     current = current->left;
-                }
-                else if (current->data < val->data) {
+                } else if (current->data < val->data) {
                     temp = current;
                     current = current->right;
-                }
-                else{ //equal to each other WILL NOT EXIT THE WHILE LOOP
+                } else { //equal to each other WILL NOT EXIT THE WHILE LOOP
                     current->frequency++;
                     return;
                 }
             }
-            if(temp->data < val->data){
+            if (temp->data < val->data) {
                 temp->right = val;
-            }
-            else{
+            } else {
                 temp->left = val;
             }
         }
@@ -77,7 +74,19 @@ namespace lab7 {
 
     // Return the number of times that value is in the tree
     int tree::get_frequency(int key) {
-
+        node*current = root;
+        while(current){
+            if(current->data > key){
+                current = current->left;
+            }
+            else if(current->data < key){
+                current = current->right;
+            }
+            else if(current->data == key){
+                return current->frequency;
+            }
+        }
+        throw"ERROR, please check your key";
     }
 
     // Return a vector with all of the nodes that are greater than the input key in the tree
