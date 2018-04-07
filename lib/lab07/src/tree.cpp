@@ -74,7 +74,29 @@ throw"ERROR, enter another key";
 
     // Print the path to the key, starting with root
     void tree::path_to(int key) {
-
+node* current = root;
+std::vector path;
+path.push_back(current->data);
+if(current->data == key){
+    std::cout<< path;
+}
+else{
+    while(current){
+        if(current->data > key){
+            path.push_back(current->data);
+            current = current->left;
+        }
+        else if(current->data <key){
+            path.push_back(current->data);
+            current = current->right;
+        }
+        else{
+            path.push_back(current->data);
+            std::cout<<path;
+        }
+    }
+}
+ throw"ERROR, check your key.";
     }
 
     // Number of items in the tree
