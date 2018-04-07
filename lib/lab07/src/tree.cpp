@@ -4,6 +4,7 @@
 namespace lab7 {
     void clear(node *to_clear);
 
+
     // Construct an empty tree
     tree::tree() {
         root = nullptr;
@@ -16,9 +17,34 @@ namespace lab7 {
 
     // Insert
     void tree::insert(int value) {
-
+        node *current = root;
+        node* temp = nullptr;
+        if (root == nullptr) {
+            node *temp = new node(value);
+        } else {
+            node *val = new node(value);
+            while (current) {
+                if (current->data > val->data) {
+                    temp = current;
+                    current = current->left;
+                }
+                else if (current->data < val->data) {
+                    temp = current;
+                    current = current->right;
+                }
+                else{ //equal to each other WILL NOT EXIT THE WHILE LOOP
+                    current->frequency++;
+                    return;
+                }
+            }
+            if(temp->data < val->data){
+                temp->right = val;
+            }
+            else{
+                temp->left = val;
+            }
+        }
     }
-
     // Remove key
     bool tree::remove(int key) {
 

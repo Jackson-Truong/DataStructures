@@ -8,8 +8,10 @@ protected:
 
     }
     virtual void TearDown() {
+
     }
 public:
+
 };
 TEST(Lab06Fixture, sort){
     lab6::doubly_linked_list hi;

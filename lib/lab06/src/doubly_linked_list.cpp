@@ -2,8 +2,8 @@
 
 namespace lab6{
     doubly_linked_list::doubly_linked_list() {
-        head = nullptr;
-        tail = nullptr;
+        head = NULL;
+        tail = NULL;
     }
 
     doubly_linked_list::doubly_linked_list(int input) {
@@ -15,10 +15,10 @@ tail = head;
 
     doubly_linked_list::doubly_linked_list(std::vector<int> vector_input) {
 if(vector_input.size() == 0){
- throw 0;
+throw 0;
 }
 for(int i=0; i<vector_input.size();i++){
-    append(vector_input.at(i));
+    this->append(vector_input.at(i));
 }
     }
 
@@ -31,8 +31,7 @@ this->tail = NULL;
 else{
           node* copier = new node(copy->get_data());
           this->head = copier;
-          copy=copy->next;
-    while (copy != NULL) {
+    while (copy->next != NULL) {
         node *next = new node(copy->get_data());
         next->prev = copier;
         copier->next = next;
@@ -80,13 +79,12 @@ return value;
         }
         for(unsigned i=0; i<position_from; i++){
             current = current->next;
-            current->prev = current;
         }
         for(unsigned i=position_from; i<=position_to; i++){
             int data = 0;
             data = current->get_data();
-            links.push_back(data);
             current = current->next;
+            links.push_back(data);
         }
         return links;
     }
@@ -115,7 +113,6 @@ return false;
 
     void doubly_linked_list::append(int input) {
 node* current = head;
-node*previous = NULL;
 if(head==NULL){
     node* first = new node(input);
     head = first;
@@ -123,14 +120,13 @@ if(head==NULL){
 }
 else{
     while(current->next!=NULL){
-        previous = current;
         current = current->next;
-        current->prev=previous;
     }
     node* tmp = new node(input);
     current->next = tmp;
     tmp->next=NULL;
     tmp->prev=current;
+
 }
     }
 
@@ -219,25 +215,15 @@ return second;
     }
 
     doubly_linked_list doubly_linked_list::split_set(unsigned position_1, unsigned position_2) {
-        node* pre = NULL;
-        node* current = head;
-        node* tmptail=  NULL;
-        node* tmphead = NULL;
         if(is_empty()){
             throw "ERROR,can not remove an empty linked list ";
         }
         if(position_1 >size()|| position_2>size()){
             throw"ERROR, can not have a location higher than the size of the linked list";
         }
-        for(int i=0; i<position_1; i++){
-            pre = current;
-            current = current->next;
-            current->prev= pre;
-        }
-        tmphead= current; //copy constructor might do this already
-        tmphead->prev=NULL;// copy constructor might do this already
+
         doubly_linked_list splitset(get_set(position_1, position_2));
-        for(int i= position_2; i<=position_1;i++){
+        for(int i= position_2; i>=position_1;i--){
             remove(i);
         }
         return splitset;
