@@ -8,6 +8,7 @@ namespace lab7 {
     // Construct an empty tree
     tree::tree() {
         root = nullptr;
+        tree_size = 0;
     }
 
     // Deconstruct tree
@@ -15,7 +16,7 @@ namespace lab7 {
         clear(root);
     }
 
-    // Insert
+    // Insert DONE
     void tree::insert(int value) {
         node *current = root;
         node *temp = nullptr;
@@ -53,7 +54,22 @@ namespace lab7 {
 
     // What level is key on?
     int tree::level(int key) {
-
+int lvl =0;
+node* current = root;
+while(current) {
+    if (current->data == key) {
+        return lvl;
+    }
+    else if(current->data > key){
+        current = current->left;
+        lvl++;
+    }
+    else if(current->data < key){
+        current = current->right;
+        lvl++;
+    }
+}
+throw"ERROR, enter another key";
     }
 
     // Print the path to the key, starting with root
@@ -63,13 +79,7 @@ namespace lab7 {
 
     // Number of items in the tree
     unsigned tree::size() {
-        unsigned treeSize=0;
-if(root==nullptr){
-    return treeSize;
-}
-else{
-
-}
+return tree_size;
     }
 
     // Calculate the depth of the tree, longest string of connections
@@ -79,7 +89,11 @@ else{
 
     // Determine whether the given key is in the tree
     bool tree::in_tree(int key) {
-
+int yes =0;
+if(get_frequency(key) == yes){
+    return false;
+}
+return true;
     }
 
     // Return the number of times that value is in the tree
