@@ -21,6 +21,12 @@ namespace lab7 {
     // Insert DONE
     void tree::insert(int value) {
        node* current = root;
+       if(current==nullptr){
+           node* insert = new node(value);
+           insert->left = nullptr;
+           insert->right = nullptr;
+           root = insert;
+       }
        Rinsert(current, value);
        tree_size++;
     }
@@ -56,7 +62,13 @@ return tree_size;
     // Calculate the depth of the tree, longest string of connections
     unsigned tree::depth() {
         node *current = root;
-        return maxDepth(current);
+        unsigned depth = maxDepth(current);
+        if(depth<0){
+            return 0;
+        }
+        else{
+            return depth-1;
+        }
     }
 
     // Determine whether the given key is in the tree
@@ -175,11 +187,13 @@ return true;
                 return lvl;
             }
             if (ptr->data > key) {
-                lvl = Rlevel(ptr->left, key, lvl + 1);
+                return lvl;
+                lvl = Rlevel(ptr->left, key, lvl +1);
 
             }
             if (ptr->data < key) {
-                lvl = Rlevel(ptr->right, key, lvl + 1); // Not sure why this is never used
+                return lvl;
+                lvl = Rlevel(ptr->right, key, lvl +1); // Not sure why this is never used
 
             }
         }

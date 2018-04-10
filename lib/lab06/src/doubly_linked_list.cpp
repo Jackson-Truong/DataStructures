@@ -15,10 +15,10 @@ tail = head;
 
     doubly_linked_list::doubly_linked_list(std::vector<int> vector_input) {
 if(vector_input.size() == 0){
-throw 0;
+        doubly_linked_list();
 }
 for(int i=0; i<vector_input.size();i++){
-    this->append(vector_input.at(i));
+    append(vector_input.at(i));
 }
     }
 
@@ -126,7 +126,7 @@ else{
     current->next = tmp;
     tmp->next=NULL;
     tmp->prev=current;
-
+tail = tmp;
 }
     }
 

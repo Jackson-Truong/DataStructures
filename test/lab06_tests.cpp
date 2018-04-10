@@ -121,3 +121,56 @@ TEST(doubly_linked_list, truuuu){
     testLL2.append(7);
     EXPECT_TRUE(testLL1 == testLL2);
 }
+
+TEST(doubly_linked_list, swap_set){
+    lab6::doubly_linked_list testLL1(0);
+    testLL1.append(1);
+    testLL1.append(2);
+    testLL1.append(3);
+    testLL1.append(4);
+    testLL1.append(5);
+    testLL1.append(6);
+    testLL1.append(7);
+    testLL1.append(8);
+    testLL1.append(9);
+    testLL1.append(10);
+    testLL1.append(11);
+    testLL1.append(12);
+    testLL1.append(13);
+    testLL1.append(14);
+    testLL1.append(15);
+    testLL1.append(16);
+    testLL1.swap_set(2,3,5,7);
+    EXPECT_EQ(5, testLL1.get_data(2));
+    EXPECT_EQ(6, testLL1.get_data(3));
+    EXPECT_EQ(7, testLL1.get_data(4));
+    EXPECT_EQ(2, testLL1.get_data(6));
+    EXPECT_EQ(3, testLL1.get_data(7));
+}
+
+TEST(doubly_linked_list, split_test){
+    lab6::doubly_linked_list testLL1(0);
+    testLL1.append(1);
+    testLL1.append(2);
+    testLL1.append(3);
+    testLL1.append(4);
+    testLL1.append(5);
+    testLL1.append(6);
+    testLL1.append(7);
+    testLL1.append(8);
+    testLL1.append(9);
+    testLL1.append(10);
+    testLL1.append(11);
+    testLL1.append(12);
+    testLL1.append(13);
+    testLL1.append(14);
+    testLL1.append(15);
+    testLL1.append(16);
+    testLL1.split_set(6,10);
+    EXPECT_EQ(0, testLL1.get_data(0));
+    EXPECT_EQ(1, testLL1.get_data(1));
+    EXPECT_EQ(2, testLL1.get_data(2));
+    EXPECT_EQ(3, testLL1.get_data(3));
+    EXPECT_EQ(4, testLL1.get_data(4));
+    EXPECT_EQ(5, testLL1.get_data(5));
+}
