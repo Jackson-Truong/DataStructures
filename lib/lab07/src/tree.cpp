@@ -3,8 +3,8 @@
 
 namespace lab7 {
     void clear(node *to_clear);
-
-
+    unsigned maxDepth(node *ptr);
+    struct node* Rinsert(node* ptr, int key);
     // Construct an empty tree
     tree::tree() {
         root = nullptr;
@@ -18,34 +18,9 @@ namespace lab7 {
 
     // Insert DONE
     void tree::insert(int value) {
-        node *current = root;
-        node *temp = nullptr;
-        if (root == nullptr) {
-            node *temp = new node(value);
-            tree_size++;
-        } else {
-            node *val = new node(value);
-            while (current) {
-                if (current->data > val->data) {
-                    temp = current;
-                    current = current->left;
-                } else if (current->data < val->data) {
-                    temp = current;
-                    current = current->right;
-                } else { //equal to each other WILL NOT EXIT THE WHILE LOOP
-                    current->frequency++;
-                    tree_size++;
-                    return;
-                }
-            }
-            if (temp->data < val->data) {
-                temp->right = val;
-                tree_size++;
-            } else {
-                temp->left = val;
-                tree_size++;
-            }
-        }
+       node* current = root;
+       Rinsert(current, value);
+       tree_size++;
     }
     // Remove key
     bool tree::remove(int key) {
@@ -88,7 +63,8 @@ return tree_size;
 
     // Calculate the depth of the tree, longest string of connections
     unsigned tree::depth() {
-
+        node *current = root;
+        return maxDepth(current);
     }
 
     // Determine whether the given key is in the tree
@@ -177,6 +153,41 @@ return true;
      */
 
     // Auxiliary functions
+    unsigned maxDepth(node* ptr){ //geeksforgeeks implementation of maxdepth using recursion,
+        if(ptr == nullptr){
+            return 0;
+        }
+        else{
+            unsigned LeftDepth = maxDepth(ptr->left);
+            unsigned RightDepth = maxDepth(ptr->right);
+
+            if(LeftDepth > RightDepth){
+                return (LeftDepth+1);
+            }
+            else{
+                return(RightDepth+1);
+            }
+        }
+    }
+
+    struct node* Rinsert(node* ptr, int key) {
+        if (ptr == nullptr) {
+            node *temp = new node(key);
+            temp->left = nullptr;
+            temp->right = nullptr;
+            return temp;
+        } else {
+            if (key < ptr->data) {
+                ptr->left = Rinsert(ptr->left, key);
+            } else if (key > ptr->data) {
+                ptr->right = Rinsert(ptr->right, key);
+            } else {
+                ptr->frequency++;
+                return ptr;
+            }
+        }
+        return ptr;
+    }
     void node_print_gtl(node *top) {
         if (top == nullptr) return;
         node_print_gtl(top->right);
@@ -199,3 +210,31 @@ return true;
 
 
 }
+// node *current = root;
+//        node *temp = nullptr;
+//        if (root == nullptr) {
+//            node *temp = new node(value);
+//            tree_size++;
+//        } else {
+//            node *val = new node(value);
+//            while (current) {
+//                if (current->data > val->data) {
+//                    temp = current;
+//                    current = current->left;
+//                } else if (current->data < val->data) {
+//                    temp = current;
+//                    current = current->right;
+//                } else { //equal to each other WILL NOT EXIT THE WHILE LOOP
+//                    current->frequency++;
+//                    tree_size++;
+//                    return;
+//                }
+//            }
+//            if (temp->data < val->data) {
+//                temp->right = val;
+//                tree_size++;
+//            } else {
+//                temp->left = val;
+//                tree_size++;
+//            }
+//        }

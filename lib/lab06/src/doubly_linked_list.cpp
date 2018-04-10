@@ -221,7 +221,6 @@ return second;
         if(position_1 >size()|| position_2>size()){
             throw"ERROR, can not have a location higher than the size of the linked list";
         }
-
         doubly_linked_list splitset(get_set(position_1, position_2));
         for(int i= position_2; i>=position_1;i--){
             remove(i);

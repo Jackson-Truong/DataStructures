@@ -10,7 +10,7 @@ Every function than can be implemented with recursion, needs to be implemented w
 
 The following functions need to be implemented recursively
 
-- `tree(const tree& copy)`
+- `tree(const tree& copy)` we dont have this function
 
 - `~tree()`
 
