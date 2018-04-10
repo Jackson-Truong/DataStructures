@@ -10,19 +10,19 @@ namespace lab7 {
         int tree_size;
     public:
         tree();
-        tree(const tree& copy);     //Recursively
-        ~tree();                    //Recursively
+        tree(const tree& copy);     //Recursively done
+        ~tree();                    //Recursively done
 
-        void insert(int value);     //Recursively
+        void insert(int value);     //Recursively done
         bool remove(int key);
         bool in_tree(int key);      //Recursively
-        int get_frequency(int key); //Recursively
+        int get_frequency(int key); //Recursively done
 
         std::string to_string();    //Recursively
-        int level(int key);         //Recursively
+        int level(int key);         //Recursively done
         void path_to(int key);      //Recursively
         unsigned size();
-        unsigned depth();           //Recursively
+        unsigned depth();           //Recursively done
         void print();               //Recursively
 
         tree& operator=(const tree &rhs);   //Recursively
