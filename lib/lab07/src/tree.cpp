@@ -5,8 +5,11 @@ namespace lab7 {
     void clear(node *to_clear);
     unsigned maxDepth(node *ptr);
     struct node* Rinsert(node* ptr, int key);
-    struct node* RFrequency(node* ptr, int key);
-    int Rlevel(node* ptr, int key, int lvl);
+    int Rlevel(node* ptr, int key);
+    int RFrequency(node* ptr, int key);
+    bool RinTree(node* ptr, int key);
+
+
         // Construct an empty tree
     tree::tree() {
         root = nullptr;
@@ -21,10 +24,8 @@ namespace lab7 {
     // Insert DONE
     void tree::insert(int value) {
        node* current = root;
-       if(current==nullptr){
+       if(current==nullptr){ // Empty tree
            node* insert = new node(value);
-           insert->left = nullptr;
-           insert->right = nullptr;
            root = insert;
        }
        Rinsert(current, value);
@@ -37,10 +38,12 @@ namespace lab7 {
 
     // What level is key on?
     int tree::level(int key) {
-        int Lev = 0;
-        node *current = root;
-        int Rlevel(node *ptr, int key, int lvl);
-        return Lev;
+        if(in_tree(key)) {
+            return Rlevel(root, key);
+        }
+        else{
+            return -1;
+        }
     }
 
 
@@ -73,18 +76,12 @@ return tree_size;
 
     // Determine whether the given key is in the tree
     bool tree::in_tree(int key) {
-int yes =0;
-if(get_frequency(key) == yes){
-    return false;
-}
-return true;
+return (RinTree(root, key));
     }
 
     // Return the number of times that value is in the tree
     int tree::get_frequency(int key) {
- node* current = root;
- RFrequency(current, key);
- return current->frequency;
+ return  RFrequency(root, key);
     }
 
     // Return a vector with all of the nodes that are greater than the input key in the tree
@@ -163,40 +160,33 @@ return true;
             }
         }
     }
-    struct node* RFrequency(node* ptr, int key){
-        if(ptr == nullptr){
-            throw"ERROR, Please put in a value that exists in the tree";
-        }
-        else{
-            if(key<ptr->data){
-                ptr->left = RFrequency(ptr->left, key);
-            }
-            else if(key>ptr->data){
-                ptr->right = Rinsert(ptr->right, key);
-            }
-            else{
-                return ptr;
-            }
-        }
-    }
-    int Rlevel(node* ptr, int key, int lvl) {
+    int RFrequency(node* ptr, int key) {
         if (ptr == nullptr) {
-            throw "ERROR, Please put in a value that exists in the tree";
-        } else {
+            return 0;
+        } else if (key < ptr->data) {
+            return RFrequency(ptr->left, key);
+        } else if (key > ptr->data) {
+            return RFrequency(ptr->right, key);
+        } else if (key == ptr->data) {
+            return ptr->frequency;
+        }
+
+    }
+
+    int Rlevel(node* ptr, int key) {
+        unsigned lvl;
             if (ptr->data == key) {
-                return lvl;
+                return 0;
             }
             if (ptr->data > key) {
-                return lvl;
-                lvl = Rlevel(ptr->left, key, lvl +1);
-
+                lvl = Rlevel(ptr->left, key);
+            return (lvl+1);
             }
             if (ptr->data < key) {
-                return lvl;
-                lvl = Rlevel(ptr->right, key, lvl +1); // Not sure why this is never used
-
+                lvl = Rlevel(ptr->right, key);
+                return ( lvl+1);
             }
-        }
+
     }
 
     struct node* Rinsert(node* ptr, int key) {
@@ -217,6 +207,22 @@ return true;
         }
         return ptr;
     }
+
+    bool RinTree(node* ptr, int key){
+        if(ptr == nullptr){
+            return false;
+        }
+        else if(ptr->data == key){
+            return true;
+        }
+        else if(ptr->data < key){
+            return (RinTree(ptr->right, key));
+        }
+        else if(ptr->data > key){
+            return (RinTree(ptr->left, key));
+        }
+    }
+
     void node_print_gtl(node *top) {
         if (top == nullptr) return;
         node_print_gtl(top->right);

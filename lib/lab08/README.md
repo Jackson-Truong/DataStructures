@@ -19,3 +19,8 @@ Implement both merge sort and quicksort. Verify they sort. We will only provide 
 * Youtube explanation of [Merge sort](https://youtu.be/KF2j-9iSf4Q)
 * Explanation of a [Hash function](http://www.partow.net/programming/hashfunctions/)
 *
+
+HASHING SORTING
+quicksort -> 6 alterations on how to do them
+merge set
+both recursive , if you have a list with 1 item, it is in order.

@@ -68,6 +68,8 @@ return value;
 
     std::vector<int> doubly_linked_list::get_set(unsigned position_from, unsigned position_to) {
         std::vector<int> links;
+        int data;
+
         node* current = head;
         if(position_from<0 && position_from>=size() && position_to<0 && position_to>=size()){
             throw "ERROR, please do not choose any negative numbers, or exceed the linked list size";
@@ -81,7 +83,6 @@ return value;
             current = current->next;
         }
         for(unsigned i=position_from; i<=position_to; i++){
-            int data = 0;
             data = current->get_data();
             current = current->next;
             links.push_back(data);
@@ -215,18 +216,27 @@ return second;
     }
 
     doubly_linked_list doubly_linked_list::split_set(unsigned position_1, unsigned position_2) {
-        if(is_empty()){
+        if (is_empty()) {
             throw "ERROR,can not remove an empty linked list ";
         }
-        if(position_1 >size()|| position_2>size()){
-            throw"ERROR, can not have a location higher than the size of the linked list";
+        if (position_1 > size() || position_2 > size()) {
+            throw "ERROR, can not have a location higher than the size of the linked list";
         }
-        doubly_linked_list splitset(get_set(position_1, position_2));
-        for(int i= position_2; i>=position_1;i--){
+        node *current = head;
+        doubly_linked_list Split;
+        for (int i = 0; i < position_1; i++) {
+            current = current->next;
+        }
+        node *current_2 = current;
+        for (int i = position_1; i < position_2; i++) {
+            Split.append(current_2->get_data());
+            current_2 = current_2->next;
+        }
+        Split.append(current_2->get_data());
+        for (int i = position_2; i >= position_1; i--) {
             remove(i);
         }
-        return splitset;
-
+        return Split;
     }
 
     void doubly_linked_list::swap(unsigned position_1, unsigned position_2) { //void swap(unsigned position_1, unsigned position_2)`: Swap the node located at position 1 with the node located at position 2.
