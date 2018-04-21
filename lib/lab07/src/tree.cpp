@@ -8,6 +8,9 @@ namespace lab7 {
     int Rlevel(node* ptr, int key);
     int RFrequency(node* ptr, int key);
     bool RinTree(node* ptr, int key);
+    struct node * copying(node *Copyroot);
+    void Rpath(node* ptr, int key);
+    void Rprint(node* ptr);
 
 
         // Construct an empty tree
@@ -50,10 +53,8 @@ namespace lab7 {
 
     // Print the path to the key, starting with root
     void tree::path_to(int key) {
-std::vector<int>  top= values_above(key);
-top.push_back(key);
-for(int i =0; i<=top.size(); i++){
-    std::cout<< top.at(i);
+if(in_tree(key)==true){
+    Rpath(root, key);
 }
     }
     
@@ -110,12 +111,16 @@ return (RinTree(root, key));
 
     // Print the tree least to greatest, Include duplicates
     void tree::print() {
-
+Rprint(root);
     }
 
     // Print the tree least to greatest, Include duplicates
     std::ostream &operator<<(std::ostream &stream, tree &RHS) {
 
+    }
+
+    tree::tree(const tree &copy) {
+        root = copying(copy.root);
     }
 
     // Operator= Overload. Allowing for copying of trees
@@ -235,6 +240,50 @@ return (RinTree(root, key));
         if (to_clear->left != nullptr) clear(to_clear->left);
         if (to_clear->right != nullptr) clear(to_clear->right);
         delete to_clear;
+    }
+
+    struct node * copying(node * Copyroot) {
+
+        if (NULL == Copyroot) {
+            return NULL;
+        } else {
+            node *cNode = new node(Copyroot);
+            cNode->data = Copyroot->data;
+            cNode->frequency = Copyroot->frequency;
+            cNode->left = copying(Copyroot->left);
+            cNode->right = copying(Copyroot->right);
+            return cNode;
+        }
+    }
+
+    void Rpath(node* ptr, int key){
+        std::cout << ptr->data;
+        if(ptr->data == key){
+            return;
+        }
+        else{
+            std::cout<<" ";
+            if(key<ptr->data){
+                Rpath(ptr->left, key);
+            }
+            else if(key>ptr->data){
+                Rpath(ptr->right, key);
+            }
+        }
+
+    }
+
+
+    void Rprint(node* ptr){
+        if(ptr == nullptr){
+            return;
+        }
+        Rprint(ptr->left);
+        for(unsigned i=0; i<ptr->frequency; i++){
+            std::cout<< ptr->data;
+            std::cout<< " ";
+        }
+        Rprint(ptr->right);
     }
 
     // Class function
