@@ -146,6 +146,7 @@ namespace lab7 {
     tree tree::operator+(const tree &rhs) {
         node* current = root;
         this->root = RoperatorPlus(rhs.root);
+        this->tree_size =  rhs.tree_size;
     }
 
     // Balance the tree using any published algorithm. Demo to a TA for credit
