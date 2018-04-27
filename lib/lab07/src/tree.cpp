@@ -3,14 +3,24 @@
 
 namespace lab7 {
     void clear(node *to_clear);
+
     unsigned maxDepth(node *ptr);
-    struct node* Rinsert(node* ptr, int key);
-    int Rlevel(node* ptr, int key);
-    int RFrequency(node* ptr, int key);
-    bool RinTree(node* ptr, int key);
-    struct node * copying(node *Copyroot);
-    void Rpath(node* ptr, int key);
-    void Rprint(node* ptr);
+
+    struct node *Rinsert(node *ptr, int key);
+
+    int Rlevel(node *ptr, int key);
+
+    int RFrequency(node *ptr, int key);
+
+    bool RinTree(node *ptr, int key);
+
+    struct node *copying(node *Copyroot);
+
+    void Rpath(node *ptr, int key);
+
+    void Rprint(node *ptr);
+
+    node *RoperatorPlus(node *ptr);
 
 
         // Construct an empty tree
@@ -26,14 +36,15 @@ namespace lab7 {
 
     // Insert DONE
     void tree::insert(int value) {
-       node* current = root;
-       if(current==nullptr){ // Empty tree
-           node* insert = new node(value);
-           root = insert;
-       }
-       Rinsert(current, value);
-       tree_size++;
+        node *current = root;
+        if (current == nullptr) { // Empty tree
+            node *insert = new node(value);
+            root = insert;
+        }
+        Rinsert(current, value);
+        tree_size++;
     }
+
     // Remove key
     bool tree::remove(int key) {
 
@@ -41,48 +52,45 @@ namespace lab7 {
 
     // What level is key on?
     int tree::level(int key) {
-        if(in_tree(key)) {
+        if (in_tree(key)) {
             return Rlevel(root, key);
-        }
-        else{
+        } else {
             return -1;
         }
     }
 
 
-
     // Print the path to the key, starting with root
     void tree::path_to(int key) {
-if(in_tree(key)==true){
-    Rpath(root, key);
-}
+        if (in_tree(key) == true) {
+            Rpath(root, key);
+        }
     }
-    
+
     // Number of items in the tree
     unsigned tree::size() {
-return tree_size;
+        return tree_size;
     }
 
     // Calculate the depth of the tree, longest string of connections
     unsigned tree::depth() {
         node *current = root;
         unsigned depth = maxDepth(current);
-        if(depth<0){
+        if (depth < 0) {
             return 0;
-        }
-        else{
-            return depth-1;
+        } else {
+            return depth - 1;
         }
     }
 
     // Determine whether the given key is in the tree
     bool tree::in_tree(int key) {
-return (RinTree(root, key));
+        return (RinTree(root, key));
     }
 
     // Return the number of times that value is in the tree
     int tree::get_frequency(int key) {
- return  RFrequency(root, key);
+        return RFrequency(root, key);
     }
 
     // Return a vector with all of the nodes that are greater than the input key in the tree
@@ -97,10 +105,10 @@ return (RinTree(root, key));
         }
         while (current) {
             if (current->data > key) {
-                    path.push_back(current->data);
+                path.push_back(current->data);
                 current = current->left;
             } else if (current->data < key) {
-                    path.push_back(current->data);
+                path.push_back(current->data);
 
                 current = current->right;
             } else {
@@ -111,7 +119,7 @@ return (RinTree(root, key));
 
     // Print the tree least to greatest, Include duplicates
     void tree::print() {
-Rprint(root);
+        Rprint(root);
     }
 
     // Print the tree least to greatest, Include duplicates
@@ -134,8 +142,10 @@ Rprint(root);
      */
 
     // Merge rhs into this. Demo to a TA for credit
-    tree tree::operator+(const tree &rhs) const {
 
+    tree tree::operator+(const tree &rhs) {
+        node* current = root;
+        this->root = RoperatorPlus(rhs.root);
     }
 
     // Balance the tree using any published algorithm. Demo to a TA for credit
@@ -149,23 +159,22 @@ Rprint(root);
      */
 
     // Auxiliary functions
-    unsigned maxDepth(node* ptr){ //geeksforgeeks implementation of maxdepth using recursion,
-        if(ptr == nullptr){
+    unsigned maxDepth(node *ptr) { //geeksforgeeks implementation of maxdepth using recursion,
+        if (ptr == nullptr) {
             return 0;
-        }
-        else{
+        } else {
             unsigned LeftDepth = maxDepth(ptr->left);
             unsigned RightDepth = maxDepth(ptr->right);
 
-            if(LeftDepth > RightDepth){
-                return (LeftDepth+1);
-            }
-            else{
-                return(RightDepth+1);
+            if (LeftDepth > RightDepth) {
+                return (LeftDepth + 1);
+            } else {
+                return (RightDepth + 1);
             }
         }
     }
-    int RFrequency(node* ptr, int key) {
+
+    int RFrequency(node *ptr, int key) {
         if (ptr == nullptr) {
             return 0;
         } else if (key < ptr->data) {
@@ -178,23 +187,23 @@ Rprint(root);
 
     }
 
-    int Rlevel(node* ptr, int key) {
+    int Rlevel(node *ptr, int key) {
         unsigned lvl;
-            if (ptr->data == key) {
-                return 0;
-            }
-            if (ptr->data > key) {
-                lvl = Rlevel(ptr->left, key);
-            return (lvl+1);
-            }
-            if (ptr->data < key) {
-                lvl = Rlevel(ptr->right, key);
-                return ( lvl+1);
-            }
+        if (ptr->data == key) {
+            return 0;
+        }
+        if (ptr->data > key) {
+            lvl = Rlevel(ptr->left, key);
+            return (lvl + 1);
+        }
+        if (ptr->data < key) {
+            lvl = Rlevel(ptr->right, key);
+            return (lvl + 1);
+        }
 
     }
 
-    struct node* Rinsert(node* ptr, int key) {
+    struct node *Rinsert(node *ptr, int key) {
         if (ptr == nullptr) {
             node *temp = new node(key);
             temp->left = nullptr;
@@ -213,17 +222,14 @@ Rprint(root);
         return ptr;
     }
 
-    bool RinTree(node* ptr, int key){
-        if(ptr == nullptr){
+    bool RinTree(node *ptr, int key) {
+        if (ptr == nullptr) {
             return false;
-        }
-        else if(ptr->data == key){
+        } else if (ptr->data == key) {
             return true;
-        }
-        else if(ptr->data < key){
+        } else if (ptr->data < key) {
             return (RinTree(ptr->right, key));
-        }
-        else if(ptr->data > key){
+        } else if (ptr->data > key) {
             return (RinTree(ptr->left, key));
         }
     }
@@ -242,7 +248,7 @@ Rprint(root);
         delete to_clear;
     }
 
-    struct node * copying(node * Copyroot) {
+    struct node *copying(node *Copyroot) {
 
         if (NULL == Copyroot) {
             return NULL;
@@ -256,17 +262,15 @@ Rprint(root);
         }
     }
 
-    void Rpath(node* ptr, int key){
+    void Rpath(node *ptr, int key) {
         std::cout << ptr->data;
-        if(ptr->data == key){
+        if (ptr->data == key) {
             return;
-        }
-        else{
-            std::cout<<" ";
-            if(key<ptr->data){
+        } else {
+            std::cout << " ";
+            if (key < ptr->data) {
                 Rpath(ptr->left, key);
-            }
-            else if(key>ptr->data){
+            } else if (key > ptr->data) {
                 Rpath(ptr->right, key);
             }
         }
@@ -274,14 +278,14 @@ Rprint(root);
     }
 
 
-    void Rprint(node* ptr){
-        if(ptr == nullptr){
+    void Rprint(node *ptr) {
+        if (ptr == nullptr) {
             return;
         }
         Rprint(ptr->left);
-        for(unsigned i=0; i<ptr->frequency; i++){
-            std::cout<< ptr->data;
-            std::cout<< " ";
+        for (unsigned i = 0; i < ptr->frequency; i++) {
+            std::cout << ptr->data;
+            std::cout << " ";
         }
         Rprint(ptr->right);
     }
@@ -292,6 +296,19 @@ Rprint(root);
         std::cout << std::endl;
     }
 
+    node *RoperatorPlus(node *ptr) {
+    if(ptr==nullptr){
+        return ptr;
+    }
+    node* current = new node(ptr);
+    if(ptr->left){
+        current = RoperatorPlus(ptr->left);
+    }
+    if(ptr->right){
+        current = RoperatorPlus(ptr->right);
+    }
+    return current;
+    }
 
 }
 // node *current = root;

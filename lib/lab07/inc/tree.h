@@ -30,7 +30,7 @@ namespace lab7 {
 
         // Extra credit
         std::vector<int> values_above(int key); //Recursively
-        tree operator+(const tree &rhs) const;  //Recursively
+        tree operator+(const tree &rhs);  //Recursively
         void balance();
 
         // Example recursion
