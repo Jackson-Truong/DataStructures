@@ -22,6 +22,8 @@ namespace lab7 {
 
     node *RoperatorEq(node *ptr);
 
+    std::vector<int> RValuesAbove(int key, node *ptr, std::vector<int> &values_above);
+
 
         // Construct an empty tree
     tree::tree() {
@@ -79,10 +81,9 @@ namespace lab7 {
         if (depth < 0) {
             return 0;
         }
-        if(depth == 0){
+        if (depth == 0) {
             return 0;
-        }
-        else {
+        } else {
             return (depth - 1);
         }
     }
@@ -99,36 +100,21 @@ namespace lab7 {
 
     // Return a vector with all of the nodes that are greater than the input key in the tree
     std::vector<int> tree::values_above(int key) {
-        std::vector<int> path;
-        node *current = root;
-        if (current == nullptr) {
-            throw "ERROR, can not return a vector of no nodes";
-        }
-        if (!in_tree(key)) {
-            throw "ERROR, please try another key";
-        }
-        while (current) {
-            if (current->data > key) {
-                path.push_back(current->data);
-                current = current->left;
-            } else if (current->data < key) {
-                path.push_back(current->data);
+        std::vector<int> current = std::vector<int>();
+        return RValuesAbove(key, root, current);
 
-                current = current->right;
-            } else {
-                return path;
-            }
-        }
     }
 
     // Print the tree least to greatest, Include duplicates
     void tree::print() {
         Rprint(root);
+        std::cout<< "\n";
     }
 
     // Print the tree least to greatest, Include duplicates
     std::ostream &operator<<(std::ostream &stream, tree &RHS) {
-
+        Rprint(RHS.root);
+        stream<< "\n";
     }
 
     tree::tree(const tree &copy) {
@@ -137,9 +123,13 @@ namespace lab7 {
 
     // Operator= Overload. Allowing for copying of trees
     tree &tree::operator=(const tree &rhs) {
-        node* current = root;
-        this->root = RoperatorEq(rhs.root);
-        this->tree_size =  rhs.tree_size;
+        if(rhs.root == nullptr){
+            this->root = nullptr;
+        }
+        else{
+            root = RoperatorEq(rhs.root);
+        }
+        return *this;
     }
 
 
@@ -294,7 +284,9 @@ namespace lab7 {
             std::cout << ptr->data;
             std::cout << " ";
         }
+
         Rprint(ptr->right);
+
     }
 
     // Class function
@@ -304,58 +296,25 @@ namespace lab7 {
     }
 
     node *RoperatorEq(node *ptr) {
-    if(ptr==nullptr){
-        return ptr;
-    }
-    node* current = new node(ptr);
-    if(ptr->left){
-        current = RoperatorEq(ptr->left);
-    }
-    if(ptr->right){
-        current = RoperatorEq(ptr->right);
-    }
-    return current;
-    }
+       if(ptr == nullptr){
+           return nullptr;
+       }
+       node* current = new node(ptr->data);
+        current->left = RoperatorEq(ptr->left);
+        current->right = RoperatorEq(ptr->right);
+        return current;
+        }
 
+    std::vector<int> RValuesAbove(int key, node *ptr, std::vector<int> &values_above) {
+        if (ptr == nullptr) {
+            return std::vector<int>();
+        }
+        RValuesAbove(key, ptr->left, values_above);
+        for(int i=0; ptr->data >key && i<ptr->frequency; i++){
+            values_above.push_back(ptr->data);
+        }
+        RValuesAbove(key, ptr->right, values_above);
+        return values_above;
+    }
 }
-// node *current = root;
-//        node *temp = nullptr;
-//        if (root == nullptr) {
-//            node *temp = new node(value);
-//            tree_size++;
-//        } else {
-//            node *val = new node(value);
-//            while (current) {
-//                if (current->data > val->data) {
-//                    temp = current;
-//                    current = current->left;
-//                } else if (current->data < val->data) {
-//                    temp = current;
-//                    current = current->right;
-//                } else { //equal to each other WILL NOT EXIT THE WHILE LOOP
-//                    current->frequency++;
-//                    tree_size++;
-//                    return;
-//                }
-//            }
-//            if (temp->data < val->data) {
-//                temp->right = val;
-//                tree_size++;
-//            } else {
-//                temp->left = val;
-//                tree_size++;
-//            }
-//        }
-//       node*current = root;
-//        while(current){
-//            if(current->data > key){
-//                current = current->left;
-//            }
-//            else if(current->data < key){
-//                current = current->right;
-//            }
-//            else if(current->data == key){
-//                return current->frequency;
-//            }
-//        }
-//        throw"ERROR, please check your key";
+
