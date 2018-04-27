@@ -20,7 +20,7 @@ namespace lab7 {
 
     void Rprint(node *ptr);
 
-    node *RoperatorPlus(node *ptr);
+    node *RoperatorEq(node *ptr);
 
 
         // Construct an empty tree
@@ -78,8 +78,12 @@ namespace lab7 {
         unsigned depth = maxDepth(current);
         if (depth < 0) {
             return 0;
-        } else {
-            return depth - 1;
+        }
+        if(depth == 0){
+            return 0;
+        }
+        else {
+            return (depth - 1);
         }
     }
 
@@ -133,7 +137,9 @@ namespace lab7 {
 
     // Operator= Overload. Allowing for copying of trees
     tree &tree::operator=(const tree &rhs) {
-
+        node* current = root;
+        this->root = RoperatorEq(rhs.root);
+        this->tree_size =  rhs.tree_size;
     }
 
 
@@ -144,9 +150,7 @@ namespace lab7 {
     // Merge rhs into this. Demo to a TA for credit
 
     tree tree::operator+(const tree &rhs) {
-        node* current = root;
-        this->root = RoperatorPlus(rhs.root);
-        this->tree_size =  rhs.tree_size;
+
     }
 
     // Balance the tree using any published algorithm. Demo to a TA for credit
@@ -266,9 +270,11 @@ namespace lab7 {
     void Rpath(node *ptr, int key) {
         std::cout << ptr->data;
         if (ptr->data == key) {
+            std::cout << "\n";
             return;
         } else {
             std::cout << " ";
+            std::cout << "-> ";
             if (key < ptr->data) {
                 Rpath(ptr->left, key);
             } else if (key > ptr->data) {
@@ -297,16 +303,16 @@ namespace lab7 {
         std::cout << std::endl;
     }
 
-    node *RoperatorPlus(node *ptr) {
+    node *RoperatorEq(node *ptr) {
     if(ptr==nullptr){
         return ptr;
     }
     node* current = new node(ptr);
     if(ptr->left){
-        current = RoperatorPlus(ptr->left);
+        current = RoperatorEq(ptr->left);
     }
     if(ptr->right){
-        current = RoperatorPlus(ptr->right);
+        current = RoperatorEq(ptr->right);
     }
     return current;
     }
