@@ -9,7 +9,7 @@ namespace lab6{
     doubly_linked_list::doubly_linked_list(int input) {
 node* current = new node(input);
 head = current;
-tail = head;
+tail = current;
 
     }
 
@@ -68,24 +68,25 @@ return value;
 
     std::vector<int> doubly_linked_list::get_set(unsigned position_from, unsigned position_to) {
         std::vector<int> links;
-        int data;
+        int data =0;
 
         node* current = head;
-        if(position_from<0 && position_from>=size() && position_to<0 && position_to>=size()){
+        if(position_from<0 || position_from>=size() || position_to<0 || position_to>=size()){
             throw "ERROR, please do not choose any negative numbers, or exceed the linked list size";
         }
-        if(position_from> position_to){
-            unsigned temp = position_from;
-            position_from= position_to;
-            position_to = temp;
-        }
-        for(unsigned i=0; i<position_from; i++){
+//        if(position_from> position_to){
+//            int temp = position_from;
+//            position_from= position_to;
+//            position_to = temp;
+//        }
+        for(int i=0; i<position_from; i++){
             current = current->next;
         }
-        for(unsigned i=position_from; i<=position_to; i++){
+        for(int i=position_from; i<=position_to; i++){
             data = current->get_data();
             current = current->next;
             links.push_back(data);
+
         }
         return links;
     }
@@ -132,36 +133,38 @@ tail = tmp;
     }
 
     void doubly_linked_list::insert(int input, unsigned int location) {
-node* previ = NULL;
-node *current=head;
-node* tmp = new node(input);
-if(head == NULL){
-    head = tmp;
-    tail = tmp;
+node* ins = new node(input);
+node* prev = NULL;
+node* current = head;
+if(head == nullptr){
+    head = ins;
+    tail = ins;
+    return;
 }
-if(location>size()){
-   append(input); //Basically destroys what the user location is and appends it to the last location.
+if(location ==0){
+    ins->next = head;
+    head->prev = ins;
+    head = ins;
 }
-else if(head !=NULL){
-    for (int i = 0; i < location; i++) {
-        previ= current;
-        current = current->next;
-        current->prev = previ;
-    }
+for(int i=0; i<location; i++){
+    prev = current;
+    current = current->next;
 }
-if(current!=NULL&& previ){//insert between previous and current, has to make sure that current isnt past the end as well as previous exists
-            previ->next =  tmp;
-            tmp->prev = previ;
-            tmp->next = current;
-            current->prev= tmp;
-        }
-else{// insert at the tail, basically appending, i have one with location but they might want to insert at the exact size, could have done location>=size() but wanted to keep them distinct
-    previ->next = current;
-    current->prev=previ;
-    current->next = tmp;
-    tmp->next = NULL;
-    tmp->prev = current;
+if(prev){
+    prev->next = ins;
+    ins->prev = prev;
+    ins->next = current;
+    current->prev = ins;
 }
+else{
+    head = ins;
+    head->next = current;
+    current->prev = head;
+    head->prev = NULL;
+}
+
+
+
     }
 
     void doubly_linked_list::remove(unsigned location) {
@@ -184,32 +187,20 @@ for(int i=0; i<location; i++){
         }
         else if(!prev){
             head = current->next;
-            head->prev= NULL;//unlinks current node
         }
         delete(current);
     }
 
     doubly_linked_list doubly_linked_list::split(unsigned position) {
-node* pre = NULL;
-node* current = head;
-node* tmptail=  NULL;
-node* tmphead = NULL;
+
         if(is_empty()){
             throw "ERROR,can not remove an empty linked list ";
         }
         if(position >size()){
             throw"ERROR, can not have a location higher than the size of the linked list";
         }
-doubly_linked_list first(get_set(0, position-1)); // kept the first one just in case
-for(int i=0; i<position; i++){
-    pre = current;
-    current = current->next;
-    current->prev= pre;
-}
-        tmphead= current; //copy constructor might do this already
-        tmphead->prev=NULL;// copy constructor might do this already
-doubly_linked_list second (get_set(position, size()-1));
-for(int i= size()-1; i<=position;i++){
+doubly_linked_list second(get_set(position, size()-1));
+for(int i= size()-1; i<=position;i--){
   remove(i);
 }
 return second;
@@ -244,7 +235,7 @@ node * first = head;
 node * second = head;
 
         if(position_1>=position_2){ //I am going to swap the two positions assuming that they accidently did this
-            unsigned temp = position_2;
+            int temp = position_2;
             position_2= position_1;
             position_1=temp;
         }
@@ -438,7 +429,6 @@ else{
     onestart->prev = twostartprev;
     twostart->prev = NULL;
     twostartprev->next = onestart;
-    twoendnext->prev = oneend;
     oneendnext->prev =twoend;
 head = twostart;
 
@@ -578,12 +568,16 @@ else{
     }
 
     std::ostream &operator<<(std::ostream &stream, doubly_linked_list &RHS) {
-node* current = RHS.head;
-while(current!=NULL){
-    stream<<current->get_data()<<" ";
-    current= current->next;
-}
-return stream;
+        node *current = RHS.head;
+        stream << "NULL <- ";
+        int count = 0;
+        while (current->next != NULL) {
+            stream << current->get_data() << " <-> ";
+            current = current->next;
+        }
+        stream << current->get_data();
+        stream << " -> NULL";
+        return stream;
     }
 
     std::istream &operator>>(std::istream &stream, doubly_linked_list &RHS) {

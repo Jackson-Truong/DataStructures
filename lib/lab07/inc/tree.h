@@ -18,7 +18,7 @@ namespace lab7 {
         bool in_tree(int key);      //Recursively
         int get_frequency(int key); //Recursively done
 
-        std::string to_string();    //Recursively
+       // std::string tree::to_string();    //Recursively
         int level(int key);         //Recursively done
         void path_to(int key);      //Recursively
         unsigned size();

@@ -46,6 +46,8 @@ namespace lab4 {
     void calculator::convert_to_postfix(lab3::fifo infix_expression) {      //infix_expression is already a copy, so we can change it
         lab3::lifo stack;
         std::string current_token;
+
+
         while (!infix_expression.is_empty()) {
             current_token = infix_expression.top();
             infix_expression.dequeue();
@@ -113,6 +115,7 @@ namespace lab4 {
         lab3::lifo final_stack;
         lab3::fifo postfixCopy;
         postfixCopy = postfix_expression;
+
         while(!postfixCopy.is_empty()) {
             if (is_number(postfixCopy.top())) {
                 final_stack.push(postfixCopy.top()); // I use another lifo to stack the operators

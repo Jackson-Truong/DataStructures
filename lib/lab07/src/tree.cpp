@@ -16,6 +16,8 @@ namespace lab7 {
 
     struct node *copying(node *Copyroot);
 
+    void Rto_string(node* ptr, std::string to);
+
     void Rpath(node *ptr, int key);
 
     void Rprint(node *ptr);
@@ -92,6 +94,8 @@ namespace lab7 {
     bool tree::in_tree(int key) {
         return (RinTree(root, key));
     }
+
+
 
     // Return the number of times that value is in the tree
     int tree::get_frequency(int key) {
@@ -273,7 +277,17 @@ namespace lab7 {
         }
 
     }
-
+    void Rto_string(node* ptr, std::string to){
+        if(ptr == nullptr){
+            return;
+        }
+        Rto_string(ptr->left, to);
+        for(int i=0; i<ptr->frequency; i++){
+            to += std::to_string(ptr->data);
+            to += " ";
+        }
+        Rto_string(ptr->right, to);
+    }
 
     void Rprint(node *ptr) {
         if (ptr == nullptr) {
