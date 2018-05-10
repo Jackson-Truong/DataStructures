@@ -17,7 +17,9 @@ tail = current;
 if(vector_input.size() == 0){
         doubly_linked_list();
 }
-for(int i=0; i<vector_input.size();i++){
+head = new node(vector_input.at(0));
+tail = head;
+for(int i=1; i<vector_input.size();i++){
     append(vector_input.at(i));
 }
     }
@@ -68,17 +70,16 @@ return value;
 
     std::vector<int> doubly_linked_list::get_set(unsigned position_from, unsigned position_to) {
         std::vector<int> links;
-        int data =0;
-
+        int data;
         node* current = head;
         if(position_from<0 || position_from>=size() || position_to<0 || position_to>=size()){
             throw "ERROR, please do not choose any negative numbers, or exceed the linked list size";
         }
-//        if(position_from> position_to){
-//            int temp = position_from;
-//            position_from= position_to;
-//            position_to = temp;
-//        }
+        if(position_from> position_to){
+            int temp = position_from;
+            position_from= position_to;
+            position_to = temp;
+        }
         for(int i=0; i<position_from; i++){
             current = current->next;
         }
@@ -182,6 +183,12 @@ for(int i=0; i<location; i++){
             current->prev=prev;
         }
         if(prev){
+            if(!current->next){
+                prev->next = NULL;
+                tail = prev;
+                delete(current);
+                return;
+            }
             prev->next = current->next;
             current->next->prev= prev;
         }
@@ -199,8 +206,9 @@ for(int i=0; i<location; i++){
         if(position >size()){
             throw"ERROR, can not have a location higher than the size of the linked list";
         }
+
 doubly_linked_list second(get_set(position, size()-1));
-for(int i= size()-1; i<=position;i--){
+for(int i= size()-1; i>=position&& i>= 0;i--){
   remove(i);
 }
 return second;

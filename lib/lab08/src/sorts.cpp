@@ -49,6 +49,13 @@ namespace lab6 {
                 }
                 return hello;
             }
+            if(rightlength == right.size()){
+                while(leftlength!=left.size()){
+                    hello.append(left.get_data(leftlength));
+                    leftlength++;
+                }
+                return hello;
+            }
         }
     }
 }
