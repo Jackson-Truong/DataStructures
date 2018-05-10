@@ -14,7 +14,7 @@ tail = current;
     }
 
     doubly_linked_list::doubly_linked_list(std::vector<int> vector_input) {
-if(vector_input.size() == 0){
+if(vector_input.size()==0){
         doubly_linked_list();
 }
 head = new node(vector_input.at(0));
@@ -34,13 +34,12 @@ else{
           node* copier = new node(copy->get_data());
           this->head = copier;
     while (copy->next != NULL) {
+        copy = copy->next;
         node *next = new node(copy->get_data());
         next->prev = copier;
         copier->next = next;
         copier = next;
         next = next->next;
-        copy = copy->next;
-
     }
     copier->next = NULL;
     this->tail = copier;
@@ -535,16 +534,19 @@ else{ // They are just random sets in the linked list
     }
 
     doubly_linked_list& doubly_linked_list::operator=(const doubly_linked_list &rhs) {
-node* current = rhs.head;
-if(this == &rhs){
-    return *this;
-}
-while(current!=NULL){
-this->append(current->get_data());
-        current = current->next;
+        while (!this->is_empty()) {
+            this->remove(0);
+        }
+        node *current = rhs.head;
+        if (this == &rhs) {
+            return *this;
+        }
+        while (current != NULL) {
+            this->append(current->get_data());
+            current = current->next;
 
-}
-return *this;
+        }
+        return *this;
     }
 //`doubly_linked_list& operator+=(const doubly_linked_list &rhs)`: Append an entire doubly linked list to the end of an existing doubly linked list
     doubly_linked_list& doubly_linked_list::operator+=(const doubly_linked_list &rhs) {

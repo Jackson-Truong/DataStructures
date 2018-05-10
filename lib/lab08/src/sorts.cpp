@@ -2,26 +2,56 @@
 
 namespace lab6 {
     // Auxiliary Functions
-    unsigned partition(int *to_sort, int low, int high);
+    unsigned partititon(int *to_sort, int low, int high);
 
     doubly_linked_list recursive_merge_sort(doubly_linked_list to_sort);
 
     doubly_linked_list merge(doubly_linked_list left, doubly_linked_list right);
 
     void quicksort(int *to_sort, int low, int high) {
+        int hello;
+        if(high-low<2){
+            return;
+        }
 
+        hello = partititon(to_sort, low, high);
+        quicksort(to_sort, low, hello-1);
+        quicksort(to_sort,hello+1, high);
     }
 
     unsigned partititon(int *to_sort, int low, int high) {
+    int pivot = to_sort[high];
+    int i= low-1;
+    for(int j=low; j<=high-1;j++){
+        if(to_sort[j]<pivot){
+            i++;
+            int temp= to_sort[i];//swap
+            to_sort[i]=to_sort[j];
+            to_sort[j]= temp;
+        }
+    }
+        int temp= to_sort[i+1];//swap
+        to_sort[i+1]=to_sort[high];
+        to_sort[high]= temp;
+        return (i+1);
 
     }
 
     void mergesort(doubly_linked_list &to_sort) {
+to_sort = recursive_merge_sort(to_sort);
 
     }
 
     doubly_linked_list recursive_merge_sort(doubly_linked_list to_sort) {
-
+        if(to_sort.size()==1){
+            return to_sort;
+        }
+        unsigned mid = to_sort.size()/2;
+        doubly_linked_list half = to_sort.split(mid);
+        to_sort = recursive_merge_sort(to_sort);
+        half =recursive_merge_sort(half);
+        to_sort = merge(to_sort, half);
+        return to_sort;
     }
 
     //Used for the merging the two lists
