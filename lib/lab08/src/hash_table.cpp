@@ -58,7 +58,7 @@ namespace lab8{
     hash_table::~hash_table() {
     current_size =0;
     max_size =0;
-    delete hash_table_array;
+    delete[] hash_table_array;
     }
 
     bool hash_table::insert(std::string key, int value) {
@@ -68,11 +68,56 @@ namespace lab8{
         return true;
     }
 
-    bool hash_table::in_table(std::string key){
+    bool hash_table::in_table(std::string key) {
+        int attempt = 1;
+        if (probing == 'l') { //hash 1
+            int hash = hash_1(key);
+            if (hash_table_array[hash % max_size].key == key) {
+                return true;
+            } else {//Linear
+                while (hash_table_array[hash % max_size].key != key) {
+                    attempt++;
+                    if (hash_table_array[hash % max_size].key == key) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        if (probing == 'q') {//quad hash_1 + attempt^2
+            int hash = hash_1(key);
+            if (hash_table_array[hash % max_size].key == key) {
+                return true;
+            } else {
+                while (hash_table_array[hash + (attempt ^ 2) % max_size].key != key) {
+                    attempt++;
+                    if (hash_table_array[hash + (attempt ^ 2) % max_size].key == key) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+        if (probing == 'd') { // double hash_1 + attempt * hash_2
+            int hash = hash_1(key);
+            int hash2 = hash_2(key);
+            if (hash_table_array[hash % max_size].key == key) {
+                return true;
+            } else {
+                while (hash_table_array[(hash + (attempt * hash2)) % max_size].key != key) {
+                    attempt++;
+                    if (hash_table_array[(hash + (attempt * hash2)) % max_size].key == key) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
         // Checks to see if that key is in the table.
         // Use the specified probing technique
         // Keep collisions in mind
-        return true;
+        return false;
     }
 
     int hash_table::get(std::string key) {
