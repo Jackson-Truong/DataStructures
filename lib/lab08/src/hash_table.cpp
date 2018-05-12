@@ -62,6 +62,39 @@ namespace lab8{
     }
 
     bool hash_table::insert(std::string key, int value) {
+        int attempt = 1;
+        if (in_table(key)) {
+            return false; //returns so we don't duplicate on accident. May double the complexity
+        }
+        if (current_size >= max_size * 0.65) {
+            expand();//haven't done the expand function yet but i remember this in lab
+        }//0.65-0.80 full
+        if (probing == 'l') {//hash1 + attempt
+            int hash = hash_1(key);
+            if (hash_table_array[hash % max_size].key == '\0') {
+                hash_table_array[hash % max_size].key = key;
+                hash_table_array[hash % max_size].value = value;
+                return true;
+            } else {
+                while (hash_table_array[hash % max_size].key != '\0') {
+                    attempt++;
+                    if (hash_table_array[hash % max_size].key == '\0') {
+                        hash_table_array[hash % max_size].key = key;
+                        hash_table_array[hash % max_size].value = value;
+                        return true;
+                    }
+                    if (attempt == max_size) {
+                        return false; // gets out of the while loop
+                    }
+                }
+            }
+        }
+        if (probing == 'q') { //hash1 + attempt^2
+
+        }
+        if (probing == 'd') { //hash 1 + attempt*has 2
+
+        }
         // Insert a key according to the defined probing technique
         // If you run into an issue where you get an infinite collision loop,
         //   figure out a way to get out of the loop.
@@ -79,6 +112,9 @@ namespace lab8{
                     attempt++;
                     if (hash_table_array[hash % max_size].key == key) {
                         return true;
+                    }
+                    if(attempt == max_size){
+                        return false; // gets out of the while loop
                     }
                 }
                 return false;
@@ -144,3 +180,12 @@ namespace lab8{
     return std::string();
     }
 }
+//        if(probing == 'l'){//hash1 + attempt
+//
+//        }
+//        if(probing == 'q'){ //hash1 + attempt^2
+//
+//        }
+//        if(probing == 'd'){ //hash 1 + attempt*has 2
+//
+//        }
