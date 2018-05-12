@@ -26,6 +26,22 @@ namespace lab8{
     }
 
     hash_table::hash_table(char type) {
+        int attempt = 1;
+        if(type == 'l'){ //hash_1() + attempt
+        probing = 'l';
+        }
+        if(type == 'q'){
+        probing = 'q';
+        }
+        if(type == 'd'){
+        probing = 'd';
+        }
+        max_size = 100;
+        hash_table_array[max_size];
+        for(int i=0; i<max_size; i++){
+            hash_table_array[i].key = "\0";
+            hash_table_array[i].value= 0;
+        }
         /*
          * Define the probing technique
          * 'l': Linear probing
@@ -40,7 +56,9 @@ namespace lab8{
     }
 
     hash_table::~hash_table() {
-
+    current_size =0;
+    max_size =0;
+    delete hash_table_array;
     }
 
     bool hash_table::insert(std::string key, int value) {

@@ -24,6 +24,8 @@ namespace lab7 {
 
     node *RoperatorEq(node *ptr);
 
+
+
     std::vector<int> RValuesAbove(int key, node *ptr, std::vector<int> &values_above);
 
 

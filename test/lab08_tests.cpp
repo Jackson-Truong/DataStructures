@@ -26,7 +26,7 @@ public:
     lab6::doubly_linked_list *list_16, *list_32, *list_64, *list_128, *list_256, *list_512, *list_1024, *list_2048, *list_4096, *list_8192, *list_16384, *list_32768;
 };
 
-TEST_F(Lab08SortsFixture, Quicksort){
+TEST_F(Lab08SortsFixture, Quicksort7){
     int arr[] = {10,9,8,7,6,5,4,3,2,1,0};
     int low= 0;
     int high =10;
@@ -47,3 +47,4 @@ TEST_F(Lab08SortsFixture, Quicksort){
     EXPECT_EQ(10,arr[10]);
 
 }
+
