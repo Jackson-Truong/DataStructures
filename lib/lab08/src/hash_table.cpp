@@ -1,5 +1,5 @@
 #include "../inc/hash_table.h"
-
+#include <iostream>
 namespace lab8{
     unsigned hash_table::hash_1(std::string to_hash) {
         // DJB2 Hashing Algorithm
@@ -88,7 +88,7 @@ namespace lab8{
         int attempt = 1;
         int hash = hash_1(key);
         int hash2 = hash_2(key);
-        if (hash_table_array[hash % max_size].key == '\0') {
+        if (hash_table_array[hash % max_size].key == "\0") {
             hash_table_array[hash % max_size].key = key;
             hash_table_array[hash % max_size].value = value;
             return true;
@@ -100,9 +100,9 @@ namespace lab8{
             expand();//haven't done the expand function yet but i remember this in lab
         }//0.65-0.80 full
         if (probing == 'l') {//hash1 + attempt
-            while (hash_table_array[hash % max_size].key != '\0') {
+            while (hash_table_array[hash % max_size].key != "\0") {
                 attempt++;
-                if (hash_table_array[hash % max_size].key == '\0') {
+                if (hash_table_array[hash % max_size].key == "\0") {
                     hash_table_array[hash % max_size].key = key;
                     hash_table_array[hash % max_size].value = value;
                     return true;
@@ -110,9 +110,9 @@ namespace lab8{
             }
         }
         if (probing == 'q') { //hash1 + attempt^2
-        while(hash_table_array[hash+(attempt^2) %max_size].key != '\0'){
+        while(hash_table_array[hash+(attempt^2) %max_size].key != "\0"){
 attempt++;
-            if (hash_table_array[hash+(attempt^2)% max_size].key == '\0') {
+            if (hash_table_array[hash+(attempt^2)% max_size].key == "\0") {
                 hash_table_array[hash+(attempt^2) % max_size].key = key;
                 hash_table_array[hash+(attempt^2) % max_size].value = value;
                 return true;
@@ -120,9 +120,9 @@ attempt++;
         }
         }
         if (probing == 'd') { //hash 1 + attempt*has 2
-            while(hash_table_array[hash+(attempt * hash2) %max_size].key != '\0'){
+            while(hash_table_array[hash+(attempt * hash2) %max_size].key != "\0"){
                 attempt++;
-                if (hash_table_array[hash+(attempt * hash2)% max_size].key == '\0') {
+                if (hash_table_array[hash+(attempt * hash2)% max_size].key == "\0") {
                     hash_table_array[hash+(attempt * hash2) % max_size].key = key;
                     hash_table_array[hash+(attempt * hash2) % max_size].value = value;
                     return true;
