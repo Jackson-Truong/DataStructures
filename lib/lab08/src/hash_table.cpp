@@ -20,9 +20,29 @@ namespace lab8{
         return hash;
     }
 
-    void hash_table::expand() {
+    void hash_table::expand() {// PRIME[n+1]= next prime after 2*PRIME[n]. Use this for setting max size
+        int n= 0;
+        while(max_size>PRIMES[n]){
+            n++;
+        }
+        key_value *toCopy = new key_value[max_size];
+        for(int i=0; i<max_size; i++){
+            toCopy[i].key = hash_table_array[i].key;
+            toCopy[i].value= hash_table_array[i].value;
+        }
+        delete[] hash_table_array;
+        hash_table_array = new key_value[PRIMES[n]];
+        for(int k =0; k<PRIMES[n]; k++){
+            hash_table_array[k].key = "\0";
+            hash_table_array[k].value = 0;
+        }
+        for(int l=0; l<PRIMES[n]; l++){
+            if(toCopy[l].key !="\0"){
+                insert(toCopy[l].key,toCopy[l].value);
+            }
+        }
+        max_size = PRIMES[n];
         // Expand the hash table by a factor of 2 every time this function is called
-
     }
 
     hash_table::hash_table(char type) {
@@ -35,6 +55,9 @@ namespace lab8{
         }
         if(type == 'd'){
         probing = 'd';
+        }
+        else{
+            probing = 'l';
         }
         max_size = 100;
         hash_table_array[max_size];
