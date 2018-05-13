@@ -85,7 +85,7 @@ namespace lab8{
     }
 
     bool hash_table::insert(std::string key, int value) {
-        int attempt = 1;
+        int attempt = 0;
         int hash = hash_1(key);
         int hash2 = hash_2(key);
         if (hash_table_array[hash % max_size].key == "\0") {
@@ -101,32 +101,32 @@ namespace lab8{
         }//0.65-0.80 full
         if (probing == 'l') {//hash1 + attempt
             while (hash_table_array[(hash+attempt) % max_size].key != "\0") {
+                attempt++;
                 if (hash_table_array[(hash+attempt) % max_size].key == "\0") {
                     hash_table_array[(hash+attempt) % max_size].key = key;
                     hash_table_array[(hash+attempt) % max_size].value = value;
                     return true;
                 }
-                attempt++;
             }
         }
         if (probing == 'q') { //hash1 + attempt^2
         while(hash_table_array[(hash+(attempt^2)) %max_size].key != "\0"){
+            attempt++;
             if (hash_table_array[(hash+(attempt^2))% max_size].key == "\0") {
                 hash_table_array[(hash+(attempt^2)) % max_size].key = key;
                 hash_table_array[(hash+(attempt^2)) % max_size].value = value;
                 return true;
             }
-            attempt++;
         }
         }
         if (probing == 'd') { //hash 1 + attempt*has 2
             while(hash_table_array[(hash+(attempt * hash2)) %max_size].key != "\0"){
+                attempt++;
                 if (hash_table_array[(hash+(attempt * hash2))% max_size].key == "\0") {
                     hash_table_array[(hash+(attempt * hash2)) % max_size].key = key;
                     hash_table_array[(hash+(attempt * hash2))% max_size].value = value;
                     return true;
                 }
-                attempt++;
             }
         }
         // Insert a key according to the defined probing technique
@@ -136,7 +136,7 @@ namespace lab8{
     }
 
     bool hash_table::in_table(std::string key) {
-        int attempt = 1;
+        int attempt = 0;
         int hash = hash_1(key);
         int hash2 = hash_2(key);
         if (hash_table_array[hash % max_size].key == key) {
@@ -144,31 +144,31 @@ namespace lab8{
         }
         if (probing == 'l') { //hash 1else {//Linear
             while (hash_table_array[(hash+attempt) % max_size].key != key) {
+                attempt++;
                 if (hash_table_array[(hash+attempt) % max_size].key == key) {
                     return true;
                 }
                 if (attempt == max_size) {
                     return false; // gets out of the while loop
                 }
-                attempt++;
             }
             return false;
         }
         if (probing == 'q') {//quad hash_1 + attempt^2
             while (hash_table_array[(hash + (attempt ^ 2) )% max_size].key != key) {
+                attempt++;
                 if (hash_table_array[(hash + (attempt ^ 2)) % max_size].key == key) {
                     return true;
                 }
-                attempt++;
             }
             return false;
         }
         if (probing == 'd') { // double hash_1 + attempt * hash_2
             while (hash_table_array[(hash + (attempt * hash2)) % max_size].key != key) {
+                attempt++;
                 if (hash_table_array[(hash + (attempt * hash2)) % max_size].key == key) {
                     return true;
                 }
-                attempt++;
             }
             return false;
         }
@@ -178,22 +178,38 @@ namespace lab8{
     }
 
     int hash_table::get(std::string key) {
-        int attempt = 1;
+        int attempt = 0;
         int hash = hash_1(key);
         int hash2 = hash_2(key);
         if (hash_table_array[hash % max_size].key == key) {
             return hash_table_array[hash %max_size].value;
         }
         if(probing == 'l'){//hash1 + attempt
-        while(hash_table_array[(hash+attempt) %max_size]!=key){
-
+        while(hash_table_array[(hash+attempt) %max_size].key !=key){
+            attempt++;
+            if(hash_table_array[(hash+attempt)%max_size].key == key){
+                return hash_table_array[(hash+attempt)%max_size].value;
+            }
+        if(attempt>=max_size){
+                throw"ERROR, invalid key";
+            }
         }
         }
         if(probing == 'q'){ //hash1 + attempt^2
-
+        while(hash_table_array[(hash+attempt^2)%max_size].key !=key){
+            attempt++;
+            if(hash_table_array[(hash+attempt^2)%max_size].key==key){
+                return hash_table_array[(hash+attempt^2)%max_size].value;
+            }
+        }
         }
         if(probing == 'd'){ //hash 1 + attempt*has 2
-
+            while(hash_table_array[(hash+(attempt*hash2))%max_size].key!=key){
+            attempt++;
+            if(hash_table_array[(hash+(attempt*hash2))%max_size].key==key){
+                return hash_table_array[(hash+(attempt*hash2)%max_size)].value;
+            }
+        }
         }
         // Get the int value from the node that has key
         // Use the specified probing technique
