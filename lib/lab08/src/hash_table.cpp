@@ -314,7 +314,7 @@ namespace lab8{
             std::string rightbracket = "]";
             std::string array_location = std::to_string(i);
             std::string colon = ":";
-            hashtostring == leftbracket+array_location+rightbracket + key +colon+val;
+            hashtostring += leftbracket+array_location+rightbracket + key +colon+val;
         }
         // Run through the entire array and create a string following this format. The {} brackets aren't part of the return
         // [{array location}]{key_value.key}:{key_value.int}

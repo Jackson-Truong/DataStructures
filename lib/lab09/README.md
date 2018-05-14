@@ -5,7 +5,7 @@ This lab covers huffman coding and how to use it. For this assignment you will b
 You will need to implement several classes to get this to work. The first thing you should work on is `node.h`. Inside of there you will find a constructor that isn't implemented. 
 Implement that and verify it works using the tests provided.
 
-Next you will need to implement the functions found in `huffman_tree.cpp`. The first function you should work on is `insert(char input)`. This function takes a character from the text file and inserts it into a priority queue based on the frequency of that character. Every time you insert something into the queue, you **must** update the queue so that that the items are in order. The lowest frequency item needs to be located at `head` and the highest frequency located at `tail`. The queue only cares about frequency.
+Next you will need to implement the functions found in `huffman_tree.cpp`. The first function you should work on is `insert(char input)`. This function takes a character from the text file and inserts it into a priority queue based on the frequency of that character. Every time you insert something into the queue, you **must** update the queue so that that the items are in order. The lowest frequency item needs to be located at `head` and the highest frequency located at `tail`. The queue only cares about frequency. 
 
 Once you have parsed through the input string and created a priority queue based on the frequency, you need to implement the `remove()` function. This function takes a node off of the head and returns it to the caller. Fairly simple to accomplish. Refer to `pop()` and `top()` from previous labs;
 

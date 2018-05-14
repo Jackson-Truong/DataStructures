@@ -84,6 +84,51 @@ namespace lab9{
     }
 
     void huffman_tree::add(char character) {
+        node *add = new node(character);
+        node *hello = priority_head; // This is to see if there is the same character already in this
+        while (hello != nullptr) {
+            if (add->get_character() == hello->get_character()) {
+                delete[]add;
+                hello->increment_frequency(); //Change the order of the queue after
+                if(hello->next) {
+                    if (hello->get_frequency() >= hello->next->get_frequency()) {//swap
+                        node*prev = hello->prev;
+                        node*next = hello->next->next;
+                        hello->next=next;
+                        hello->prev = hello->next;
+                        hello->next->next=hello;
+                        hello->next->prev=prev;
+                        prev->next = hello->next;
+                    }
+                    else if(hello->get_frequency()<hello->next->get_frequency()){
+                        hello = hello->next;
+                    }
+                }
+                return;
+            }
+            hello = hello->next;
+        }
+        node *queue = priority_head; //This is to fix the queue
+        if (add->get_frequency() <= queue->get_frequency()) {
+            add->next = queue;
+            queue->prev = add;
+            priority_head = add;
+        } else if (add->get_frequency() > queue->get_frequency()) {
+            while (queue->next != nullptr) {
+                if (add->get_frequency() > queue->get_frequency()) {
+                    queue = queue->next;
+                } else if (add->get_frequency() <= queue->get_frequency()) {//order should not matter if they have the same frequency, which is why i added the = in <=
+                    node *prev = queue->prev;
+                    prev->next = add;
+                    add->prev = prev;
+                    add->next = queue;
+                    queue->prev = add;
+                }
+            }
+            priority_tail = add;
+            queue->next = add;
+            add->prev = hello;
+        }
         // TODO: Add the character to the priority queue, increasing the frequency if needed
     }
 

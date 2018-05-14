@@ -16,7 +16,7 @@ namespace lab7 {
 
     struct node *copying(node *Copyroot);
 
-    void Rto_string(node* ptr, std::string to);
+    void Rto_string(node *ptr, std::string to);
 
     void Rpath(node *ptr, int key);
 
@@ -24,12 +24,9 @@ namespace lab7 {
 
     node *RoperatorEq(node *ptr);
 
-
-
     std::vector<int> RValuesAbove(int key, node *ptr, std::vector<int> &values_above);
 
-
-        // Construct an empty tree
+    // Construct an empty tree
     tree::tree() {
         root = nullptr;
         tree_size = 0;
@@ -98,7 +95,6 @@ namespace lab7 {
     }
 
 
-
     // Return the number of times that value is in the tree
     int tree::get_frequency(int key) {
         return RFrequency(root, key);
@@ -114,13 +110,13 @@ namespace lab7 {
     // Print the tree least to greatest, Include duplicates
     void tree::print() {
         Rprint(root);
-        std::cout<< "\n";
+        std::cout << "\n";
     }
 
     // Print the tree least to greatest, Include duplicates
     std::ostream &operator<<(std::ostream &stream, tree &RHS) {
         Rprint(RHS.root);
-        stream<< "\n";
+        stream << "\n";
     }
 
     tree::tree(const tree &copy) {
@@ -129,10 +125,9 @@ namespace lab7 {
 
     // Operator= Overload. Allowing for copying of trees
     tree &tree::operator=(const tree &rhs) {
-        if(rhs.root == nullptr){
+        if (rhs.root == nullptr) {
             this->root = nullptr;
-        }
-        else{
+        } else {
             root = RoperatorEq(rhs.root);
         }
         return *this;
@@ -279,12 +274,13 @@ namespace lab7 {
         }
 
     }
-    void Rto_string(node* ptr, std::string to){
-        if(ptr == nullptr){
+
+    void Rto_string(node *ptr, std::string to) {
+        if (ptr == nullptr) {
             return;
         }
         Rto_string(ptr->left, to);
-        for(int i=0; i<ptr->frequency; i++){
+        for (int i = 0; i < ptr->frequency; i++) {
             to += std::to_string(ptr->data);
             to += " ";
         }
@@ -312,21 +308,21 @@ namespace lab7 {
     }
 
     node *RoperatorEq(node *ptr) {
-       if(ptr == nullptr){
-           return nullptr;
-       }
-       node* current = new node(ptr->data);
+        if (ptr == nullptr) {
+            return nullptr;
+        }
+        node *current = new node(ptr->data);
         current->left = RoperatorEq(ptr->left);
         current->right = RoperatorEq(ptr->right);
         return current;
-        }
+    }
 
     std::vector<int> RValuesAbove(int key, node *ptr, std::vector<int> &values_above) {
         if (ptr == nullptr) {
             return std::vector<int>();
         }
         RValuesAbove(key, ptr->left, values_above);
-        for(int i=0; ptr->data >key && i<ptr->frequency; i++){
+        for (int i = 0; ptr->data > key && i < ptr->frequency; i++) {
             values_above.push_back(ptr->data);
         }
         RValuesAbove(key, ptr->right, values_above);
