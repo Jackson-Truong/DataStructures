@@ -2,8 +2,19 @@
 
 namespace lab9{
     node *huffman_tree::remove() {
+        node *hello = priority_head;
+        if(hello==nullptr){
+            throw"ERROR, can not remove an empty tree";
+        }
+        if(hello->next == nullptr){
+            priority_head = nullptr;
+            priority_tail = nullptr;
+            return hello;
+        }
+        priority_head = priority_head->next;
+        priority_head->prev = nullptr;
         // TODO: Write function that removes the first node form the priority queue and returns it
-        return nullptr;
+        return hello;
     }
 
     huffman_tree::huffman_tree() {
@@ -114,7 +125,7 @@ namespace lab9{
             queue->prev = add;
             priority_head = add;
         } else if (add->get_frequency() > queue->get_frequency()) {
-            while (queue->next != nullptr) {
+            while (queue-> next!= nullptr) {
                 if (add->get_frequency() > queue->get_frequency()) {
                     queue = queue->next;
                 } else if (add->get_frequency() <= queue->get_frequency()) {//order should not matter if they have the same frequency, which is why i added the = in <=
@@ -128,11 +139,23 @@ namespace lab9{
             priority_tail = add;
             queue->next = add;
             add->prev = hello;
+            add->next = nullptr;
         }
         // TODO: Add the character to the priority queue, increasing the frequency if needed
     }
 
     void huffman_tree::generate_tree() {
+        node* generated_tree = nullptr;
+        while(priority_head !=nullptr && priority_head->next !=nullptr) {
+            node *first = this->remove();
+            node *second = this->remove();
+           node combined = node(first, second);
+
+
+        }
+        if(priority_head!=nullptr &&priority_head->next ==nullptr){//Odd number in the queue, which means we will have one more node left over.
+
+        }
         // TODO: Generate the tree from the priority queue
     }
 
@@ -142,6 +165,10 @@ namespace lab9{
     }
 
     bool huffman_tree::valid_tree() {
+        if(priority_head==nullptr && root!=nullptr){
+            return true;
+        }
+        return false;
         // TODO: Check to see if priority_head is null and root isn't
     }
 }
