@@ -24,7 +24,15 @@ namespace lab7 {
 
     node *RoperatorEq(node *ptr);
 
-    std::vector<int> RValuesAbove(int key, node *ptr, std::vector<int> &values_above);
+    bool HasChildren(node *ptr);
+
+    struct node* swapping(node *ptr);
+
+    struct node* Rparent_node(node *ptr, node* leaf);
+
+    struct node* Rreturn_node(node* ptr, int key);
+
+        std::vector<int> RValuesAbove(int key, node *ptr, std::vector<int> &values_above);
 
     // Construct an empty tree
     tree::tree() {
@@ -50,8 +58,69 @@ namespace lab7 {
 
     // Remove key
     bool tree::remove(int key) {
-
+        node *remove;
+        node *ParentRemoval;
+        if (in_tree(key) == false) {
+            return false;
+        } else if (in_tree(key) == true) {
+            remove = Rreturn_node(root, key);
+            ParentRemoval = Rparent_node(root, remove);
+        }
+        if (remove->frequency > 1) {// for multifrequency removals
+            remove->frequency--;
+            tree_size--;
+            return true;
+        }
+        if (!HasChildren(remove)){
+            if(remove == root){
+                clear(root);
+            }
+            remove->frequency--;
+            tree_size--;
+            return true;
+        }
+        if (HasChildren(remove)) {
+            node *swap = swapping(remove);
+            node *Pswap = Rparent_node(root, swap);
+            if (HasChildren(swap)) {
+                Pswap->right = swap->left;
+            } else {
+                Pswap->right = nullptr;
+            }
+            if (remove->right == swap) {
+                if (ParentRemoval->right == remove) {
+                    ParentRemoval->right = swap;
+                } else {
+                    ParentRemoval->left = swap;
+                }
+            } else if (remove->left == swap) {
+                if (ParentRemoval->left == remove) {
+                    ParentRemoval->left = swap;
+                } else {
+                    ParentRemoval->right = swap;
+                }
+            } else {
+                Pswap->right = swap->left;
+                if (ParentRemoval == nullptr) {
+                    root = swap;
+                } else if (ParentRemoval->data < remove->data) {
+                    // right
+                    ParentRemoval->right = swap;
+                    swap->right = remove->right;
+                    swap->left = remove->left;
+                } else if (ParentRemoval->data > remove->data) {
+                    ParentRemoval->left = swap;
+                    swap->right = remove->right;
+                    swap->left = remove->left;
+                }
+                delete remove;
+                tree_size--;
+                return true;
+            }
+        }
+        return false;
     }
+
 
     // What level is key on?
     int tree::level(int key) {
@@ -328,5 +397,65 @@ namespace lab7 {
         RValuesAbove(key, ptr->right, values_above);
         return values_above;
     }
+
+    //Edge cases , children, root,
+    bool HasChildren(node *ptr) {
+        if (ptr->left == nullptr && ptr->right == nullptr) {
+        return false; // This means that if there are no right and left nodes then there are no children
+        }
+        else{
+            return true;
+        }
+    }
+
+    struct node* swapping(node *ptr){
+        if(ptr->left!=nullptr){
+            ptr = ptr->left;
+            while(ptr->right!=nullptr){
+                ptr = ptr->right; //This is to get rid of right nodes
+            }
+            return ptr;
+        }
+        else{
+            ptr = ptr->right;
+            return ptr;
+        }
+    }
+    struct node* Rparent_node(node *ptr, node* leaf){
+        if(ptr == leaf){
+            return nullptr;
+        }
+        else if(ptr->right ==leaf|| ptr->left == leaf){ //This means that ptr is the parent
+            return ptr;
+        }
+        else if(ptr->data> leaf->data){
+            //traverse leftwards
+            return Rparent_node(ptr->left, leaf);
+        }
+        else if(ptr->data< leaf->data){
+            //traverse rightwards
+            return Rparent_node(ptr->right, leaf);
+        }
+        else{
+            throw"ERROR, invalid input";
+        }
+    }
+    struct node* Rreturn_node(node* ptr, int key){
+        if(ptr->data ==key){
+            return ptr;
+        }
+        else if(ptr->data >key){
+            //traverse leftwards
+            return Rreturn_node(ptr->left,key);
+        }
+        else if(ptr->data <key){
+            //traverse rightwards
+            return Rreturn_node(ptr->right,key);
+        }
+        else{
+            throw"ERROR, invalid key";
+        }
+    }
+
 }
 
