@@ -216,22 +216,90 @@ namespace lab8{
         return 0;
     }
 
-    void hash_table::update(std::string key, int value){
-        if(probing == 'l'){//hash1 + attempt
-
+    void hash_table::update(std::string key, int value) {
+        int attempt = 0;
+        int hash = hash_1(key);
+        int hash2 = hash_2(key);
+        if (hash_table_array[hash % max_size].key == key) {
+            hash_table_array[hash % max_size].value = value;
+            return;
         }
-        if(probing == 'q'){ //hash1 + attempt^2
-
+        if (probing == 'l') {//hash1 + attempt
+            while (hash_table_array[(hash + attempt) % max_size].key != key) {
+                attempt++;
+                if (hash_table_array[(hash + attempt) % max_size].key == key) {
+                    hash_table_array[(hash + attempt) % max_size].value = value;
+                    return;
+                }
+                if (attempt == max_size) {
+                    throw "ERROR, invalid key";
+                }
+            }
         }
-        if(probing == 'd'){ //hash 1 + attempt*has 2
-
+        if (probing == 'q') { //hash1 + attempt^2
+            while (hash_table_array[(hash + attempt ^ 2) % max_size].key != key) {
+                attempt++;
+                if (hash_table_array[(hash + attempt ^ 2) % max_size].key == key) {
+                    hash_table_array[(hash + attempt ^ 2) % max_size].value = value;
+                    return;
+                }
+            }
+        }
+        if (probing == 'd') { //hash 1 + attempt*has 2
+            while (hash_table_array[(hash + (attempt * hash2)) % max_size].key != key) {
+                attempt++;
+                if (hash_table_array[(hash + (attempt * hash2)) % max_size].key == key) {
+                    hash_table_array[(hash + (attempt * hash2)) % max_size].value = value;
+                    return;
+                }
+            }
         }
         // Update a key in the hash table.
         // Keep collisions in mind
         // Use the specified probing technique
     }
-
     void hash_table::remove(std::string key){
+        int attempt = 0;
+        int hash = hash_1(key);
+        int hash2 = hash_2(key);
+        if (hash_table_array[hash % max_size].key == key) {
+            hash_table_array[hash%max_size].key = "\0";
+            hash_table_array[hash % max_size].value = 0;
+            return;
+        }
+        if (probing == 'l') {//hash1 + attempt
+            while (hash_table_array[(hash + attempt) % max_size].key != key) {
+                attempt++;
+                if (hash_table_array[(hash + attempt) % max_size].key == key) {
+                    hash_table_array[(hash + attempt) % max_size].key = "\0";
+                    hash_table_array[(hash + attempt) % max_size].value = 0;
+                    return;
+                }
+                if (attempt == max_size) {
+                    throw "ERROR, invalid key";
+                }
+            }
+        }
+        if (probing == 'q') { //hash1 + attempt^2
+            while (hash_table_array[(hash + attempt ^ 2) % max_size].key != key) {
+                attempt++;
+                if (hash_table_array[(hash + attempt ^ 2) % max_size].key == key) {
+                    hash_table_array[(hash + attempt ^ 2) % max_size].key = "\0";
+                    hash_table_array[(hash + attempt ^ 2) % max_size].value = 0;
+                    return;
+                }
+            }
+        }
+        if (probing == 'd') { //hash 1 + attempt*has 2
+            while (hash_table_array[(hash + (attempt * hash2)) % max_size].key != key) {
+                attempt++;
+                if (hash_table_array[(hash + (attempt * hash2)) % max_size].key == key) {
+                    hash_table_array[(hash + (attempt * hash2)) % max_size].key = "\0";
+                    hash_table_array[(hash + (attempt * hash2)) % max_size].value = 0;
+                    return;
+                }
+            }
+        }
         // Remove an item from the hash table. Keep collisions in mind
         // Use the specified probing technique
         // If the item isn't in the table, do nothing.
